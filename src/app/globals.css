@@ -2,26 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+html,
+body{
+  background-color: #111827;
+  color-scheme: dark;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.left-menu{
+  transition: 0.3s;
+}
+.left-menu:hover {
+  width: 280px;
+}
+.left-menu:hover .left-menu__name{
+  display: block;
+  font-size: 14px;
+}
+
+.left-menu__name{
+  display: none;
+  transition: 0.3s;
+  font-size: 0px;
+  max-height: 35px;
+  overflow: hidden;
+}
+
+.left-menu__name:hover{
+  color: #fff;
+}
+
+.user-profile:hover div{
+  border: 2px solid #818cf8
+}
+
+
+.clamped-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Ограничиваем текст на две строки */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Добавляем троеточие в конце текста */
+}
+.clamped-text-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Ограничиваем текст на две строки */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Добавляем троеточие в конце текста */
+}
+
+.category-item:hover .category-item__img{
+  border: 1px solid #818cf8
 }

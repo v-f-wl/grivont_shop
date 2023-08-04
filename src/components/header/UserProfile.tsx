@@ -1,0 +1,84 @@
+'use client'
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+
+interface UserData{
+  name: string,
+  imageSrc: string,
+  id: string
+}
+const initialUserData: UserData = {
+  name: '',
+  imageSrc: '',
+  id: ''
+};
+
+const UserProfile = () => {
+  const [userData, setUserData] = useState<UserData>(initialUserData)
+  const [dataLoaded, setDataLoaded] = useState<boolean>(false)
+  const userId = Cookies.get("id")
+  const token = Cookies.get("token")
+  const router = useRouter()
+
+  useEffect(() => {
+    if(router && (userId === undefined || token === undefined)){
+      router.push('/auth')
+    }
+    if(userId !== undefined || token !== undefined ){
+      axios.post('/api/checkToken', {userId: userId, token: token})
+      .then(res => {
+        const { fullName, _id, img } = res.data.user
+        const obj = {
+          name: fullName,
+          imageSrc: img,
+          id:_id
+        }
+        setUserData(obj)
+      })
+      .then(() => setDataLoaded(true))
+      .catch(() => {
+        router.push('/auth')
+      })
+    }
+  }, [token, userId, router])
+
+  return (  
+    <Link 
+      href={dataLoaded ? `/profilepage/?id=${userData.id}` : '/'}
+      className="
+        user-profile
+        flex 
+        justify-items-end 
+        items-center 
+        gap-3 
+        cursor-pointer
+        text-gray-100
+        hover:text-indigo-400 transition-color
+      "
+    >
+      {dataLoaded ? 
+        (
+          <span className="text-inherit font-medium">{userData.name}</span>
+        )
+        :
+        <div className="w-[180px] h-8 bg-gray-600 animate-pulse rounded-xl"></div>
+        }
+      <div className="w-9 h-9 rounded-full bg-gray-400 overflow-hidden">
+        {dataLoaded ? 
+        (<img 
+          className="w-full h-full object-cover"
+          src={userData.imageSrc !== ''  ? userData.imageSrc : 'https://i.pinimg.com/564x/e0/23/84/e0238444ff148e53cb7bdfe8b4efd4e7.jpg'} 
+          alt="img" 
+        />)
+        :
+        <div className="w-full h-full bg-gray-600 animate-pulse"></div>
+        }
+      </div>
+    </Link>
+  );
+}
+ 
+export default UserProfile;
