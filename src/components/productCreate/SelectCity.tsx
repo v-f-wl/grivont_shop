@@ -1,6 +1,7 @@
 'use client'
 import { useState } from "react";
 import { HiMiniChevronDown, HiMiniChevronUp } from 'react-icons/hi2'
+import SelectItem from "./SelectItem";
 
 
 interface SelectCityProps{
@@ -10,14 +11,14 @@ const SelectCity:React.FC<SelectCityProps> = ({changeCity}) => {
   const [selectedCity, setSelectedCity] = useState<string>('москва')
   const [openModal, setOpenModal] = useState<boolean>(false)
 
-  const changeCalue = (value: string) => {
+  const changeValue = (value: string) => {
     setSelectedCity(value)
     changeCity('city', value)
   }
   const CityItem = ({value} : {value: string}) => {
     return (
       <div 
-        onClick={() => changeCalue(value)}
+        onClick={() => changeValue(value)}
         className={`
           ${selectedCity === value ? 'text-indigo-500' : ''}
           ${selectedCity === value ? 'opacity-80' : ''}
@@ -49,6 +50,7 @@ const SelectCity:React.FC<SelectCityProps> = ({changeCity}) => {
       <div 
         className={`
           ${openModal ? 'top-20' : 'top-0'}
+          ${openModal ? '' : 'invisible'}
           ${openModal ? 'opacity-100' : 'opacity-0'}
           absolute 
           w-full 
@@ -63,9 +65,9 @@ const SelectCity:React.FC<SelectCityProps> = ({changeCity}) => {
           capitalize
         `}
       >
-        <CityItem value="москва"/>
-        <CityItem value="санкт-Петербург"/>
-        <CityItem value="южно-Сахалинск"/>
+        <SelectItem key="msk" value="Москва" selectedCity="selectedCity" handleChange={changeValue}/> 
+        <SelectItem key="spb" value="Санкт-Петербург" selectedCity="selectedCity" handleChange={changeValue}/> 
+        <SelectItem key="uss" value="Южно-Сахалинск" selectedCity="selectedCity" handleChange={changeValue}/> 
       </div>
     </div>
   );

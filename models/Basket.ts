@@ -7,9 +7,9 @@ const BasketSchema = new mongoose.Schema(
       ref: 'User',
       required: true
     },
-    collection: {
-      type: Object,
-      default: {}
+    collectionBag: {
+      type: Array,
+      default: []
     }
   },
   {

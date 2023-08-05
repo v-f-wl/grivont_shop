@@ -22,17 +22,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       })
       const post = await doc.save()
 
-      res.json({
-        post
-      });
+      res.status(200).json({ post })
     } catch (error) {
-      res.status(500).json({
-        message: 'Что-то пошло не так ыы'
-      });
+      res.status(500).json({ message: 'Пост не создан' })
     }
   } else {
-    return res.status(500).json({
-      message: 'Что-то пошло не так ааа'
-    });
+    return res.status(500).json({ message: 'Запрос не является POST' })
   }
 }

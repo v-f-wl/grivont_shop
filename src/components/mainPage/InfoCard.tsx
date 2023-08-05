@@ -5,9 +5,10 @@ import { HiOutlineXMark } from 'react-icons/hi2'
 interface InfoCardProps{
   titleValue: string,
   descriptionValue: string,
+  descriptionPrev: string,
   idValue: string,
 }
-const InfoCard:React.FC<InfoCardProps> = ({idValue, descriptionValue, titleValue}) => {
+const InfoCard:React.FC<InfoCardProps> = ({idValue,descriptionPrev, descriptionValue, titleValue}) => {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const modalRef = useRef<HTMLDivElement | null>(null);
   const closeModal = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -36,7 +37,7 @@ const InfoCard:React.FC<InfoCardProps> = ({idValue, descriptionValue, titleValue
         </div>
       </div>
       <h3 className="text-2xl font-medium text-gray-300">{titleValue}</h3>
-      <div className="mt-8 h-[90px] text-indigo-300">{descriptionValue}</div>
+      <div className="mt-8 h-[90px] text-indigo-300">{descriptionPrev}</div>
       <div 
         onClick={() => setOpenModal(true)}
         className="mt-8 inline-flex py-2 px-4 border rounded-full cursor-pointer"

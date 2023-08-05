@@ -75,7 +75,7 @@ const WallsCard:React.FC<WallsCardProps> = (
   const targetLike = () => {
     const data = {userId, postId: id}
     axios.patch('/api/likeTarget', data)
-    .then(res => {
+    .then(() => {
       setIsLiked(prev => prev = !prev)
       if(isLiked === false){
         setLikeCount(prev => prev = prev + 1)
@@ -123,7 +123,7 @@ const WallsCard:React.FC<WallsCardProps> = (
           <ul className="p-2 flex flex-col gap-2">
             <li 
               onClick={() => deletePost()}
-              className='p-4 rounded-xl border border-purple-400'
+              className='p-4 rounded-xl border border-purple-400 cursor-pointer'
             >
               Удалить
             </li>
@@ -140,7 +140,7 @@ const WallsCard:React.FC<WallsCardProps> = (
       <div className="mt-4 flex gap-6">
         <div 
           onClick={() => targetLike()}
-          className={`${isLiked && 'border-red-400'} flex gap-2 items-center border rounded-full py-2 px-3`}
+          className={`${isLiked && 'border-red-400'} flex gap-2 items-center border rounded-full py-2 px-3 cursor-pointer`}
         >
           <HiOutlineHeart size={24}/>
           <span>{likeCount}</span>

@@ -13,15 +13,15 @@ interface RequestBody {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  await connectDB();
-  try {
-    const posts = await PostModal.find({userRef: req.query.id})
-    res.json({
-      posts
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: 'Что-то пошло не так'
-    });
+  await connectDB()
+  if (req.method === 'GET'){
+    try {
+      const posts = await PostModal.find({userRef: req.query.id})
+      res.json({ posts })
+    } catch (error) {
+      res.status(500).json({ message: 'Пост не найден' })
+    }
+  }else{
+    return res.status(500).json({ message: "Запрос не является GET" })
   }
 }

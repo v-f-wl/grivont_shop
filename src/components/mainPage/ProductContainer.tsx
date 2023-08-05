@@ -14,9 +14,9 @@ const ProductContainer:React.FC<ProductContainerProps> = ({label, title, hasItem
         <div className="cursor-pointer hover:underline hover:text-indigo-400 transition-all">Больше</div>
       </div>
       <div className="mt-4 flex items-start justify-between gap-14">
-        <ProductCard link="sdf" title="Держатель для ножей" description="fmkvldfmv" imageSrc="dfvd"/>
-        <ProductCard link="sdf" title="Вывеска на стену Подвеска в виде луны на жею жеснская Подвеска в виде луны на жею жеснская" description="fmkvldfmv Подвеска в виде луны на жею жеснская Подвеска в виде луны на жею жеснскаяПодвеска в виде луны на жею жеснскаяПодвеска в виде луны на жею жеснскаяПодвеска в виде луны на жею жеснскаяПодвеска в виде луны на жею жеснская" imageSrc="dfvd"/>
-        <ProductCard link="sdf" title="Подвеска в виде луны на жею жеснская" description="fmkvldfmv" imageSrc="dfvd"/> 
+        <ProductCard price={2342} link="sdf" title="Держатель для ножей" description="fmkvldfmv" imageSrc="https://i.pinimg.com/564x/94/27/e6/9427e63578c6bbb9b7bab2b6c16ccb86.jpg"/>
+        <ProductCard price={2342} link="sdf" title="Вывеска на стену Подвеска в виде луны на жею жеснская Подвеска в виде луны на жею жеснская" description="fmkvldfmv Подвеска в виде луны на жею жеснская Подвеска в виде луны на жею жеснскаяПодвеска в виде луны на жею жеснскаяПодвеска в виде луны на жею жеснскаяПодвеска в виде луны на жею жеснскаяПодвеска в виде луны на жею жеснская" imageSrc="https://i.pinimg.com/564x/94/27/e6/9427e63578c6bbb9b7bab2b6c16ccb86.jpg"/>
+        <ProductCard price={2342} link="sdf" title="Подвеска в виде луны на жею жеснская" description="fmkvldfmv" imageSrc="https://i.pinimg.com/564x/94/27/e6/9427e63578c6bbb9b7bab2b6c16ccb86.jpg"/> 
       </div>
     </div>
   );

@@ -7,21 +7,37 @@ import Loading from "../UI/Loading";
 import { useRouter } from "next/router";
 import axios from "axios";
 
+interface initialStateProps {
+  _id: string,
+  title: string,
+  basePlace: string,
+  description: string,
+  priceOfProduct: number
+}
+
+const initialState: initialStateProps = {
+  _id: '',
+  title: '',
+  basePlace: '',
+  description: '',
+  priceOfProduct: 0
+}
+
+
 const ProductContainer = () => {
   const[isLoaded, setIsLoaded] = useState<string>('none')
+  const [productData, setProductData] = useState<initialStateProps>(initialState)
   const router = useRouter()
   const id = router.query.id
   useEffect(() => {
     if(id !== undefined){
       axios.get(`/api/getOneProduct/?id=${id}`)
-      .then(res => console.log(res.data))
-    }
-    const updateStateWithTimeout = () => {
-      setTimeout(() => {
+      .then(res => {
+        setProductData(res.data)
         setIsLoaded('load');
-      }, 1000);
-    };
-    updateStateWithTimeout();
+
+      })
+    }
   }, [id]);
 
   const renderComponent = () => {
@@ -31,8 +47,15 @@ const ProductContainer = () => {
       case 'load':
         return (
           <div className="flex flex-col gap-8">
-            <ImageProduct/>
-            <AboutProduct/>
+            <ImageProduct
+              productId={productData._id}
+              productTitle={productData.title}
+              city={productData.basePlace}
+              price={productData.priceOfProduct}
+              />
+            <AboutProduct
+              description={productData.description}
+            />
           </div>
         )
       default:

@@ -7,9 +7,9 @@ const FavoriteSchema = new mongoose.Schema(
       ref: 'User',
       required: true
     },
-    collection: {
-      type: Object,
-      default: {}
+    collectionFavotite: {
+      type: Array,
+      default: []
     }
   },
   {

@@ -9,24 +9,26 @@ import ProductModal from '../../../models/Product'
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  await connectDB();
-  try {
-    const doc = new ProductModal({
-      category: req.body.category,
-      userRef: req.body.userId,
-      title: req.body.title,
-      description: req.body.description,
-      basePlace: req.body.city,
-      priceOfProduct: req.body.price,
-    })
-    const product = await doc.save()
-    res.json({
-      product
-    });
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({
-      message: 'Что-то пошло не так ыы'
-    });
+  await connectDB()
+  if(req.method === 'POST'){
+    try {
+      const doc = new ProductModal({
+        category: req.body.category,
+        userRef: req.body.userId,
+        title: req.body.title,
+        description: req.body.description,
+        basePlace: req.body.city,
+        priceOfProduct: req.body.price,
+      })
+      const product = await doc.save()
+      res.status(200).json({
+        product
+      })
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: 'Не удалось создать продукт' })
+    }
+  }else{
+    return res.status(500).json({ message: "Запрос не является POST" })
   }
 }

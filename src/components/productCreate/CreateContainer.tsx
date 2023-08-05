@@ -7,6 +7,7 @@ import SelectCity from "./SelectCity";
 import { HiOutlineArrowTopRightOnSquare } from 'react-icons/hi2'
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import SelectCategory from "./SelectCategory";
 
 interface InitialStateProps{
   [key: string]: string;
@@ -103,17 +104,23 @@ const CreateContainer = () => {
             <NumericInput changePrice={handleChangeData}/>
           </div>
         </div>
-        <div className="">
-          <LocalTitle title="Добавить фото товара"/>
-          <div className="mt-4 flex items-center gap-8">
-            <div className="border border-purple-400 rounded-xl w-[300px] h-[300px]"></div>
-            <div 
-              className="relative border border-purple-400 rounded-xl flex items-center gap-4 px-5 py-2 cursor-pointer"
-            >
-              <HiOutlineArrowTopRightOnSquare size={24}/>
-              <span className="font-medium text-xl">Добавить фото</span>
-              <input type="file" className="cursor-pointer absolute z-10 opacity-0"/>
+        <div className="flex items-start gap-8">
+          <div className="w-3/5">
+            <LocalTitle title="Добавить фото товара"/>
+            <div className="mt-4 flex items-center gap-8">
+              <div className="border border-purple-400 rounded-xl w-[300px] h-[300px]"></div>
+              <div 
+                className="relative border border-purple-400 rounded-xl flex items-center gap-4 px-5 py-2 cursor-pointer"
+              >
+                <HiOutlineArrowTopRightOnSquare size={24}/>
+                <span className="font-medium text-xl">Добавить фото</span>
+                <input type="file" className="cursor-pointer absolute z-10 opacity-0"/>
+              </div>
             </div>
+          </div>
+          <div className="w-2/5">
+            <LocalTitle title="Добавить категорию"/>
+            <SelectCategory/>
           </div>
         </div>
         <div className={`${errorCreate  ? "block" : 'hidden'}`}>

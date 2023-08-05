@@ -45,21 +45,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       )
       const { passwordHash, ...userData } = user
-      console.log(user)
 
-      res.json({
+      res.status(200).json({
         ...userData,
         token,
       });
     } catch (error) {
-      console.log(error)
-      res.status(500).json({
-        message: 'Что-то пошло не так ыы'
-      });
+      res.status(500).json({ message: 'Не получилось создать аккаунт' })
     }
   } else {
-    return res.status(500).json({
-      message: 'Что-то пошло не так ааа'
-    });
+    return res.status(500).json({ message: 'Запрос не имеет метода POST' })
   }
 }

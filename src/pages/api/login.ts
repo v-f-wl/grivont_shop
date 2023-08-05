@@ -39,17 +39,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           ...userData,
           token
         })
-    
       }catch(error){
-        console.log(error)
-        res.status(500).json({
-          message: 'Не удалось авторизоваться'
-        })
+        res.status(500).json({ message: 'Не удалось авторизоваться' })
       }
   } else{
-    return res.status(500).json({
-      message: 'Что-то  пошло не так'
-    })
+    return res.status(500).json({ message: "Запрос не является POST" })
   }
-  
 }

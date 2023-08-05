@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { HiOutlineBookmark } from 'react-icons/hi2'
 interface ProductCardProps{
   link: string,
   title: string,
@@ -41,9 +40,6 @@ const ProductCard:React.FC<ProductCardProps> = ({
       <div className="font-light text-sm clamped-text-3 text-purple-300">{description}</div>
       <div className="flex items-center gap-6 justify-self-end">
         <Link href={`/productpage/?id=${link}`} className="border rounded-full py-2 px-4 hover:border-indigo-400 hover:text-indigo-400 transition-all cursor-pointer">Подробнее</Link>
-        <div className="text-gray-400 cursor-pointer hover:text-white transition-colors">
-          <HiOutlineBookmark size={24}/>
-        </div>
       </div>
     </div>
   );

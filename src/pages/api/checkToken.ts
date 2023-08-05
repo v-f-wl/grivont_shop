@@ -20,30 +20,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
     try {
       const { userId, token }: RequestBody = req.body
-
       const decoded = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET)
       if(decoded._id === userId){
         const user = await UserModal.findOne({ _id: userId})
         const {passwordHash, ...newObj } = user._doc
-        res.json({
+        res.status(200).json({
           user: newObj,
           message: true
         })
       }else{
-        res.json({
-          message: false
-        })
+        res.status(200).json({ message: 'Не сходятся данные' })
       }
     }
     catch (error) {
-      console.log(error)
-      res.status(500).json({
-        valid: "false"
-      })
+      res.status(500).json({ message: "Ошибка данных" })
     }
   } else {
-    return res.status(500).json({
-      valid: "false"
-    })
+    return res.status(500).json({ message: "Запрос не является POST" })
   }
 }
