@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import BagItem from "./BagItem";
 import Cookies from "js-cookie";
 import axios from "axios";
+import EmptyPage from "../UI/EmptyPage";
 
 const BagList = () => {
   const [bagData, setBagData] = useState<string[]>([])
@@ -15,6 +16,7 @@ const BagList = () => {
       .then(res => {
         setBagData(res.data)
       })
+      .catch(error => console.log(error))
     }
   }, [userId])
   return (  
@@ -33,11 +35,11 @@ const BagList = () => {
         ) 
         : 
         (
-          <div className="text-3xl font-medium text-center mt-4">Корзина пустая</div>
+          <EmptyPage title="Корзина пустая"/>
         )
       }
-      <div className="rounded-xl bg-gray-600 right-0 h-[300px] p-6 ">
-        Итоговое окно
+      <div className="rounded-xl bg-gray-600 right-0 p-6 text-2xl font-bold">
+        Итого:
       </div>
     </div>
   );

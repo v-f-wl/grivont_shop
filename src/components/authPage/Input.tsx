@@ -8,9 +8,9 @@ interface InputProps{
   inputType: string, 
   changeValue:(label: string, value: string) => void, 
   palceHolder: string,
-  error?: boolean
+  errorField: boolean
 }
-const Input:React.FC<InputProps> = ({id, inputType, changeValue, palceHolder, error})=> {
+const Input:React.FC<InputProps> = ({id, inputType, changeValue, palceHolder, errorField})=> {
   const [inputValue, setInputValue] = useState<string>('')
 
 
@@ -20,7 +20,7 @@ const Input:React.FC<InputProps> = ({id, inputType, changeValue, palceHolder, er
       autoComplete={id === 'password' ? 'current-password' : 'off'}
       onChange={(e) => changeValue(id, e.target.value)}
       className={`
-        ${error && 'border border-red-400 outline-red-400'}
+        ${errorField ? 'border border-gray-700' : 'border border-red-400 outline-red-400'}
         p-4 rounded-md cursor-pointer
       `}
       placeholder={palceHolder}

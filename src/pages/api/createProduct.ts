@@ -14,6 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const doc = new ProductModal({
         category: req.body.category,
+        categoryLink: req.body.categoryLink,
         userRef: req.body.userId,
         title: req.body.title,
         description: req.body.description,

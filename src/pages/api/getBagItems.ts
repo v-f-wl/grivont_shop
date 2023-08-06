@@ -14,9 +14,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const userId= req.query.userId
       if(userId === undefined || userId === null){
-      return res.status(500).json({ message: "UserId не определен" })
+        return res.status(200).json({ message: "UserId не определен" })
       }
       let basket = await BasketModel.findOne({ userRef: userId });
+      if(basket === undefined){
+        return res.status(200).json([])
+      }
       return res.status(200).json(basket.collectionBag);
     }
     catch (error) {

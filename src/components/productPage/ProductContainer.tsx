@@ -6,11 +6,13 @@ import ImageProduct from "./ImageProduct";
 import Loading from "../UI/Loading";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { HiArrowSmallLeft } from "react-icons/hi2";
 
 interface initialStateProps {
   _id: string,
   title: string,
   basePlace: string,
+  category: string,
   description: string,
   priceOfProduct: number
 }
@@ -19,6 +21,7 @@ const initialState: initialStateProps = {
   _id: '',
   title: '',
   basePlace: '',
+  category: '',
   description: '',
   priceOfProduct: 0
 }
@@ -34,11 +37,14 @@ const ProductContainer = () => {
       axios.get(`/api/getOneProduct/?id=${id}`)
       .then(res => {
         setProductData(res.data)
+        console.log(res.data)
         setIsLoaded('load');
 
       })
     }
   }, [id]);
+
+
 
   const renderComponent = () => {
     switch(isLoaded){
@@ -47,11 +53,27 @@ const ProductContainer = () => {
       case 'load':
         return (
           <div className="flex flex-col gap-8">
+            <div 
+              onClick={() => router.back()} 
+              className="
+                flex items-center gap-2 justify-center
+                w-auto
+                max-w-[100px]
+                py-2
+                px-3
+                border border-purple-400 rounded-full
+                cursor-pointer
+              "
+            >
+              <HiArrowSmallLeft size={18}/>
+              Назад
+            </div>
             <ImageProduct
               productId={productData._id}
               productTitle={productData.title}
               city={productData.basePlace}
               price={productData.priceOfProduct}
+              category={productData.category}
               />
             <AboutProduct
               description={productData.description}

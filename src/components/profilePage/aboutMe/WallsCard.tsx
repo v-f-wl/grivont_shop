@@ -134,7 +134,7 @@ const WallsCard:React.FC<WallsCardProps> = (
         <div className="text-xl">{name}</div>
         <div className="font-light text-gray-400">{dateString}</div>
       </div>
-      <h3 className="text-xl font-medium text-indigo-300 pr-4">
+      <h3 className="text-xl font-medium text-indigo-300 pr-4 whitespace-normal  break-words">
         {title}
       </h3>
       <div className="mt-4 flex gap-6">

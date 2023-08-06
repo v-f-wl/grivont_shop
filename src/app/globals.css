@@ -13,6 +13,7 @@ html,
 body{
   background-color: #111827;
   color-scheme: dark;
+  white-space: normal;
 }
 
 .left-menu{

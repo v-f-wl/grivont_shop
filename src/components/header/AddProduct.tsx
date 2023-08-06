@@ -151,7 +151,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
                   w-full 
                   mt-8
                   border 
-                  h-[80px] resize-none leading-snug  focus:h-[150px] transition-all duration-300
+                  h-[80px] resize-none  transition-all duration-300 outline-none
                   border-purple-400 
                   capitalize 
                   rounded-xl 

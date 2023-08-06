@@ -1,6 +1,6 @@
 const AboutInfo = () => {
   return ( 
-    <div className="lg:p-4 bg-gray-700 rounded-xl">
+    <div className="lg:p-4 bg-gray-700 rounded-xl w-[400px]">
       <h2 className="text-xl font-medium">
         Обо мне
       </h2>

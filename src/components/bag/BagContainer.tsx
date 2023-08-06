@@ -21,8 +21,6 @@ const BagContainer = () => {
     switch(isEmpty){
       case 'none':
         return <Loading/>
-      case 'empty':
-        return <EmptyPage title="Ваша корзина пуста"/>
       case 'list':
         return <BagList/>
     }

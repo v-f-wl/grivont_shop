@@ -1,32 +1,38 @@
+'use client'
+import { useEffect, useState } from "react";
 import CategoryItem from "./CategoryItem";
 import Title from "./Title";
-import { HiArrowLongRight } from 'react-icons/hi2'
+import axios from "axios";
+import Loading from "../UI/Loading";
 
+interface CCategoryData{
+  [key: string]: string
+}
 const CategoryContainer = () => {
+  const [categoryData, setCategoryData] = useState<CCategoryData[]>([])
+  useEffect(() => {
+    axios.get('/api/getCategory')
+    .then(res => {
+      setCategoryData(res.data)
+    })
+    .catch(error => console.log(error))
+  }, [])
+
+  
   return (  
     <div className="mt-10">
       <Title titleValue="Категории"/>
       <div className="mt-4 flex items-start gap-6 w-full overflow-x-scroll">
-        <CategoryItem idLink="vsdv" titleValue="Одежда" />
-        <CategoryItem idLink="vsdvsdv" titleValue="Для дома" />
-        <CategoryItem idLink="vsvdfvdv" titleValue="Для кухни" />
-        <CategoryItem idLink="vsvdfvdv" titleValue="Для кухн ивьа тмдлватм " />
-        <CategoryItem idLink="vsdvsdv" titleValue="Для дома" />
-        <CategoryItem idLink="vsvdfvdv" titleValue="Для кухни" />
-        <CategoryItem idLink="vsvdfvdv" titleValue="Для кухн ивьа тмдлватм " />
-        <CategoryItem idLink="vsdvsdv" titleValue="Для дома" />
-        <CategoryItem idLink="vsvdfvdv" titleValue="Для кухни" />
-        <CategoryItem idLink="vsvdfvdv" titleValue="Для кухн ивьа тмдлватм " />
-        <CategoryItem idLink="vsdvsdv" titleValue="Для дома" />
-        <CategoryItem idLink="vsvdfvdv" titleValue="Для кухни" />
-        <CategoryItem idLink="vsvdfvdv" titleValue="Для кухн ивьа тмдлватм " />
-        <CategoryItem idLink="vsdvsdv" titleValue="Для дома" />
-        <CategoryItem idLink="vsvdfvdv" titleValue="Для кухни" />
-        <CategoryItem idLink="vsvdfvdv" titleValue="Для кухн ивьа тмдлватм " />
-        <div className="flex gap-2 items-center rounded-r-xl bg-gray-700 w-24 h-24 p-2 text-gray-100">
-          <div className="">Еще</div>
-          <HiArrowLongRight size={24}/>
-        </div>
+        {categoryData.length > 0 ? categoryData.map(item => (
+          <CategoryItem idLink={item.link} titleValue={item.title} imgSrc={item.image}/>
+        ))
+          :
+        (
+          <div className="w-full">
+            <Loading/>
+          </div>
+        )
+        }
       </div>
     </div>
   );

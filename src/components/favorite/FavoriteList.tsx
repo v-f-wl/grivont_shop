@@ -17,6 +17,7 @@ const FavoriteList = () => {
         setFavoriteItem(res.data)
         setLoaded(true)
       })
+      .catch(error => console.log(error))
     }
   },[userId])
   return ( 

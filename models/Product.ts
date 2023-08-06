@@ -6,6 +6,10 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    categoryLink: {
+      type: String,
+      required: true
+    },
     userRef: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

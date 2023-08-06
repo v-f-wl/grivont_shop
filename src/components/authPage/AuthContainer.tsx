@@ -8,7 +8,6 @@ const AuthContainer = () => {
   const page = useAppSelector((state) => state.authSwitch.value)
 
   useEffect(() => {
-    console.log(page)
     setPageItem(page)
   }, [page]);
   const renderComponent = () => {

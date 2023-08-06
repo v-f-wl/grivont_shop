@@ -8,7 +8,7 @@ import { HiOutlineArrowTopRightOnSquare } from 'react-icons/hi2'
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import SelectCategory from "./SelectCategory";
-
+import { categoryMappings } from "../../../utils/categoryMappings";
 interface InitialStateProps{
   [key: string]: string;
 }
@@ -17,7 +17,8 @@ const initialState: InitialStateProps = {
   description: '',
   city: 'москва',
   price: '',
-  category: 'dfvdf',
+  category: '',
+  categoryLink: '',
   imageSrc: '',
   userId: ''
 }
@@ -33,6 +34,14 @@ const CreateContainer = () => {
       })
     }
   }, [userId])
+
+  useEffect(() => {
+    setProductData(prev => {
+      const obj = {...prev}
+      obj.categoryLink = categoryMappings[productData.category]
+      return obj
+    })
+  }, [productData.category])
 
   const LocalTitle = ({title} : {title : string}) => {
     return <h3 className="text-2xl text-gray-300 font-medium">{title}</h3>
@@ -120,7 +129,7 @@ const CreateContainer = () => {
           </div>
           <div className="w-2/5">
             <LocalTitle title="Добавить категорию"/>
-            <SelectCategory/>
+            <SelectCategory changeCategory={handleChangeData}/>
           </div>
         </div>
         <div className={`${errorCreate  ? "block" : 'hidden'}`}>

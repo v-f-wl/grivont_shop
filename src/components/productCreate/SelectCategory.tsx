@@ -4,12 +4,19 @@ import { HiMiniChevronDown, HiMiniChevronUp } from "react-icons/hi2";
 import { categories } from "../../../utils/category"
 import SelectItem from "./SelectItem";
 
-const SelectCategory = () => {
+interface SelectCategory{
+  changeCategory: (label: string, value: string) => void
+}
+const SelectCategory:React.FC<SelectCategory> = ({changeCategory}) => {
   const [mainCategory, setMainCategory] = useState<string>('')
   const [subCategory, setSubCategory] = useState<string>('')
   const [openMainModal, setOpenMainModal] = useState<boolean>(false)
   const [openSubModal, setOpenSubModal] = useState<boolean>(false)
 
+
+  useEffect(() => {
+    changeCategory('category', subCategory)
+  },[subCategory])
   const openMainDropdown = () =>{
     setOpenSubModal(false)
     setOpenMainModal(prev => prev = !prev)

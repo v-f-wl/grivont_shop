@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react'
 import { HiOutlineMapPin } from 'react-icons/hi2'
 import Cookies from 'js-cookie'
 import axios from 'axios'
+import Link from 'next/link'
 
 interface ImageProductProps{
   productId: string
   productTitle: string,
+  category: string,
   price: number,
   city: string
 }
@@ -14,11 +16,13 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   productId,
   productTitle,
   price,
+  category,
   city
 }) => {
   const [loaded, setLoaded] = useState<boolean>()
   const [loadedFavorite, setLoadedFavorite] = useState<boolean>(false)
   const [inBag, setInBag] = useState<boolean>(false)
+  const [authtorNick, setAuthtorNick] = useState<string>('')
   const [inFavorite, setInFfavorite] = useState<boolean>(false)
   const userId = Cookies.get('id')
 
@@ -35,6 +39,11 @@ const ImageProduct:React.FC<ImageProductProps> = ({
         setLoadedFavorite(true)
       })
     }
+    if(userId !== undefined){
+      axios.get(`/api/getProfileName/?id=${userId}&onlyNick=${true}`)
+      .then(res => setAuthtorNick(res.data.nickname))
+    }
+
   }, [productId, userId]);
 
   const addToBag = () => {
@@ -80,10 +89,15 @@ const ImageProduct:React.FC<ImageProductProps> = ({
         >
           {productTitle}
         </h2>
-        <div className="mt-8 flex items-center gap-4 text-gray-500">
-          <HiOutlineMapPin size={24}/>
+        <div className="mt-8 inline-flex flex-col gap-2 text-gray-500">
           <div className="text-lg font-light">
-            <span>г.</span><span className="capitalize"> {city}</span>
+            <span className='text-purple-400'>Город: </span><span className="capitalize"> {city}</span>
+          </div>
+          <Link href={`/profilepage/?id=${userId}`} className="text-lg font-light cursor-pointer">
+            <span className='text-purple-400'>Автор: </span><span className="capitalize">@{authtorNick}</span>
+          </Link>
+          <div className="text-lg font-light">
+            <span className='text-purple-400'>Категория: </span><span className="capitalize">{category}</span>
           </div>
         </div>
         <div className="mt-5 text-gray-400 text-2xl font-medium">
