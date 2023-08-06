@@ -88,7 +88,7 @@ const LogIn = () => {
         <Input id='password' inputType="password" changeValue={handeChange} palceHolder="Введите пароль" errorField={notValidField.indexOf('password') === -1}/>
         <div 
           onClick={() => login()}
-          className="border p-3 rounded-md flex items-center justify-center text-xl"
+          className="border p-3 rounded-md flex items-center justify-center text-xl cursor-pointerp"
         >
           Войти
         </div>

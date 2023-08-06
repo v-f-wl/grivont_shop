@@ -51,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         token,
       });
     } catch (error) {
-      res.status(500).json({ message: 'Не получилось создать аккаунт' })
+      res.status(500).json({ message: 'Проблемы с ником' })
     }
   } else {
     return res.status(500).json({ message: 'Запрос не имеет метода POST' })

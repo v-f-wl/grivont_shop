@@ -6,31 +6,11 @@ import EmptyPage from "../UI/EmptyPage";
 import Title from "../UI/Title";
 
 const BagContainer = () => {
-  const[isEmpty, setIsEmpty] = useState<string>('none')
-
-  useEffect(() => {
-    const updateStateWithTimeout = () => {
-      setTimeout(() => {
-        setIsEmpty('list')
-      }, 1000)
-    }
-    updateStateWithTimeout()
-  }, [])
-
-  const renderComponent = () => {
-    switch(isEmpty){
-      case 'none':
-        return <Loading/>
-      case 'list':
-        return <BagList/>
-    }
-  }
-
   return ( 
     <div className="mt-[120px] text-gray-100">
       <Title title="Корзина"/>
       <div className="mt-8 mb-4">
-        {renderComponent()}
+        <BagList/>
       </div>
     </div>
   );

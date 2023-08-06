@@ -8,12 +8,20 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { HiArrowSmallLeft } from "react-icons/hi2";
 
+type ImageData = {url: string}
+
+interface ImageObj{
+  data: ImageData 
+}
+
 interface initialStateProps {
   _id: string,
   title: string,
   basePlace: string,
   category: string,
+  userRef: string,
   description: string,
+  imageSrc: ImageObj[],
   priceOfProduct: number
 }
 
@@ -22,7 +30,9 @@ const initialState: initialStateProps = {
   title: '',
   basePlace: '',
   category: '',
+  userRef: '',
   description: '',
+  imageSrc: [],
   priceOfProduct: 0
 }
 
@@ -43,8 +53,6 @@ const ProductContainer = () => {
       })
     }
   }, [id]);
-
-
 
   const renderComponent = () => {
     switch(isLoaded){
@@ -69,11 +77,13 @@ const ProductContainer = () => {
               Назад
             </div>
             <ImageProduct
-              productId={productData._id}
-              productTitle={productData.title}
-              city={productData.basePlace}
-              price={productData.priceOfProduct}
-              category={productData.category}
+                productId={productData._id}
+                productTitle={productData.title}
+                userRef={productData.userRef}
+                city={productData.basePlace}
+                price={productData.priceOfProduct}
+                category={productData.category}
+                imageUrl={productData.imageSrc[0].data.url}
               />
             <AboutProduct
               description={productData.description}

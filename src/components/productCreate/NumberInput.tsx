@@ -6,10 +6,11 @@ const formatNumber = (num: number) => {
 
 
 interface NumericInputProps{
-  changePrice:(label: string, value: string) => void
+  changePrice:(label: string, value: number) => void;
+  handleError: boolean
 }
 
-const NumericInput: React.FC<NumericInputProps> = ({changePrice}) => {
+const NumericInput: React.FC<NumericInputProps> = ({changePrice, handleError}) => {
   const [value, setValue] = useState('')
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -21,17 +22,18 @@ const NumericInput: React.FC<NumericInputProps> = ({changePrice}) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.replace(/[^0-9]/g, '')
     setValue(formatNumber(Number(inputValue)))
-    changePrice('price', inputValue)
+    changePrice('price', parseInt(inputValue))
   };
 
   return (
     <div className="w-full">
       <input
         type="text"
-        className='mt-4 border p-4 bg-inherit rounded-xl border-purple-400 text-purple-200 text-lg'
+        className={`${handleError ? 'border-red-400' : 'border-purple-400'} mt-4 border p-4 bg-inherit rounded-xl  text-purple-200 text-lg`}
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        placeholder='от 100'
       />
       <span className="text-purple-200 text-lg ml-2">руб.</span>
     </div>

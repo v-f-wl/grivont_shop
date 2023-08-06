@@ -18,10 +18,7 @@ const ChatContainer = () => {
     }
   }
   return ( 
-    <div className="mt-[120px] h-[80vh]">
-      <h3 className="font-bold text-4xl">
-        Чаты
-      </h3>
+    <div className="mt-[120px] h-[85vh]">
       {renderChat()}
     </div>
   );

@@ -24,7 +24,7 @@ const CategoryContainer = () => {
       <Title titleValue="Категории"/>
       <div className="mt-4 flex items-start gap-6 w-full overflow-x-scroll">
         {categoryData.length > 0 ? categoryData.map(item => (
-          <CategoryItem idLink={item.link} titleValue={item.title} imgSrc={item.image}/>
+          <CategoryItem key={item.link} idLink={item.link} titleValue={item.title} imgSrc={item.image}/>
         ))
           :
         (

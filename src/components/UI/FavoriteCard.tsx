@@ -7,16 +7,23 @@ import { useEffect, useState } from 'react';
 interface ProductCardProps{
   id: string,
 }
+type ImageData = {url: string}
+
+interface ImageObj{
+  data: ImageData 
+}
 interface CardDataValue{
   title: string,
   description: string,
   priceOfProduct: number,
+  imageSrc: ImageObj[],
 }
 
 const initialState: CardDataValue = {
   title: '',
   description: '',
   priceOfProduct: 0,
+  imageSrc: []
 }
 
 const FavoriteCard:React.FC<ProductCardProps> = ({
@@ -74,7 +81,7 @@ const FavoriteCard:React.FC<ProductCardProps> = ({
       }
       <div className="w-full max-h-[220px] rounded-xl bg-gray-700 overflow-hidden">
         <img 
-          src={ 'https://i.pinimg.com/564x/d5/44/76/d5447631608c69c3452d486193a79de8.jpg'}
+          src={cardData.imageSrc[0].data.url}
           alt="" 
           className="w-full h-full object-cover" 
         />

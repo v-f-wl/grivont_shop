@@ -1,6 +1,14 @@
 const ChatWindow = () => {
   return ( 
-    <div className="bg-gray-800 p-8"></div>
+    <div 
+      className="
+        bg-slate-600 
+        p-8 
+        rounded-xl
+      "
+    >
+
+    </div>
   );
 }
  

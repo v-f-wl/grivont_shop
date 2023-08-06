@@ -5,9 +5,10 @@ import { categories } from "../../../utils/category"
 import SelectItem from "./SelectItem";
 
 interface SelectCategory{
-  changeCategory: (label: string, value: string) => void
+  changeCategory: (label: string, value: string) => void;
+  handleError: boolean
 }
-const SelectCategory:React.FC<SelectCategory> = ({changeCategory}) => {
+const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) => {
   const [mainCategory, setMainCategory] = useState<string>('')
   const [subCategory, setSubCategory] = useState<string>('')
   const [openMainModal, setOpenMainModal] = useState<boolean>(false)
@@ -51,7 +52,17 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory}) => {
     <div className="mt-4 flex flex-col gap-8">
       <div 
         onClick={openMainDropdown}
-        className="border p-4 border-purple-400 rounded-xl relative z-30 bg-gray-900 capitalize">
+        className={`
+          ${handleError && mainCategory === '' ? 'border-red-400' : 'border-purple-400'}
+          border 
+          p-4 
+          rounded-xl relative 
+          z-30 
+          
+          bg-gray-900 
+          capitalize
+        `}
+      >
         {mainCategory.length > 0 ? mainCategory : 'Выбрать категорию'}
         <div
           className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
@@ -84,9 +95,19 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory}) => {
       </div>
       {mainCategory.length > 0 && (
         <div 
-        onClick={openSubDropdown}
-        className="border p-4 border-purple-400 rounded-xl relative z-10 bg-gray-900 capitalize">
-        {subCategory.length > 0 ? subCategory : 'Выбрать подкатегорию'}
+          onClick={openSubDropdown}
+          className={`
+            ${handleError && subCategory === '' ? 'border-red-400' : 'border-purple-400'} 
+            border 
+            p-4 
+            rounded-xl 
+            relative 
+            z-10 
+            bg-gray-900 
+            capitalize
+          `}
+        >
+          {subCategory.length > 0 ? subCategory : 'Выбрать подкатегорию'}
         <div
           className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
         >

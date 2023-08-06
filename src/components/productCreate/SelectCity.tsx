@@ -61,7 +61,7 @@ const SelectCity:React.FC<SelectCityProps> = ({changeCity}) => {
           flex-col 
           gap-2
           rounded-xl 
-          z-10
+          z-20
           capitalize
         `}
       >

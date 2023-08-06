@@ -10,14 +10,18 @@ interface ImageProductProps{
   productTitle: string,
   category: string,
   price: number,
-  city: string
+  city: string,
+  userRef: string,
+  imageUrl: string
 }
 const ImageProduct:React.FC<ImageProductProps> = ({
   productId,
   productTitle,
   price,
   category,
-  city
+  userRef,
+  city,
+  imageUrl
 }) => {
   const [loaded, setLoaded] = useState<boolean>()
   const [loadedFavorite, setLoadedFavorite] = useState<boolean>(false)
@@ -39,12 +43,15 @@ const ImageProduct:React.FC<ImageProductProps> = ({
         setLoadedFavorite(true)
       })
     }
-    if(userId !== undefined){
-      axios.get(`/api/getProfileName/?id=${userId}&onlyNick=${true}`)
+  }, [productId, userId]);
+
+  useEffect(() => {
+    if(userRef !== undefined){
+      axios.get(`/api/getProfileName/?id=${userRef}&onlyNick=${true}`)
       .then(res => setAuthtorNick(res.data.nickname))
     }
-
-  }, [productId, userId]);
+    
+  }, [userRef]);
 
   const addToBag = () => {
     if(productId !== undefined && userId !== undefined && inBag === false){
@@ -76,10 +83,10 @@ const ImageProduct:React.FC<ImageProductProps> = ({
 
   return (  
     <div className="grid grid-cols-chat gap-8">
-      <div className="aspect-square rounded-xl overflow-hidden bg-gray-700">
+      <div className="aspect-square rounded-xl overflow-hidden flex justify-center">
         <img 
-          className="object-cover"
-          src="https://i.pinimg.com/564x/d6/71/bd/d671bd8588d82ea4d300eaf1cee92abd.jpg" 
+          className="max-w-full max-h-full object-contain rounded-xl overflow-hidden"
+          src={imageUrl}
           alt="img" 
         />
       </div>
@@ -93,7 +100,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
           <div className="text-lg font-light">
             <span className='text-purple-400'>Город: </span><span className="capitalize"> {city}</span>
           </div>
-          <Link href={`/profilepage/?id=${userId}`} className="text-lg font-light cursor-pointer">
+          <Link href={`/profilepage/?id=${userRef}`} className="text-lg font-light cursor-pointer">
             <span className='text-purple-400'>Автор: </span><span className="capitalize">@{authtorNick}</span>
           </Link>
           <div className="text-lg font-light">

@@ -11,7 +11,10 @@ const ChatContact = () => {
     )
   }
   return (  
-    <div className="p-4 flex flex-col gap-6 border">
+    <div className="py-8 px-6 flex flex-col gap-6 bg-slate-700 rounded-xl">
+      <h3 className="font-bold text-4xl">
+        Чаты
+      </h3>
       <Contact/>
       <Contact/>
       <Contact/>

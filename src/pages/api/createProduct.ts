@@ -19,6 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         title: req.body.title,
         description: req.body.description,
         basePlace: req.body.city,
+        imageSrc: req.body.imageData,
         priceOfProduct: req.body.price,
       })
       const product = await doc.save()

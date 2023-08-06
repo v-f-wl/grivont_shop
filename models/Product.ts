@@ -19,6 +19,10 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false
+    },
     description: {
       type: String,
       required: true
@@ -28,8 +32,8 @@ const ProductSchema = new mongoose.Schema(
       required: true
     },
     imageSrc: {
-      type: String,
-      default: ''
+      type: Array,
+      default: []
     },
     priceOfProduct: {
       type: Number,

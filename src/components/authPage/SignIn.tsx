@@ -31,6 +31,7 @@ const SignIn = () => {
   const [modalRules, setModalRules] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserData>(initialUserData)
   const [notValidField, setNotValidField] = useState<string[]>([])
+  const [notValidNick, setNotValidNick] = useState<boolean>(false)
   const handeChange = (label: string, value: string) => {
     setUserData(prev => {
       return {...prev, [label]: value}
@@ -74,6 +75,7 @@ const SignIn = () => {
 
   const createUser = () => {
     setNotValidField([])
+    setNotValidNick(false)
     validValue(() => {
       if(notValidField.length === 0){
         const data = {
@@ -88,6 +90,7 @@ const SignIn = () => {
           Cookies.set('token', res.data.token)
           router.push('/')
         })
+        .catch((res) => setNotValidNick(true))
       }else{
         return
       }
@@ -100,6 +103,9 @@ const SignIn = () => {
         <h2 className="text-purple-400 font-bold text-4xl">Регистрация </h2>
         <div className="text-xl text-gray-300">Добро подаловать в Grivont</div>
       </div>
+      {notValidNick && (
+        <div className="text-red-400 font-light">Ник уже занят</div>
+      )}
       <form className="flex flex-col gap-3 w-2/3">
         <Input id='firstName' inputType="text" changeValue={handeChange} palceHolder="Введите имя" errorField={notValidField.indexOf('firstName') === -1}/>
         <Input id='secondName' inputType="text" changeValue={handeChange} palceHolder="Введите фамилию" errorField={notValidField.indexOf('secondName') === -1}/>

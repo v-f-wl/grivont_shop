@@ -4,8 +4,15 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Loading from "../UI/Loading";
 
+
 interface AdsContainerProps{
   idUser: string | undefined
+}
+
+type ImageData = {url: string}
+
+interface ImageObj{
+  data: ImageData 
 }
 
 interface InitialStateProps{
@@ -15,7 +22,7 @@ interface InitialStateProps{
   category:string,
   createdAt:string,
   description:string,
-  imageSrc:string,
+  imageSrc: ImageObj[],
   title:string,
   userRef:string,
 }
@@ -51,7 +58,7 @@ const AdsContainer:React.FC<AdsContainerProps> = ({idUser}) => {
                   link={item._id}
                   title={item.title}
                   description={item.description}
-                  imageSrc={item.imageSrc}
+                  imageSrc={item.imageSrc[0].data.url}
                   price={item.priceOfProduct}
                 />
               ))
