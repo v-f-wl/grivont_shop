@@ -1,10 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { HiOutlineChatBubbleOvalLeft } from 'react-icons/hi2'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import Link from 'next/link'
-import QuantitySelector from '../UI/QuantitySelector'
 
 interface ImageProductProps{
   productId: string
@@ -38,11 +36,13 @@ const ImageProduct:React.FC<ImageProductProps> = ({
         setInBag(res.data.result)
         setLoaded(true)
       })
+      .catch(error => console.log(error))
       axios.post('/api/checkProductInFavorite', {userId, productId})
       .then(res => {
         setInFfavorite(res.data.result)
         setLoadedFavorite(true)
       })
+      .catch(error => console.log(error))
     }
   }, [productId, userId]);
 
@@ -50,6 +50,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     if(userRef !== undefined){
       axios.get(`/api/getProfileName/?id=${userRef}&onlyNick=${true}`)
       .then(res => setAuthtorNick(res.data.nickname))
+      .catch(error => console.log(error))
     }
     
   }, [userRef]);

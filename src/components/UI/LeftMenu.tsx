@@ -13,7 +13,8 @@ import
   HiOutlineCog8Tooth,
   HiOutlineCalendarDays,
   HiOutlineCursorArrowRipple,
-  HiOutlineTruck
+  HiOutlineTruck,
+  HiOutlineXMark
 } from 'react-icons/hi2'
 
 const LeftMenu: React.FC = () => {
@@ -25,7 +26,7 @@ const LeftMenu: React.FC = () => {
       className={`
         left-menu
         lg:hover:shadow-lg lg:hover:shadow-indigo-500/50 
-        py-4 px-1
+        py-2 md:py-4 px-1
         lg:py-6 lg:px-4
         fixed z-40 left-0 top-0
         ${mobileBurger ? 'w-full' : 'w-50px'}
@@ -48,6 +49,12 @@ const LeftMenu: React.FC = () => {
         <BiHive size={48} className="text-purple-700 transition-all lg:hover:rotate-90 cursor-pointer mr-1"/>
         <span className={`${mobileBurger ? 'block' : 'hidden'} left-menu__name left-menu__name--logo text-2xl font-bold`}>Grivont</span>
       </div>
+      <div 
+        onClick={() => setMobileBurger(false)}
+        className={`${mobileBurger ? 'block' : 'hidden'} absolute top-6 right-6 lg:hidden`}
+      >
+        <HiOutlineXMark size={24}/>
+      </div>
       <nav 
         className={`
           ${mobileBurger ? 'opacity-100' : 'opacity-0'} 
@@ -59,7 +66,8 @@ const LeftMenu: React.FC = () => {
           ${mobileBurger ? 'w-full' : ''}  
           ${mobileBurger ? 'h-screen' : ''}  
           lg:visible
-          top-[40px]
+          top-[26px]
+          md:top-[40px]
           lg:opacity-100
           pt-5
           lg:pt-0

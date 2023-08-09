@@ -48,8 +48,8 @@ const ProductContainer = () => {
       .then(res => {
         setProductData(res.data)
         setIsLoaded('load');
-
       })
+      .catch(error => console.log(error))
     }
   }, [id]);
 
@@ -61,7 +61,7 @@ const ProductContainer = () => {
         return (
           <div className="flex flex-col  gap-8">
             <div 
-              onClick={() => router.back()} 
+              onClick={() => window.history.back()} 
               className="
                 flex items-center gap-2 justify-center
                 w-auto

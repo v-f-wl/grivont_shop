@@ -17,7 +17,8 @@ const HeaderContainer = () => {
         top-0
         pt-0
         lg:pt-3
-        h-[76px] 
+        h-[60px] 
+        md:h-[76px] 
         lg:max-w-[850px]   
         xl:max-w-[1100px]   
         flex 

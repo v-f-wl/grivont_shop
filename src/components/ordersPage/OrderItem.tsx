@@ -47,7 +47,7 @@ const OrderItem:React.FC<OrderItemProps> = ({
         <h3 className="clamped-text h-[42px]">{title}</h3>
         <Link
           href={`/productpage/?id=${productId}`}
-          className="py-2 text-lg font-medium cursor-pointer border rounded-full flex items-center justify-center"
+          className="py-1 md:py-2 text-lg font-medium cursor-pointer border rounded-full flex items-center justify-center"
         >
           О товаре
         </Link>
@@ -56,34 +56,34 @@ const OrderItem:React.FC<OrderItemProps> = ({
   }
 
   return ( 
-    <div className="p-4 bg-gray-600 rounded-xl">
-      <div className="text-3xl font-bold"><span>Заказ номер - </span><span className="text-purple-400">{orderNumber}</span></div>
-      <span className="block ">Создан: {formatDateToDMY(timeCode)}</span>
-      <div className="mt-3 py-2 text-gray-300 text-lg grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
+    <div className="p-2 py-4 md:p-4 bg-gray-600 rounded-xl">
+      <div className="text-2xl md:text-3xl font-bold"><span>Заказ номер - </span><span className="text-purple-400">{orderNumber}</span></div>
+      <span className="block text-sm md:text-base">Создан: {formatDateToDMY(timeCode)}</span>
+      <div className="mt-2 md:mt-3 py-1 md:py-2 text-gray-300 text-lg grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4">
         <div className="">Общая стоимость: {totalPrice} руб.</div>
         <div className="">Колличество товаров: {totalCount}</div>
         <div className="">Статус: {'Не подтверждено'}</div>
       </div>
-      <div className="flex flex-wrap items-center mt-6">
+      <div className="flex flex-wrap items-center mt-4 md:mt-6">
         <div 
           onClick={() => setOpenModal(true)}
-          className="py-2 px-2 md:px-4  text-md border rounded-full cursor-pointer"
+          className="py-2 px-4 md:px-4  text-md border rounded-full cursor-pointer"
         >
           Просмотреть товары
         </div>
       </div>
       <div className={`${openModal ? 'block' : 'hidden'} absolute inset-0 bg-slate-900 bg-opacity-70 z-50 flex items-center justify-center`}>
-        <div className="lg:w-3/4 lg:h-3/4 bg-gray-800 rounded-xl lg:p-8 relative">
-            <h3 className="text-4xl font-medium">
+        <div className="w-full h-screen overflow-y-scroll lg:w-3/4 lg:h-3/4 bg-gray-800 lg:rounded-xl p-4 lg:p-8 relative">
+            <h3 className="text-2xl md:text-4xl font-medium">
               Товары в заказе
             </h3>
             <div 
               onClick={() => setOpenModal(false)}
-              className="absolute top-8 right-8 cursor-pointer"
+              className="absolute top-5 md:top-8 right-4 md:right-8 cursor-pointer"
             >
               <HiXMark size={32}/>
             </div>
-            <div className="mt-8 grid grid-cols-4 gap-4">
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {orderItems.map(item => (
                 <OrderCard 
                   key={item.productId}

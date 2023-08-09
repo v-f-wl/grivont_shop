@@ -67,8 +67,9 @@ const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
           md:top-12
           left-0 
           w-full
+  
           md:-translate-x-1/2 
-          md:max-w-[300px]
+          md:w-[300px]
           min-h-[200px] 
           max-h-[400px] 
           bg-gray-800 p-6

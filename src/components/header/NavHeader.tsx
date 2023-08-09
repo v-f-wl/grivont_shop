@@ -4,7 +4,6 @@ import { HiOutlineChatBubbleOvalLeft } from 'react-icons/hi2'
 import Alert from './Alert';
 import AddProduct from './AddProduct';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 const NavHeader = () => {
   const [modalCategory, setModalCategory] = useState<string>('')

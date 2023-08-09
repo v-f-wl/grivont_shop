@@ -10,7 +10,9 @@ interface InfoCardProps{
 }
 const InfoCard:React.FC<InfoCardProps> = ({idValue,descriptionPrev, descriptionValue, titleValue}) => {
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const modalRef = useRef<HTMLDivElement | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null)
+
+  
   const closeModal = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation()
     if(modalRef.current === event.target){

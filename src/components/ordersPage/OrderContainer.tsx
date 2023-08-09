@@ -42,7 +42,7 @@ const OrderContainer = () => {
   const renderScreen = () => {
     if(ordersData !== undefined && ordersData.length > 0){
       return (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
           {ordersData.map(item => (
             <OrderItem
               key={(item._id).toString()}
