@@ -14,30 +14,36 @@ body{
   background-color: #111827;
   color-scheme: dark;
   white-space: normal;
+  cursor: default;
 }
 
-.left-menu{
-  transition: 0.3s;
-}
-.left-menu:hover {
-  width: 280px;
-}
-.left-menu:hover .left-menu__name{
-  display: block;
-  font-size: 14px;
+
+@media (min-width: 1024px) { 
+  .left-menu{
+    transition: 0.3s;
+  }
+  .left-menu:hover {
+    width: 280px;
+  }
+  .left-menu:hover .left-menu__name{
+    font-size: 14px;
+  }
+  .left-menu:hover .left-menu__name--logo{
+    display: none;
+  }
+  .left-menu__name{
+    transition: 0.3s;
+    font-size: 0px;
+    max-height: 35px;
+    overflow: hidden;
+  }
+  
+  .left-menu__name:hover{
+    color: #fff;
+  }
+
 }
 
-.left-menu__name{
-  display: none;
-  transition: 0.3s;
-  font-size: 0px;
-  max-height: 35px;
-  overflow: hidden;
-}
-
-.left-menu__name:hover{
-  color: #fff;
-}
 
 .user-profile:hover div{
   border: 2px solid #818cf8

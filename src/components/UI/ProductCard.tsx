@@ -29,7 +29,7 @@ const ProductCard:React.FC<ProductCardProps> = ({
       >
         {price} p
       </div>
-      <div className="w-full max-h-[220px] rounded-xl bg-gray-700 overflow-hidden">
+      <div className="w-full aspect-square xl:max-h-[220px] rounded-xl bg-gray-700 overflow-hidden">
         <img 
           src={imageSrc || 'https://i.pinimg.com/564x/d5/44/76/d5447631608c69c3452d486193a79de8.jpg'}
           alt="" 

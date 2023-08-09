@@ -1,28 +1,24 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from "../../../utils/connectMongoDB";
-import PostModal from '../../../models/Post'
+import PostModal from '../../../models/Metrica'
 /**
  * 
  * @param {import('next').NextApiRequest} req 
  * @param {import('next').NextApiResponse} res 
  */
 
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if(req.method === 'PATCH'){
     try {
       await connectDB()
-      const { userId, postId } = req.body
-      const updatedPost = await PostModal.findById({_id: postId})
+      const { id } = req.body
+      const updatedPost = await PostModal.findById({_id: '64cec23fd4054e4f808f0d37'})
   
-      const { likeCollection } = updatedPost
+      const { popularProducts } = updatedPost;
   
-      const userIndex = likeCollection.indexOf(userId)
+      const userIndex = popularProducts.push(id)
   
-      if (userIndex === -1) {
-        likeCollection.push(userId)
-      } else {
-        likeCollection.splice(userIndex, 1)
-      }
       await updatedPost.save()
   
       res.json({

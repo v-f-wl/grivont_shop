@@ -1,9 +1,9 @@
 'use client'
 import { useEffect, useState } from "react";
-import FavoriteCard from "../UI/FavoriteCard";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Loading from "../UI/Loading";
+import ProductCardWithId from "../UI/ProductCardWithId";
 
 const FavoriteList = () => {
   const [favoriteItem, setFavoriteItem] = useState<string[]>([])
@@ -28,7 +28,7 @@ const FavoriteList = () => {
             {favoriteItem.length > 0 ? 
               (
                 favoriteItem.map(item => (
-                  <FavoriteCard key={item} id={item}/>
+                  <ProductCardWithId key={item} productId={item}/>
                 ))
               ) 
               : 

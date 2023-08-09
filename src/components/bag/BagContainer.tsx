@@ -1,8 +1,5 @@
 'use client'
-import { useState, useEffect } from "react";
 import BagList from "./BagList";
-import Loading from "../UI/Loading";
-import EmptyPage from "../UI/EmptyPage";
 import Title from "../UI/Title";
 
 const BagContainer = () => {

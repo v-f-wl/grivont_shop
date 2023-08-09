@@ -29,17 +29,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const { nickname, fullName, password }: RequestBody = req.body
       const salt = await bcrypt.genSalt(3)
       const hash = await bcrypt.hash(password, salt)
+
       const doc = new UserModal({
         nickname,
         fullName,
         passwordHash: hash,
       })
       const user: UserDocument = await doc.save()
+      const jwtSecret = process.env.NEXT_PUBLIC_JWT_SECRET;
+
+      if (!jwtSecret) {
+        throw new Error('JWT secret is not defined');
+      }
       const token = jwt.sign(
         {
           _id: user._id,
         },
-        process.env.NEXT_PUBLIC_JWT_SECRET,
+        jwtSecret,
         {
           expiresIn: '2d',
         }

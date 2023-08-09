@@ -2,12 +2,12 @@
 import { AppDispatch } from "@/redux/store"
 import { changeAuth } from "@/redux/features/authSwitch-slice"
 import { useDispatch } from "react-redux"
-import Input from "./Input"
 import { useState } from "react"
 import axios from "axios"
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation"
 import { isValidNick, isValidPassword } from "./validations"
+import { Button, Input, ErrorTitle, SubTitle, Title } from "./AuthUI"
 
 
 interface UserData {
@@ -72,26 +72,19 @@ const LogIn = () => {
 
   return ( 
     <div 
-      className="w-1/2 h-3/4 flex flex-col gap-8 items-center"
+      className="px-8 md:px-0 w-full md:w-1/2 h-3/4 flex flex-col gap-6 md:gap-8 items-center"
     >
       <div className="flex flex-col gap-4 items-center">
-        <h2 className="text-purple-400 font-bold text-4xl">Войти </h2>
-        <div className="text-xl text-gray-300">Добро подаловать в Grivont</div>
+        <Title title="Войти"/>
+        <SubTitle title="Добро пожаловать в Grivont"/>
       </div>
       {responsIsFaled && (
-        <div className="text-center text-red-400 font-light">
-          Пожалуйста, убедитесь, что вы ввели свой никнейм и пароль верно. Если у вас еще нет аккаунта, вы можете создать его сейчас и присоединиться к нашему сообществу
-        </div>
+        <ErrorTitle title="Пожалуйста, убедитесь, что вы ввели свой никнейм и пароль верно"/>
       )}
-      <div className="flex flex-col gap-3 w-2/3">
+      <div className="flex flex-col gap-3 w-full md:w-2/3">
         <Input id='nickname' inputType="text" changeValue={handeChange} palceHolder="Введите ник" errorField={notValidField.indexOf('nickname') === -1}/>
         <Input id='password' inputType="password" changeValue={handeChange} palceHolder="Введите пароль" errorField={notValidField.indexOf('password') === -1}/>
-        <div 
-          onClick={() => login()}
-          className="border p-3 rounded-md flex items-center justify-center text-xl cursor-pointerp"
-        >
-          Войти
-        </div>
+        <Button title="Войти" handleClick={login}/>
       </div>
       <div 
         onClick={() => dispatch(changeAuth('signin'))}

@@ -99,15 +99,15 @@ const WallsCard:React.FC<WallsCardProps> = (
     <div 
       className={`
         ${postDeleted && 'hidden'}
-        bg-gray-800 p-8 rounded-xl flex flex-col gap-4 z-0 relative
+        bg-gray-800 p-3 md:p-8 rounded-xl flex flex-col gap-2 md:gap-4 z-0 relative
       `}
     >
-      <div className={`${isUser ? 'block' : 'hidden'} absolute top-8 right-4`}>
+      <div className={`${isUser ? 'block' : 'hidden'} absolute top-3 md:top-8 right-3 md:right-4`}>
         <div 
           onClick={openMenu}
           className={` text-gray-500 cursor-pointer`}
         >
-          <HiOutlineEllipsisVertical size={28}/>
+          <HiOutlineEllipsisVertical size={24}/>
         </div>
         <div 
           className={`
@@ -131,22 +131,22 @@ const WallsCard:React.FC<WallsCardProps> = (
         </div>
       </div>
       <div className="">
-        <div className="text-xl">{name}</div>
-        <div className="font-light text-gray-400">{dateString}</div>
+        <div className="text-md md:text-xl">{name}</div>
+        <div className="text-sm md:text-base font-light text-gray-400">{dateString}</div>
       </div>
-      <h3 className="text-xl font-medium text-indigo-300 pr-4 whitespace-normal  break-words">
+      <h3 className="text-md md:text-xl font-medium text-indigo-300 pr-4 whitespace-normal  break-words">
         {title}
       </h3>
-      <div className="mt-4 flex gap-6">
+      <div className="mt-2 md:mt-4 flex gap-3 md:gap-6 text-md md:text-xl">
         <div 
           onClick={() => targetLike()}
-          className={`${isLiked && 'border-red-400'} flex gap-2 items-center border rounded-full py-2 px-3 cursor-pointer`}
+          className={`${isLiked && 'border-red-400'} flex gap-2 items-center border rounded-full py-1 md:py-2 px-2 md:px-3 cursor-pointer`}
         >
-          <HiOutlineHeart size={24}/>
+          <HiOutlineHeart/>
           <span>{likeCount}</span>
         </div>
-        <div className="flex gap-2 items-center border rounded-full py-2 px-3">
-          <HiOutlineChatBubbleBottomCenterText size={24}/>
+        <div className="flex gap-2 items-center border rounded-full py-1 md:py-2 px-2 md:px-3">
+          <HiOutlineChatBubbleBottomCenterText/>
           <span>{commentCollection.length}</span>
         </div>
       </div>

@@ -1,8 +1,7 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Cookies from "js-cookie";
 
-import Input from "./Input";
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -10,6 +9,8 @@ import { AppDispatch } from "@/redux/store"
 import { changeAuth } from "@/redux/features/authSwitch-slice"
 import { useDispatch } from "react-redux"
 import { isValidName, isValidNick, isValidPassword } from "./validations";
+import { Button, ErrorTitle, Input, SubTitle, Title } from "./AuthUI";
+
 
 interface UserData {
   firstName: string;
@@ -98,15 +99,15 @@ const SignIn = () => {
   }
 
   return (
-    <div className="w-1/2 h-3/4 flex flex-col gap-8 items-center">
+    <div className="w-full px-8 md:px-0 md:w-1/2 h-3/4 flex flex-col gap-8 items-center">
       <div className="flex flex-col gap-4 items-center">
-        <h2 className="text-purple-400 font-bold text-4xl">Регистрация </h2>
-        <div className="text-xl text-gray-300">Добро подаловать в Grivont</div>
+        <Title title="Регистрация"/>
+        <SubTitle title="Добро пожаловать в Grivont"/>
       </div>
       {notValidNick && (
-        <div className="text-red-400 font-light">Ник уже занят</div>
+        <ErrorTitle title="Ник уже занят"/>
       )}
-      <form className="flex flex-col gap-3 w-2/3">
+      <form className="flex flex-col gap-3 w-full md:w-2/3">
         <Input id='firstName' inputType="text" changeValue={handeChange} palceHolder="Введите имя" errorField={notValidField.indexOf('firstName') === -1}/>
         <Input id='secondName' inputType="text" changeValue={handeChange} palceHolder="Введите фамилию" errorField={notValidField.indexOf('secondName') === -1}/>
         <Input id='nickname' inputType="text" changeValue={handeChange} palceHolder="Придумайте ник" errorField={notValidField.indexOf('nickname') === -1}/>
@@ -129,27 +130,15 @@ const SignIn = () => {
             overflow-hidden transition-all duration-300
           `}
         >
-          <ul className="list-disc list-inside text-gray-600">
+          <ul className="text-sm md:text-base list-disc list-inside text-gray-600">
             <li>Используйте только латинские буквы и цифры.</li>
             <li>Длина ника должна быть от 4 до 20 символов.</li>
-            <li>Вы можете использовать символы "_", "-", и "/".</li>
+            <li>Вы можете использовать символы &quot;_&quot;, &quot;-&quot;, и &quot;/&quot;.</li>
             <li>Ник должен быть уникальным.</li>
           </ul>
         </div>
         <Input id='password' inputType="password" changeValue={handeChange} palceHolder="Введите пароль" errorField={notValidField.indexOf('password') === -1}/>
-        <div 
-          onClick={createUser}
-          className="
-            border 
-            p-3 
-            rounded-md 
-            flex 
-            items-center mt-4
-            justify-center text-xl cursor-pointer
-          "
-        >
-          Создать аккаунт
-        </div>
+        <Button title="Создать аккаунт" handleClick={createUser}/>
       </form>
       <div 
         onClick={() => dispatch(changeAuth('login'))}

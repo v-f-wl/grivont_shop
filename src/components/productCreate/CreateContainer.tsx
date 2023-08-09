@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import SelectCategory from "./SelectCategory";
 import { categoryMappings } from "../../../utils/categoryMappings";
 import AddImage from "./AddImage";
+
 interface InitialStateProps{
   title: string;
   description: string;
@@ -79,6 +80,9 @@ const CreateContainer = () => {
     if(productData.category === ''){
       errorFieds.push('category')
     }
+    if(productData.imageSrc === ''){
+      errorFieds.push('image')
+    }
     setFieldsError(errorFieds)
     if(errorFieds.length === 0 ){
       callback()
@@ -107,9 +111,9 @@ const CreateContainer = () => {
   }
 
   return ( 
-    <div className="pt-[120px] h-screen mb-[100px]">
+    <div className="pt-[80px] md:pt-[120px] h-screen mb-[100px]">
       <Title title="Добавить продукт"/>
-      <div className="mt-8 flex flex-col gap-10">
+      <div className="mt-5 md:mt-8 flex flex-col gap-4 md:gap-10">
         <div className="">
           <LocalTitle title='Заголовок товара'/>
           <input 
@@ -118,8 +122,8 @@ const CreateContainer = () => {
             className={`
               ${fieldsError.indexOf('title') > -1 ? 'border-red-400' : 'border-purple-400'} 
               w-full mt-4
-              border capitalize border-purple-400 rounded-xl bg-inherit p-4 
-              text-purple-200 text-lg
+              border capitalize border-purple-400 rounded-xl bg-inherit p-3 md:p-4 
+              text-purple-200 text-base md:text-lg
             `}
             placeholder="Введите заголовок(минимальное количество символов 10)"
             value={productData.title}
@@ -138,16 +142,16 @@ const CreateContainer = () => {
               border-purple-400 
               capitalize 
               rounded-xl 
-              bg-inherit p-4 
+              bg-inherit p-3 md:p-4 
               text-purple-200 
-              text-lg
+              text-base md:text-lg
             `}
             placeholder="Опишите товар(минимальное количество символов 20)"
             value={productData.description}
           >
           </textarea>
         </div>
-        <div className="grid grid-cols-2 gap-8 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           <div>
             <LocalTitle title='Выберете город'/>
             <div className="mt-4">
@@ -162,12 +166,12 @@ const CreateContainer = () => {
               />
           </div>
         </div>
-        <div className="flex items-start gap-8">
-          <div className="w-3/5">
+        <div className="flex flex-col md:flex-row items-start gap-8">
+          <div className="w-full md:w-3/5">
             <LocalTitle title="Добавить фото товара"/>
-            <AddImage changeCategory={handleChangeData}/>
+            <AddImage handleError={fieldsError.indexOf('image') > -1} changeCategory={handleChangeData}/>
           </div>
-          <div className="w-2/5">
+          <div className="w-full md:w-2/5">
             <LocalTitle title="Добавить категорию"/>
             <SelectCategory changeCategory={handleChangeData} handleError={fieldsError.indexOf('category') > -1}/>
           </div>

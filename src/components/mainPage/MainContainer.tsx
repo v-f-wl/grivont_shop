@@ -5,7 +5,7 @@ import ProductContainer from "./ProductContainer";
 
 const MainContainer = () => {
   return ( 
-    <div className="mt-[120px]">
+    <div className="mt-[80px] md:mt-[120px]">
       <CategoryContainer/>
       <InfoContainer/>
       <ProductContainer hasItems={true} label="popular" title="Популярные товары"/>

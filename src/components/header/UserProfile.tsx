@@ -61,10 +61,10 @@ const UserProfile = () => {
     >
       {dataLoaded ? 
         (
-          <span className="text-inherit font-medium">{userData.name}</span>
+          <span className="hidden lg:block text-inherit font-medium">{userData.name}</span>
         )
         :
-        <div className="w-[180px] h-8 bg-gray-600 animate-pulse rounded-xl"></div>
+        <div className="w-[180px] h-8 bg-gray-600 animate-pulse rounded-xl hidden lg:block"></div>
         }
       <div className="w-9 h-9 rounded-full bg-gray-400 overflow-hidden">
         {dataLoaded ? 

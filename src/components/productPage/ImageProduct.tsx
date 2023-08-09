@@ -1,9 +1,10 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { HiOutlineMapPin } from 'react-icons/hi2'
+import { HiOutlineChatBubbleOvalLeft } from 'react-icons/hi2'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import Link from 'next/link'
+import QuantitySelector from '../UI/QuantitySelector'
 
 interface ImageProductProps{
   productId: string
@@ -82,8 +83,8 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   }
 
   return (  
-    <div className="grid grid-cols-chat gap-8">
-      <div className="aspect-square rounded-xl overflow-hidden flex justify-center">
+    <div className="flex flex-col lg:flex-row lg:grid lg:grid-cols-chat lg:gap-8">
+      <div className="h-[230px] md:h-auto aspect-square rounded-xl overflow-hidden flex justify-center">
         <img 
           className="max-w-full max-h-full object-contain rounded-xl overflow-hidden"
           src={imageUrl}
@@ -92,16 +93,16 @@ const ImageProduct:React.FC<ImageProductProps> = ({
       </div>
       <div className="">
         <h2 
-          className="text-5xl text-purple-400 font-bold clamped-text"
+          className="text-2xl md:text-3xl lg:text-5xl text-purple-400 font-bold clamped-text"
         >
           {productTitle}
         </h2>
-        <div className="mt-8 inline-flex flex-col gap-2 text-gray-500">
+        <div className="mt-4 lg:mt-8 inline-flex flex-col gap-1 md:gap-2 text-gray-500 text-sm md:text-base">
           <div className="text-lg font-light">
             <span className='text-purple-400'>Город: </span><span className="capitalize"> {city}</span>
           </div>
           <Link href={`/profilepage/?id=${userRef}`} className="text-lg font-light cursor-pointer">
-            <span className='text-purple-400'>Автор: </span><span className="capitalize">@{authtorNick}</span>
+            <span className='text-purple-400'>Автор: </span><span className="capitalize underline">@{authtorNick}</span>
           </Link>
           <div className="text-lg font-light">
             <span className='text-purple-400'>Категория: </span><span className="capitalize">{category}</span>
@@ -110,53 +111,50 @@ const ImageProduct:React.FC<ImageProductProps> = ({
         <div className="mt-5 text-gray-400 text-2xl font-medium">
           {price} руб
         </div>
-        <div className="mt-16 flex gap-6">
+        <div className="mt-8 lg:mt-16 flex flex-col lg:flex-row flex-wrap items-start gap-4 lg:gap-6">
           {loaded ? 
-          (
-            <div 
-              onClick={() => addToBag()}
-              className={`
-                ${inBag ? 'opacity-40' : ''}
-                ${inBag ? '' : 'cursor-pointer'}
-                py-3 
-                px-5
-                bg-purple-400 
-                rounded-full 
-                text-white 
-                text-bold 
-                text-xl 
-                hover:opacity-60 transition-all
-              `}
-            >
-              {inBag ? 'В корзине' : 'Добавить в корзину'}
-            </div>
-          )
-          :
-          (
-            <div 
-              className={`
-                py-3 
-                px-5
-                bg-purple-400 
-                rounded-full 
-                text-white 
-                text-bold 
-                text-xl 
-                opacity-60
-              `}
-            >
-              Загрузка...
-            </div>
-          )
+            (
+              <div 
+                onClick={() => addToBag()}
+                className={`
+                  ${inBag ? 'opacity-40' : ''}
+                  ${inBag ? 'cursor-default' : 'cursor-pointer'}
+                  ${inBag ? '' : 'hover:opacity-60'}
+                  md:py-3 py-2 px-4 md:px-5
+                  bg-purple-400 
+                  rounded-full 
+                  text-white 
+                  text-bold 
+                  text-xl 
+                  transition-all
+                `}
+              >
+                {inBag ? 'В корзине' : 'Добавить в корзину'}
+              </div>
+            )
+            :
+            (
+              <div 
+                className={`
+                  md:py-3 py-2 px-4 md:px-5
+                  bg-purple-400 
+                  rounded-full 
+                  text-white 
+                  text-bold 
+                  text-xl 
+                  opacity-60
+                `}
+              >
+                Загрузка...
+              </div>
+            )
           }
-
           {loadedFavorite ?
           (
             <div 
               onClick={changeFavorite}
               className={`
-                py-3 
-                px-5 
+                md:py-3 py-2 px-4 md:px-5
                 border border-purple-400
                 rounded-full 
                 text-white 
@@ -172,8 +170,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
           (
             <div 
               className="
-                py-3 
-                px-5 
+                md:py-3 py-2 px-4 md:px-5
                 border border-purple-400
                 rounded-full 
                 text-white 
@@ -187,6 +184,14 @@ const ImageProduct:React.FC<ImageProductProps> = ({
             </div>
           )
           }
+        <div className="">
+          <div className="flex lg:inline-flex gap-3 items-center md:py-3 py-2 px-4 md:px-5 border text-bold rounded-full text-xl cursor-pointer hover:opacity-60 transition-all">
+            <span className="">
+              <HiOutlineChatBubbleOvalLeft size={24}/>
+            </span>
+            <span className="">Связаться с автором</span>
+          </div>
+        </div>
         </div>
       </div>
     </div>

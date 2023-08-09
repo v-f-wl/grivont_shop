@@ -8,9 +8,6 @@ interface AlertProps{
   modalValue: string
 }
 
-interface PushArrState{
-  hasPush: Object[]
-}
 const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
   const label: string = 'alert'
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -55,7 +52,7 @@ const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
     }
   }
   return ( 
-    <div className="relative">
+    <div className="md:relative">
       <HiOutlineBellAlert 
         onClick={() => openModal(label)}
         className={`${isOpen && 'text-indigo-400'} hover:text-indigo-400 transition-colors`}
@@ -66,10 +63,12 @@ const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
           ${isOpen ? 'opacity-100' : 'opacity-0'}
           ${isOpen ? 'visible' : 'invisible'}
           absolute transition-all
-          top-12 
+          top-14
+          md:top-12
           left-0 
-          -translate-x-1/2 
-          w-[300px] 
+          w-full
+          md:-translate-x-1/2 
+          md:max-w-[300px]
           min-h-[200px] 
           max-h-[400px] 
           bg-gray-800 p-6

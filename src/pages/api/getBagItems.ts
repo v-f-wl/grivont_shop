@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from "../../../utils/connectMongoDB";
 import BasketModel from '../../../models/Basket'
+import ProductModel from '../../../models/Product'
 /**
  * 
  * @param {import('next').NextApiRequest} req 
@@ -20,7 +21,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if(basket === undefined){
         return res.status(200).json([])
       }
-      return res.status(200).json(basket.collectionBag);
+
+      const basketItems = []
+      for(const item of basket.collectionBag){
+        const product = await ProductModel.findOne({ _id: item})
+        basketItems.push(product)
+      }
+
+      return res.status(200).json(basketItems);
     }
     catch (error) {
       console.log(error)

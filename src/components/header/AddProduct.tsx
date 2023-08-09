@@ -79,7 +79,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
   }
 
   return (  
-    <div className="relative">
+    <div className="md:relative">
       <HiOutlineSquaresPlus
         onClick={() => openModal(label)}
         className={`${isOpen && 'text-indigo-400'} hover:text-indiыgo-400 transition-colors`}
@@ -90,11 +90,13 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
           ${isOpen ? 'opacity-100' : 'opacity-0'}
           ${isOpen ? 'visible' : 'invisible'}
           absolute transition-all
-          top-12 
-          left-0 
-          -translate-x-1/2 
-          w-[300px]
-          bg-gray-800 p-6
+          top-14
+          md:top-12
+          left-0
+          md:-translate-x-1/2 
+          w-full
+          md:w-[340px]
+          bg-gray-800 p-3 md:p-6
           rounded-xl
         `}
       >
@@ -121,11 +123,14 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
           ${openPost ? 'opacity-100' : 'opacity-0'}
           ${openPost ? 'visible' : 'invisible'}
           absolute transition-all
-          top-12 
-          left-0 
-          -translate-x-1/2 
-          w-[400px]
-          bg-gray-800 p-6
+          top-14
+          md:top-12
+          left-0
+          md:left-0 
+          md:-translate-x-1/2 
+          w-full
+          md:w-[400px]
+          bg-gray-800 p-3 md:p-6
           rounded-xl
         `}
       >
@@ -149,7 +154,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
                 onChange={(e) => setPostText(e.target.value)}
                 className='
                   w-full 
-                  mt-8
+                  mt-4 md:mt-8
                   border 
                   h-[80px] resize-none  transition-all duration-300 outline-none
                   border-purple-400 
@@ -165,7 +170,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
               <div 
                 onClick={() => createPost()}
                 className="
-                  mt-4
+                  mt-2 md:mt-4
                   text-base 
                   flex 
                   border 

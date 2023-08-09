@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
 
 interface AddImageProps{
-  changeCategory: (title: string, value: string) => void
+  changeCategory: (title: string, value: string) => void,
+  handleError: boolean
 }
-const AddImage: React.FC<AddImageProps> = ({changeCategory}) => {
+const AddImage: React.FC<AddImageProps> = ({changeCategory, handleError}) => {
   const [imageSrc, setImageSrc] = useState<string>('')
 
   useEffect(() => {
@@ -55,16 +56,16 @@ const AddImage: React.FC<AddImageProps> = ({changeCategory}) => {
   }
   return ( 
     <>
-    <div className="mt-4 flex items-center gap-8">
-      <div className={`${imageSrc !== '' ? 'block' : 'hidden'} border border-purple-400 rounded-xl w-[300px] h-[300px] overflow-hidden`}>
+    <div className="mt-4 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 w-full">
+      <div className={`${imageSrc !== '' ? 'block' : 'hidden'} ${handleError ? 'border-red-400' : 'border-purple-400'} border  rounded-xl w-[250px] h-[250px] md:w-[300px] md:h-[300px] overflow-hidden`}>
         <img src={imageSrc} alt="" className="w-full h-full object-cover object-center"/>
       </div>
         <div 
-          className="relative border border-purple-400 rounded-xl flex items-center gap-4 px-5 py-2 cursor-pointer"
+          className={`${handleError ? 'border-red-400' : 'border-purple-400'} relative border rounded-xl flex items-center gap-4 px-5 py-2 cursor-pointer`}
         >
           <HiOutlineArrowTopRightOnSquare size={24}/>
-          <span className="font-medium text-xl">Добавить фото</span>
-          <input type="file" className="cursor-pointer absolute z-10 opacity-0" onChange={handleOnChange}/>
+          <span className="font-medium text-lg md;text-xl">Добавить фото</span>
+          <input type="file" className="cursor-pointer absolute inset-0 z-10 opacity-0" onChange={handleOnChange}/>
         </div>
       </div>
     </>

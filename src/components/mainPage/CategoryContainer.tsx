@@ -5,11 +5,11 @@ import Title from "./Title";
 import axios from "axios";
 import Loading from "../UI/Loading";
 
-interface CCategoryData{
+interface CategoryData{
   [key: string]: string
 }
 const CategoryContainer = () => {
-  const [categoryData, setCategoryData] = useState<CCategoryData[]>([])
+  const [categoryData, setCategoryData] = useState<CategoryData[]>([])
   useEffect(() => {
     axios.get('/api/getCategory')
     .then(res => {

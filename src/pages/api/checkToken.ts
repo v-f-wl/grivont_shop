@@ -1,7 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from "../../../utils/connectMongoDB";
 import UserModal from '../../../models/User'
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken';
+
+interface MyJwtPayload extends JwtPayload {
+  _id: string;
+}
 
 /**
  * 
@@ -20,7 +24,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
     try {
       const { userId, token }: RequestBody = req.body
-      const decoded = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET)
+      const jwtSecret = process.env.NEXT_PUBLIC_JWT_SECRET;
+
+      if (!jwtSecret) {
+        throw new Error('JWT secret is not defined');
+      }
+      const decoded = jwt.verify(token, jwtSecret) as MyJwtPayload
       if(decoded._id === userId){
         const user = await UserModal.findOne({ _id: userId})
         const {passwordHash, ...newObj } = user._doc

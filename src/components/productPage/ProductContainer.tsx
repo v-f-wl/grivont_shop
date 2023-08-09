@@ -47,7 +47,6 @@ const ProductContainer = () => {
       axios.get(`/api/getOneProduct/?id=${id}`)
       .then(res => {
         setProductData(res.data)
-        console.log(res.data)
         setIsLoaded('load');
 
       })
@@ -60,15 +59,16 @@ const ProductContainer = () => {
         return <Loading/>
       case 'load':
         return (
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col  gap-8">
             <div 
               onClick={() => router.back()} 
               className="
                 flex items-center gap-2 justify-center
                 w-auto
                 max-w-[100px]
-                py-2
-                px-3
+                py-1 px-1
+                md:py-2
+                md:px-3
                 border border-purple-400 rounded-full
                 cursor-pointer
               "
@@ -96,7 +96,7 @@ const ProductContainer = () => {
   }
 
   return ( 
-    <div className="mt-[120px] min-h-[30vh]">
+    <div className="mt-[80px] md:mt-[120px] min-h-[30vh]">
       {renderComponent()}
     </div>
   );

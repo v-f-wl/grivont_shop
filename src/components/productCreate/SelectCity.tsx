@@ -37,9 +37,9 @@ const SelectCity:React.FC<SelectCityProps> = ({changeCity}) => {
   return ( 
     <div 
       onClick={() => setOpenModal(prev => !prev)}
-      className="w-[400px] relative transition-all"
+      className="w-full max-w-[400px] relative transition-all"
     >
-      <div className="border p-4 border-purple-400 rounded-xl relative z-20 bg-gray-900 capitalize">
+      <div className="border p-3 md:p-4 border-purple-400 rounded-xl relative z-20 bg-gray-900 capitalize">
         {selectedCity !== '' ? selectedCity : 'Выберете город'}
         <div
           className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
@@ -54,7 +54,7 @@ const SelectCity:React.FC<SelectCityProps> = ({changeCity}) => {
           ${openModal ? 'opacity-100' : 'opacity-0'}
           absolute 
           w-full 
-          p-4
+          p-3 md:p-4
           bg-gray-800  
           transition-all 
           flex 

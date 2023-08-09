@@ -20,7 +20,7 @@ const AuthContainer = () => {
   }
 
   return (  
-    <div className="min-h-screen flex items-center justify-center py-24">
+    <div className="min-h-screen flex items-center justify-center py-12 md:py-24">
       {renderComponent()}
     </div>
   );

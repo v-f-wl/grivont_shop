@@ -26,13 +26,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             message: 'Неверный логин или пароль'
           })
         }
-        const token = jwt.sign({
-          _id: user._id
-        }, 
-          process.env.NEXT_PUBLIC_JWT_SECRET,
-          {
-            expiresIn: '2d'
-          }
+        const jwtSecret = process.env.NEXT_PUBLIC_JWT_SECRET;
+
+        if (!jwtSecret) {
+          throw new Error('JWT secret is not defined');
+        }
+        const token = jwt.sign(
+          {_id: user._id}, 
+          jwtSecret,
+          {expiresIn: '2d'}
         )
         const {passwordHash, ...userData} = user._doc
         return res.json({

@@ -56,7 +56,7 @@ const ProfilePageContainer = () => {
 
   const Button:React.FC<ButtonProps> = ({title}) =>{
     return (
-      <div className="py-2 px-4 border border-purple-400 rounded-full cursor-pointer">
+      <div className="py-1 px-2 md:py-2 md:px-4 text-sm md:text-base border border-purple-400 rounded-full cursor-pointer">
         {title}
       </div>
     )
@@ -86,10 +86,10 @@ const ProfilePageContainer = () => {
     routerExit.push('/auth')
   }
   return (
-    <div className="mt-[120px] mb-4">
-      <div className="flex items-start gap-8 justify-between mr-8">
+    <div className="mt-[80px] md:mt-[120px] mb-4">
+      <div className={`flex ${isPerson ? 'flex-row' : 'flex-col'} md:flex-row items-start gap-2 lg:gap-8 justify-between mt-2 lg:mr-8`}>
           <ProfileAvatar/>
-        <div className="">
+        <div>
           {isPerson ?
             (<UserFunction/>)
             :
@@ -97,7 +97,7 @@ const ProfilePageContainer = () => {
           }
         </div>
       </div>
-      <div className="mt-12">
+      <div className="mt-5 lg:mt-12">
         <PageNavigation/>
       </div>
       <div className="mt-8 ">

@@ -23,6 +23,23 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: []
     },
+    orderHistory: [
+      {
+        orderNumber: { type: String, required: true },
+        totalPrice: { type: Number, required: true },
+        totalCount: { type: Number, required: true },
+        timestamp: { type: Date, default: Date.now },
+        items: [
+          {
+            productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+            image: { type: String },
+            title: { type: String },
+            _id: { type: String },
+          }
+        ],
+        status: { type: String, default: false },
+      }
+    ],
     passwordHash: {
       type: String,
       required: true
@@ -32,4 +49,6 @@ const UserSchema = new mongoose.Schema(
     timestamps: true
   }
 )
-export default mongoose.models.User || mongoose.model('User', UserSchema)
+const UserModel = mongoose.models.User || mongoose.model('User', UserSchema)
+
+export default UserModel
