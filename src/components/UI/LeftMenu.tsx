@@ -66,7 +66,7 @@ const LeftMenu: React.FC = () => {
           ${mobileBurger ? 'w-full' : ''}  
           ${mobileBurger ? 'h-screen' : ''}  
           lg:visible
-          top-[26px]
+          top-[23px]
           md:top-[40px]
           lg:opacity-100
           pt-5

@@ -6,7 +6,6 @@ import ImageProduct from "./ImageProduct";
 import Loading from "../UI/Loading";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { HiArrowSmallLeft } from "react-icons/hi2";
 
 type ImageData = {url: string}
 
@@ -60,22 +59,6 @@ const ProductContainer = () => {
       case 'load':
         return (
           <div className="flex flex-col  gap-8">
-            <div 
-              onClick={() => window.history.back()} 
-              className="
-                flex items-center gap-2 justify-center
-                w-auto
-                max-w-[100px]
-                py-1 px-1
-                md:py-2
-                md:px-3
-                border border-purple-400 rounded-full
-                cursor-pointer
-              "
-            >
-              <HiArrowSmallLeft size={18}/>
-              Назад
-            </div>
             <ImageProduct
                 productId={productData._id}
                 productTitle={productData.title}

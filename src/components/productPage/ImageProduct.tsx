@@ -27,6 +27,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   const [inBag, setInBag] = useState<boolean>(false)
   const [authtorNick, setAuthtorNick] = useState<string>('')
   const [inFavorite, setInFfavorite] = useState<boolean>(false)
+  const [errorButton, setErrorButton] = useState<boolean>(false)
   const userId = Cookies.get('id')
 
   useEffect(() => {
@@ -36,13 +37,15 @@ const ImageProduct:React.FC<ImageProductProps> = ({
         setInBag(res.data.result)
         setLoaded(true)
       })
-      .catch(error => console.log(error))
+      .catch(error => setErrorButton(true))
+
+      
       axios.post('/api/checkProductInFavorite', {userId, productId})
       .then(res => {
         setInFfavorite(res.data.result)
         setLoadedFavorite(true)
       })
-      .catch(error => console.log(error))
+      .catch(error => setErrorButton(true))
     }
   }, [productId, userId]);
 
@@ -112,7 +115,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
         <div className="mt-5 text-gray-400 text-2xl font-medium">
           {price} руб
         </div>
-        <div className="mt-8 lg:mt-16 flex flex-col lg:flex-row flex-wrap items-start gap-4 lg:gap-6">
+        <div className={`${errorButton ? 'hidden' : 'block'} mt-8 lg:mt-16 flex flex-col lg:flex-row flex-wrap items-start gap-4 lg:gap-6`}>
           {loaded ? 
             (
               <div 
@@ -155,6 +158,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
             <div 
               onClick={changeFavorite}
               className={`
+                ${errorButton ? 'hidden' : 'block'}
                 md:py-3 py-2 px-4 md:px-5
                 border border-purple-400
                 rounded-full 
