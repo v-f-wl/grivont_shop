@@ -75,7 +75,7 @@ const ProfilePageContainer = () => {
     return (
       <div className="flex gap-4">
         <Button title="Сообщения"/>
-        <Button title="Подписаться"/>
+        {/* <Button title="Подписаться"/> */}
       </div>
     )
   }

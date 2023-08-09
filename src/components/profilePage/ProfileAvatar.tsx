@@ -54,14 +54,14 @@ const ProfileAvatar = () => {
           <div className="text-lg font-medium">
             @{userData.nickname}
           </div>
-          <div className="flex items-center flex-wrap gap-3 md:gap-6">
+          {/* <div className="flex items-center flex-wrap gap-3 md:gap-6">
             <div className="flex items-center gap-1">
               {userData.subscribers.length} подписчики
             </div>
             <div className="flex items-center gap-1">
             {userData.subscriptions.length} подписки
             </div>
-          </div>
+          </div> */}
           </div>
 
         )
@@ -76,11 +76,11 @@ const ProfileAvatar = () => {
           </div>
           <div className="w-[80px] md:w-[100px] h-[26px]  rounded-xl bg-gray-500 animate-pulse">
           </div>
-          <div className="flex items-center gap-6">
+          {/* <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <span className="w-[40px] h-[30px] rounded-xl bg-gray-500 animate-pulse"></span> подписчики
             </div>
-          </div>
+          </div> */}
           </div>
         )
       }

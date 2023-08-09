@@ -5,7 +5,8 @@ import axios from "axios";
 import EmptyPage from "../UI/EmptyPage";
 import Loading from "../UI/Loading";
 import ProductCardForBag from "../UI/ProductCardForBag"
-import { generateOrderNumber } from "../../../utils/generationOrder";
+import { generateOrderNumber } from "../../../utils/generationOrder"
+import { useRouter } from "next/navigation";
 
 
 type ImageData = {url: string}
@@ -62,9 +63,11 @@ const BagList = () => {
   const [bagData, setBagData] = useState<initialStateProps[]>([])
   const [loaded, setLoaded] = useState<boolean>(false)
   const [countInfo, setCountInfo] = useState<CountObj>(initialState)
-
+  const [reqSended, setReqSended] = useState<boolean>(false)
   const [orderModal, setOrderModal] = useState<boolean>(false)
+
   const userId: string | undefined = Cookies.get('id')
+  const router = useRouter()
 
   useEffect(() => {
     if(userId !== undefined){
@@ -102,6 +105,7 @@ const BagList = () => {
   const sendRequest = () => {
     const orderNumber =  generateOrderNumber(7)
     if(userId !== undefined){
+      setReqSended(true)
       const objForRequest: objForRequest = {
         orderNumber: orderNumber,
         totalPrice: countInfo.totalPrice,
@@ -118,7 +122,10 @@ const BagList = () => {
         objForRequest.items.push(obj)
       }
       axios.post(`/api/createOrder/?userId=${userId}`, objForRequest)
-      .then(res => console.log(res.data))
+      .then(res => {
+        setReqSended(false)
+        router.push('/orderspage')
+      })
       .catch(error => console.log(error))
     }
   }
@@ -128,7 +135,7 @@ const BagList = () => {
     <>
     {loaded ? 
       (
-        <div className="relative grid grid-cols-profile gap-12 items-start">
+        <div className="relative flex flex-col-reverse  lg:grid md:grid-cols-profile gap-4 md:gap-8 lg:gap-12 items-start">
           <div className="">
             {bagData.length > 0 ? 
               (
@@ -143,7 +150,7 @@ const BagList = () => {
                       productPrice={item.priceOfProduct}
                       wasDeleted={changeCount}
                       userId={userId}
-                      orderLoading={false}
+                      orderLoading={reqSended}
                     />
                   ))}
                 </div>
@@ -155,8 +162,9 @@ const BagList = () => {
             }
           </div>
           <div 
-            className="relative rounded-xl bg-gray-600 p-6 text-2xl font-bold"
+            className="w-full lg:w-auto relative rounded-xl bg-gray-600 p-6 text-2xl font-bold"
           >
+            <div className={`${reqSended ? 'block' : 'hidden'} absolute inset-0 z-30 rounded-xl bg-gray-700`}></div>
             <div 
               className={`${orderModal ? 'block' : 'hidden'} z-20 absolute p-4 bg-gray-700 rounded-xl inset-0 flex flex-col items-center justify-center gap-4`}
             >

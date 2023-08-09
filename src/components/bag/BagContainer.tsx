@@ -4,9 +4,9 @@ import Title from "../UI/Title";
 
 const BagContainer = () => {
   return ( 
-    <div className="mt-[120px] text-gray-100">
+    <div className="mt-[80px] md:mt-[120px] text-gray-100">
       <Title title="Корзина"/>
-      <div className="mt-8 mb-4">
+      <div className="mt-6 md:mt-12 mb-4">
         <BagList/>
       </div>
     </div>

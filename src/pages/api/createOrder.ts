@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from "../../../utils/connectMongoDB";
 import UserModal from '../../../models/User'
+import BasketModal from '../../../models/Basket'
 /**
  * 
  * @param {import('next').NextApiRequest} req 
@@ -15,15 +16,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const dataValue = req.body
       const user = await UserModal.findById({_id: userId})
       const { orderHistory } = user
-      console.log(orderHistory)
       orderHistory.push(dataValue)
-      
-      console.log(orderHistory, orderHistory[0].items)
       await user.save()
-      console.log('dfvdf')
+
+      const basket = await BasketModal.findOne({userRef: userId})
+      basket.collectionBag = []
+      await basket.save()
 
       res.status(200).json({
-        user
+        arr: basket.collectionBag,
+        message: true
       });
     } catch (error) {
       console.log(error)

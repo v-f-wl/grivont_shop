@@ -123,7 +123,7 @@ const WallsCard:React.FC<WallsCardProps> = (
           <ul className="p-2 flex flex-col gap-2">
             <li 
               onClick={() => deletePost()}
-              className='p-4 rounded-xl border border-purple-400 cursor-pointer'
+              className='p-2 md:p-3 lg:p-4 rounded-xl border border-purple-400 cursor-pointer'
             >
               Удалить
             </li>

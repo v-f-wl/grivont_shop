@@ -1,24 +1,100 @@
-const OrderItem = () => {
+import { format } from "date-fns"
+import ruLocale from 'date-fns/locale/ru'
+import Link from "next/link"
+import { useState } from "react"
+import { HiXMark } from "react-icons/hi2"
+
+interface Items{
+  productId: string,
+  image: string,
+  title: string
+}
+
+interface OrderItemProps{
+  orderNumber: string,
+  timeCode: string,
+  totalPrice: number,
+  totalCount: number,
+  orderItems: Items[]
+}
+
+interface OrderCardProps{
+  title: string,
+  imageSrc: string,
+  productId: string
+}
 
 
-  const ItemsButton = ({title} : {title: string}) => {
+const OrderItem:React.FC<OrderItemProps> = ({
+  orderNumber,
+  totalPrice,
+  timeCode,
+  totalCount,
+  orderItems
+}) => {
+
+  const [openModal, setOpenModal] = useState<boolean>(false)
+
+  function formatDateToDMY(inputDate: string): string {
+    const date = new Date(inputDate);
+    return format(date, 'dd MMMM yyyy',  { locale: ruLocale })
+  }
+
+  const OrderCard:React.FC<OrderCardProps> = ({title, imageSrc, productId}) => {
     return (
-      <div className="py-2 px-2 md:px-4  text-md border rounded-full cursor-pointer">{title}</div>
-    ) 
+      <div className="border p-4 border-gray-600 rounded-xl flex flex-col gap-4">
+        <img src={imageSrc} alt="#" className="aspect-square object-cover object-center rounded-xl"/>
+        <h3 className="clamped-text h-[42px]">{title}</h3>
+        <Link
+          href={`/productpage/?id=${productId}`}
+          className="py-2 text-lg font-medium cursor-pointer border rounded-full flex items-center justify-center"
+        >
+          О товаре
+        </Link>
+      </div>
+    )
   }
 
   return ( 
     <div className="p-4 bg-gray-600 rounded-xl">
-      <div className="text-3xl font-bold"><span>Заказ номер - </span><span className="text-purple-400">{2233422}</span></div>
-      <span className="block ">Создан: {`23 июля 2022`}</span>
-
-      <div className="mt-3 py-2 text-gray-300 text-lg grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="">Общая стоимость: {234} руб.</div>
-        <div className="">Колличество товаров: {234}</div>
+      <div className="text-3xl font-bold"><span>Заказ номер - </span><span className="text-purple-400">{orderNumber}</span></div>
+      <span className="block ">Создан: {formatDateToDMY(timeCode)}</span>
+      <div className="mt-3 py-2 text-gray-300 text-lg grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
+        <div className="">Общая стоимость: {totalPrice} руб.</div>
+        <div className="">Колличество товаров: {totalCount}</div>
         <div className="">Статус: {'Не подтверждено'}</div>
       </div>
       <div className="flex flex-wrap items-center mt-6">
-        <ItemsButton title='Просмотреть товары'/>
+        <div 
+          onClick={() => setOpenModal(true)}
+          className="py-2 px-2 md:px-4  text-md border rounded-full cursor-pointer"
+        >
+          Просмотреть товары
+        </div>
+      </div>
+      <div className={`${openModal ? 'block' : 'hidden'} absolute inset-0 bg-slate-900 bg-opacity-70 z-50 flex items-center justify-center`}>
+        <div className="lg:w-3/4 lg:h-3/4 bg-gray-800 rounded-xl lg:p-8 relative">
+            <h3 className="text-4xl font-medium">
+              Товары в заказе
+            </h3>
+            <div 
+              onClick={() => setOpenModal(false)}
+              className="absolute top-8 right-8 cursor-pointer"
+            >
+              <HiXMark size={32}/>
+            </div>
+            <div className="mt-8 grid grid-cols-4 gap-4">
+              {orderItems.map(item => (
+                <OrderCard 
+                  key={item.productId}
+                  productId={item.productId}
+                  imageSrc={item.image}
+                  title={item.title}
+                />
+
+              ))}
+            </div>
+        </div>
       </div>
     </div>
   );

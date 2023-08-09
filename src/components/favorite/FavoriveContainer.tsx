@@ -4,7 +4,7 @@ import Title from "../UI/Title";
 
 const FavoriveContainer = () => {
   return ( 
-    <div className="mt-[120px]">
+    <div className="mt-[80px] md:mt-[120px]">
       <Title title="Избранное"/>
       <div className="mt-8 mb-4">
         <FavoriteList/>

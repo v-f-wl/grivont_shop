@@ -119,9 +119,9 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                 className={`
                   ${inBag ? 'opacity-40' : ''}
                   ${inBag ? 'cursor-default' : 'cursor-pointer'}
-                  ${inBag ? '' : 'hover:opacity-60'}
-                  md:py-3 py-2 px-4 md:px-5
-                  bg-purple-400 
+                  ${inBag ? '' : 'hover:opacity-80'}
+                  ${inBag ? 'bg-gray-600' : 'bg-purple-400'}
+                  md:py-3 py-2 px-4 md:px-5 
                   rounded-full 
                   text-white 
                   text-bold 
@@ -160,7 +160,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                 text-white 
                 text-bold 
                 text-xl
-                cursor-pointer hover:opacity-60 transition-all
+                cursor-pointer hover:opacity-80 transition-all
               `}
             >
               {inFavorite ? 'Удалить из закладок' : 'Добавить в закладки'}
@@ -184,14 +184,14 @@ const ImageProduct:React.FC<ImageProductProps> = ({
             </div>
           )
           }
-        <div className="">
-          <div className="flex lg:inline-flex gap-3 items-center md:py-3 py-2 px-4 md:px-5 border text-bold rounded-full text-xl cursor-pointer hover:opacity-60 transition-all">
+        {/* <div className=""> */}
+          {/* <div className="flex lg:inline-flex gap-3 items-center md:py-3 py-2 px-4 md:px-5 border text-bold rounded-full text-xl cursor-pointer hover:opacity-60 transition-all">
             <span className="">
               <HiOutlineChatBubbleOvalLeft size={24}/>
             </span>
             <span className="">Связаться с автором</span>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
         </div>
       </div>
     </div>

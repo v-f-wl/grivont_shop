@@ -48,16 +48,18 @@ const UserProfile = () => {
   return (  
     <Link 
       href={dataLoaded ? `/profilepage/?id=${userData.id}` : '/'}
-      className="
-        user-profile
+      className={`
+        ${dataLoaded && "hover:text-indigo-400"}
+        ${dataLoaded && "user-profile"}
+        ${dataLoaded && "cursor-pointer"}
         flex 
         justify-items-end 
         items-center 
         gap-3 
         cursor-pointer
         text-gray-100
-        hover:text-indigo-400 transition-color
-      "
+        transition-color
+      `}
     >
       {dataLoaded ? 
         (
