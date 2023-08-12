@@ -1,6 +1,7 @@
 'use client'
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface PopularCardProps{
@@ -32,6 +33,7 @@ const initialState: ProductDataTypes = {
 const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
   const [productData, setProductData] = useState<ProductDataTypes>(initialState)
   const [loaded, setLoaded] = useState<boolean>(false)
+  const router = useRouter()
 
   useEffect(() => {
     if(productId !== undefined){
@@ -96,10 +98,8 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
       }
       {loaded ? 
           (
-            <div className="flex items-center gap-6 justify-self-end">
-              <Link href={`/productpage/?id=${productData._id}`}>
-                <div className="border rounded-full py-2 px-4 hover:border-indigo-400 hover:text-indigo-400 transition-all cursor-pointer">Подробнее</div>
-              </Link>
+            <div onClick={() => router.push(`/productpage/?id=${productData._id}`)} className="flex items-center gap-6 justify-self-end">
+              <div className="border rounded-full py-2 px-4 hover:border-indigo-400 hover:text-indigo-400 transition-all cursor-pointer">Подробнее</div>
             </div>
           ) 
           : 

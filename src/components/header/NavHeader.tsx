@@ -1,6 +1,4 @@
 'use client'
-import Link from 'next/link';
-import { HiOutlineChatBubbleOvalLeft } from 'react-icons/hi2'
 import Alert from './Alert';
 import AddProduct from './AddProduct';
 import { useEffect, useState } from 'react';

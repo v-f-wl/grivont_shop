@@ -43,7 +43,7 @@ const UserProfile = () => {
         router.push('/auth')
       })
     }
-  }, [token, userId, router])
+  }, [token, userId])
 
   return (  
     <Link 

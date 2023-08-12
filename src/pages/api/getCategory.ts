@@ -7,10 +7,6 @@ import MetricaModel from '../../../models/Metrica'
  * @param {import('next').NextApiResponse} res 
  */
 
-interface RequestBody {
-  userId: string;
-  title: string;
-}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectDB()

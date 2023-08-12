@@ -61,14 +61,14 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
       <div className={`${orderLoading ? 'block' : 'hidden'} absolute inset-0 bg-purple-400 rounded-xl flex items-center justify-center`}>
         <AiOutlineLoading3Quarters className='animate-spin' size={38}/>
       </div>
-      <div className="w-full aspect-square md:max-w-[200px] md:h-[200px] rounded-xl overflow-hidden">
+      <div className="w-full aspect-square md:max-w-[200px] h-full md:max-h-[200px] flex-1 rounded-xl overflow-hidden">
         <img 
           src={imageSrc} 
           alt="img" 
           className="w-full h-full object-cover object-center"
         />
       </div>
-      <div className="w-auto flex flex-col gap-4 ">
+      <div className="w-auto flex flex-col gap-4 flex-1">
         <h2 className="clamped-text font-bold text-2xl">{productTitle}</h2>
         <div className="text-sm text-gray-200 clamped-text-3">{productDescription}</div>
         <div className="text-xl font-medium">{productPrice} руб.</div>

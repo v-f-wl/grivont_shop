@@ -8,10 +8,6 @@ import { idText } from 'typescript';
  * @param {import('next').NextApiResponse} res 
  */
 
-interface RequestBody {
-  userId: string;
-  title: string;
-}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if(req.method === 'GET'){

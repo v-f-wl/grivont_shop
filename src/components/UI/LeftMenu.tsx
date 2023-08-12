@@ -1,6 +1,5 @@
 'use client'
-import Link from "next/link";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { BiHive } from 'react-icons/bi'
 import Cookies from "js-cookie";
 
@@ -16,32 +15,61 @@ import
   HiOutlineTruck,
   HiOutlineXMark
 } from 'react-icons/hi2'
+import { useRouter } from "next/navigation";
 
 const LeftMenu: React.FC = () => {
   const [mobileBurger, setMobileBurger] = useState<boolean>(false) 
+  const router = useRouter()
   const userID = Cookies.get('id')
-  const linkStyle = 'text-xl lg:text-4xl flex gap-3 text-gray-100 hover:text-purple-700 transition  justify-center items-center cursor-pointer'
+
+  const linkStyle = 'text-xl p-2 lg:text-4xl flex w-full gap-3 text-gray-100 border border-gray-700 hover:border-purple-400/40 transition  justify-start rounded-xl items-center cursor-pointer font-light'
+  const styleForComponent = `${mobileBurger ? 'w-full' : 'w-50px'} ${mobileBurger ? 'bg-slate-900' : ''} left-menu lg:hover:shadow-lg lg:hover:shadow-indigo-500/50  py-2 md:py-4 px-1 lg:py-6 lg:px-4 fixed z-40 left-0 top-0 lg:absolute lg:top-3 lg:left-3 lg:bottom-3  lg:w-[76px]  lg:bg-gray-700  lg:rounded-xl  transition-all duration-300 flex flex-col gap-6 items-center`
+
+  const routes = [
+    {
+      icon: HiOutlineHome,
+      href: '/',
+      label:'Главная страница'
+    },
+    {
+      icon: HiOutlineUser,
+      href: `/profilepage/?id=${userID}`,
+      label:'Мой профиль'
+    },
+    {
+      icon: HiOutlineShoppingBag,
+      href: '/userbag',
+      label:'Корзина'
+    },
+    {
+      icon: HiOutlineBookmark,
+      href: '/favorite',
+      label:'Избранное'
+    },
+    {
+      icon: HiOutlineTruck,
+      href: '/orderspage',
+      label:'Мои заказы'
+    },
+    {
+      icon: HiOutlineCalendarDays,
+      href: '/soon',
+      label:'События'
+    },
+    {
+      icon: HiOutlineCursorArrowRipple,
+      href: '/servicespage',
+      label:'Сервисы'
+    },
+    {
+      icon: HiOutlineCog8Tooth,
+      href: '/soon',
+      label:'Настройки'
+    }
+  ]
   return ( 
     <div 
-      className={`
-        left-menu
-        lg:hover:shadow-lg lg:hover:shadow-indigo-500/50 
-        py-2 md:py-4 px-1
-        lg:py-6 lg:px-4
-        fixed z-40 left-0 top-0
-        ${mobileBurger ? 'w-full' : 'w-50px'}
-        ${mobileBurger ? 'bg-slate-900' : ''}
-
-        lg:absolute lg:top-3 lg:left-3 lg:bottom-3 
-        lg:w-[76px] 
-
-        lg:bg-gray-700 
-        lg:rounded-xl 
-
-        transition-all duration-300
-        flex flex-col gap-6 items-center
-      `}
-    >
+      className={styleForComponent}>
       <div 
         onClick={() => setMobileBurger(prev => !prev)}
         className="flex items-center gap-4"
@@ -79,46 +107,22 @@ const LeftMenu: React.FC = () => {
           mt-10 
           flex 
           flex-col 
-          gap-5
+          gap-4
           items-center
-
-          lg:gap-6 
           lg:items-start 
         `}
       >
-        <Link href='/' className={linkStyle}>
-          <HiOutlineHome/>
-          <span className="left-menu__name">Главная страница</span>
-        </Link>
-        <Link href={`/profilepage/?id=${userID}`} className={linkStyle}>
-          <HiOutlineUser/>
-          <span className="left-menu__name">Мой профиль</span>
-        </Link>
-        <Link href='/userbag' className={linkStyle}>
-          <HiOutlineShoppingBag/>
-          <span className="left-menu__name">Корзина</span>
-        </Link>
-        <Link href='/favorite' className={linkStyle}>
-          <HiOutlineBookmark/>
-          <span className="left-menu__name">Избранное</span>
-        </Link>
-        <Link href='/orderspage' className={linkStyle}>
-          <HiOutlineTruck/>
-          <span className="left-menu__name">Мои заказы</span>
-        </Link>
-        <Link href='/soon' className={linkStyle}>
-          <HiOutlineCalendarDays/>
-          <span className="left-menu__name">События</span>
-        </Link>
-        <div className="w-full max-w-[280px] border-t-2 border-purple-400 p-1 lg:w-full lg:max-w-[full]"></div>
-        <Link href='/servicespage' className={linkStyle}>
-          <HiOutlineCursorArrowRipple/>
-          <span className="left-menu__name">Сервисы</span>
-        </Link>
-        <Link href='/soon' className={linkStyle}>
-          <HiOutlineCog8Tooth/>
-          <span className="left-menu__name">Настройки</span>
-        </Link>
+        {routes.map((item, index) => (
+          <Fragment key={`${item.href}-${index}`} >
+            <div onClick={() => router.push(item.href)} className={linkStyle}>
+              <item.icon size={28}/>
+              <span className="left-menu__name">{item.label}</span>
+            </div>
+            {item.label === 'События' && (
+              <div className="w-full max-w-[280px] border-t-2 border-purple-400 p-1 lg:w-full lg:max-w-[full]"></div>
+            )}
+          </Fragment>
+        ))}
       </nav>
     </div>
   );

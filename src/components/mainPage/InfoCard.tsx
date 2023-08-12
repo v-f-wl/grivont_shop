@@ -16,7 +16,7 @@ const InfoCard:React.FC<InfoCardProps> = ({idValue,descriptionPrev, descriptionV
   const closeModal = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation()
     if(modalRef.current === event.target){
-      console.log(true)
+      setOpenModal(false)
     }
   }
   return (  
