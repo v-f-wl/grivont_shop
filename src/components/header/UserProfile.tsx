@@ -58,7 +58,7 @@ const UserProfile = () => {
         items-center 
         gap-3 
         cursor-pointer
-        text-gray-100
+        dark:text-gray-100 text-gray-900
         transition-color
       `}
     >
@@ -67,7 +67,7 @@ const UserProfile = () => {
           <span className="hidden lg:block text-inherit font-medium">{userData.name}</span>
         )
         :
-        <div className="w-[180px] h-8 bg-gray-600 animate-pulse rounded-xl hidden lg:block"></div>
+        <div className="w-[180px] h-8 dark:bg-gray-600 bg-gray-300 animate-pulse rounded-xl hidden lg:block"></div>
         }
       <div className="w-9 h-9 rounded-full bg-gray-400 overflow-hidden">
         {dataLoaded ? 
@@ -77,7 +77,7 @@ const UserProfile = () => {
           alt="img" 
         />)
         :
-        <div className="w-full h-full bg-gray-600 animate-pulse"></div>
+        <div className="w-full h-full dark:bg-gray-600 bg-gray-300 animate-pulse"></div>
         }
       </div>
     </Link>

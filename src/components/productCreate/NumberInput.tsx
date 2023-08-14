@@ -32,7 +32,7 @@ const NumericInput: React.FC<NumericInputProps> = ({changePrice, handleError, pl
     <div className="">
       <input
         type="text"
-        className={`${handleError ? 'border-red-400' : 'border-purple-400'} mt-4 border p-3 md:p-4 bg-inherit rounded-xl  text-purple-200 text-lg`}
+        className={`${handleError ? 'border-red-400' : 'border-purple-400'} mt-4 border p-3 md:p-4 bg-inherit rounded-xl  dark:text-purple-200 text-purple-600 text-lg`}
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}

@@ -39,7 +39,7 @@ const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
           className="
             mt-4 
             text-xl font-medium
-            text-purple-400 
+            dark:text-purple-400 text-purple-500
             h-[25vh]
             flex 
             items-center 
@@ -72,7 +72,8 @@ const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
           md:w-[300px]
           min-h-[200px] 
           max-h-[400px] 
-          bg-gray-800 p-6
+          dark:bg-gray-800 bg-gray-200
+          p-6
           rounded-xl
         `}
       >

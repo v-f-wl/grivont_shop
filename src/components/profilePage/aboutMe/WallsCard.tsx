@@ -99,7 +99,7 @@ const WallsCard:React.FC<WallsCardProps> = (
     <div 
       className={`
         ${postDeleted && 'hidden'}
-        bg-gray-800 p-3 md:p-8 rounded-xl flex flex-col gap-2 md:gap-4 z-0 relative
+        dark:bg-gray-800 bg-gray-100 p-3 md:p-8 rounded-xl flex flex-col gap-2 md:gap-4 z-0 relative
       `}
     >
       <div className={`${isUser ? 'block' : 'hidden'} absolute top-3 md:top-8 right-3 md:right-4`}>
@@ -117,7 +117,7 @@ const WallsCard:React.FC<WallsCardProps> = (
             w-[200px]
             right-4 
             rounded-xl 
-            bg-gray-700
+            dark:bg-gray-700 bg-gray-300
           `}
         >
           <ul className="p-2 flex flex-col gap-2">
@@ -131,21 +131,21 @@ const WallsCard:React.FC<WallsCardProps> = (
         </div>
       </div>
       <div className="">
-        <div className="text-md md:text-xl">{name}</div>
+        <div className="text-md dark:font-normal font-medium md:text-xl">{name}</div>
         <div className="text-sm md:text-base font-light text-gray-400">{dateString}</div>
       </div>
-      <h3 className="text-md md:text-xl font-medium text-indigo-300 pr-4 whitespace-normal  break-words">
+      <h3 className="text-md md:text-xl font-medium dark:text-indigo-300 text-gray-600 pr-4 whitespace-normal  break-words">
         {title}
       </h3>
       <div className="mt-2 md:mt-4 flex gap-3 md:gap-6 text-md md:text-xl">
         <div 
           onClick={() => targetLike()}
-          className={`${isLiked && 'border-red-400'} flex gap-2 items-center border rounded-full py-1 md:py-2 px-2 md:px-3 cursor-pointer`}
+          className={`${isLiked && 'border-red-400'} flex gap-2 items-center border-2 dark:border-white border-purple-400 rounded-full py-1 md:py-2 px-2 md:px-3 cursor-pointer`}
         >
           <HiOutlineHeart/>
           <span>{likeCount}</span>
         </div>
-        <div className="flex gap-2 items-center border rounded-full py-1 md:py-2 px-2 md:px-3">
+        <div className="flex gap-2 items-center border-2 dark:border-white border-purple-400 rounded-full py-1 md:py-2 px-2 md:px-3">
           <HiOutlineChatBubbleBottomCenterText/>
           <span>{commentCollection.length}</span>
         </div>

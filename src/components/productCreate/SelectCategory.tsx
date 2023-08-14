@@ -59,7 +59,7 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
           rounded-xl relative 
           z-30 
           
-          bg-gray-900 
+          dark:bg-gray-900 bg-white
           capitalize
         `}
       >
@@ -78,7 +78,8 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
           absolute 
           w-full 
           p-4
-          bg-gray-800  
+          dark:bg-gray-800 bg-white
+          dark:border-none border border-purple-400
           transition-all 
           flex 
           flex-col 

@@ -60,7 +60,7 @@ const CreateContainer = () => {
   }, [productData.category])
 
   const LocalTitle = ({title} : {title : string}) => {
-    return <h3 className="text-2xl text-gray-300 font-medium">{title}</h3>
+    return <h3 className="text-2xl dark:text-gray-200 text-gray-800 font-medium">{title}</h3>
   }
 
   const handleChangeData = (label: string, value: string | number) => {
@@ -119,7 +119,7 @@ const CreateContainer = () => {
   }
 
   return ( 
-    <div className="pt-[80px] md:pt-[120px] h-screen mb-[100px]">
+    <div className="pt-[80px] md:pt-[120px] pb-10 min-h-screen">
       <div className={`${loading ? 'flex' : 'hidden'} absolute inset-0 bg-slate-800 z-50  items-center justify-center`}>
         <AiOutlineLoading3Quarters size={53} className="animate-spin"/>
       </div>
@@ -134,7 +134,7 @@ const CreateContainer = () => {
               ${fieldsError.indexOf('title') > -1 ? 'border-red-400' : 'border-purple-400'} 
               w-full mt-4
               border capitalize border-purple-400 rounded-xl bg-inherit p-3 md:p-4 
-              text-purple-200 text-base md:text-lg
+              dark:text-purple-200 text-purple-600 text-base md:text-lg
             `}
             placeholder="Введите заголовок(минимальное количество символов 10)"
             value={productData.title}
@@ -154,7 +154,7 @@ const CreateContainer = () => {
               capitalize 
               rounded-xl 
               bg-inherit p-3 md:p-4 
-              text-purple-200 
+              dark:text-purple-200 text-purple-600 
               text-base md:text-lg
             `}
             placeholder="Опишите товар(минимальное количество символов 20)"

@@ -23,7 +23,7 @@ const HeaderContainer = () => {
         xl:max-w-[1100px]   
         flex 
         items-center
-        bg-gray-900
+        dark:bg-gray-900 bg-white
       "
     >
       <Logo/>

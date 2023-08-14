@@ -11,8 +11,8 @@
 
 html,
 body{
-  background-color: #111827;
-  color-scheme: dark;
+  /* background-color: #111827; */
+  /* color-scheme: dark; */
   white-space: normal;
   cursor: default;
 }
@@ -20,7 +20,7 @@ body{
 
 @media (min-width: 1024px) { 
   .left-menu{
-    transition: 0.3s;
+    transition: width 0.3s ease, font-size 0.3s ease;
   }
   .left-menu:hover {
     width: 280px;
@@ -32,15 +32,12 @@ body{
     display: none;
   }
   .left-menu__name{
-    transition: 0.3s;
+    transition: width 0.3s ease, font-size 0.3s ease;
     font-size: 0px;
     max-height: 35px;
     overflow: hidden;
   }
   
-  .left-menu__name:hover{
-    color: #fff;
-  }
 
 }
 
@@ -67,4 +64,15 @@ body{
 
 .category-item:hover .category-item__img{
   border: 1px solid #818cf8
+}
+
+
+@layer base {
+  :root {
+    --text-second: text-red-400;
+  }
+ 
+  .dark {
+    --text-second: text-blue-400;
+  }
 }

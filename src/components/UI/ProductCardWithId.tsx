@@ -63,13 +63,13 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
             top-4 
             right-4 
             bg-purple-400 
-            text-sm
+            text-sm text-white
           "
         >
           {productData.priceOfProduct} p
         </div>
       )}
-      <div className="w-full h-full aspect-square rounded-xl bg-gray-700 overflow-hidden">
+      <div className="w-full h-full aspect-square rounded-xl dark:bg-gray-400 bg-gray-200 overflow-hidden">
         {loaded ? 
           (
             <img 
@@ -80,32 +80,32 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
           ) 
           : 
           (
-            <div className="w-full h-full bg-gray-400 animate-pulse"></div>
+            <div className="w-full h-full dark:bg-gray-400 bg-gray-200 animate-pulse"></div>
           )
         }
       </div>
       {loaded ? 
           (
-            <h3 className="text-xl font-medium clamped-text">{productData.title}</h3>
+            <h3 className="text-xl h-[40px] font-medium clamped-text">{productData.title}</h3>
           ) 
           : 
           (
-            <div className="w-full h-[20px] bg-gray-400 animate-pulse rounded-xl"></div>
+            <div className="w-full h-[40px] dark:bg-gray-400 bg-gray-200 animate-pulse rounded-xl"></div>
           )
       }
       {loaded ? 
           (
-            <div className="font-light text-sm clamped-text-3 text-purple-300">{productData.description}</div>
+            <div className="font-light text-sm clamped-text-3 text-gray-800 dark:text-gray-100">{productData.description}</div>
           ) 
           : 
           (
-            <div className="w-full h-[40px] bg-gray-400 animate-pulse rounded-xl"></div>
+            <div className="w-full h-[40px] dark:bg-gray-400 bg-gray-200 animate-pulse rounded-xl"></div>
           )
       }
       {loaded ? 
           (
             <div onClick={() => router.push(`/productpage/?id=${productData._id}`)} className="flex items-center gap-6 justify-self-end">
-              <div className="border rounded-full py-2 px-4 hover:border-indigo-400 hover:text-indigo-400 transition-all cursor-pointer">Подробнее</div>
+              <div className="border-2 border-purple-400 dark:border-white rounded-full py-2 px-4 hover:border-indigo-400 hover:text-indigo-400 transition-all dark:text-white text-gray-900 cursor-pointer">Подробнее</div>
             </div>
           ) 
           : 

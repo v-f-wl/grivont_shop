@@ -39,7 +39,7 @@ const SelectCity:React.FC<SelectCityProps> = ({changeCity}) => {
       onClick={() => setOpenModal(prev => !prev)}
       className="w-full max-w-[400px] relative transition-all"
     >
-      <div className="border p-3 md:p-4 border-purple-400 rounded-xl relative z-20 bg-gray-900 capitalize">
+      <div className="border p-3 md:p-4 border-purple-400 rounded-xl relative z-20 dark:bg-gray-900 bg-white capitalize">
         {selectedCity !== '' ? selectedCity : 'Выберете город'}
         <div
           className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
@@ -55,7 +55,7 @@ const SelectCity:React.FC<SelectCityProps> = ({changeCity}) => {
           absolute 
           w-full 
           p-3 md:p-4
-          bg-gray-800  
+          dark:bg-gray-800 bg-white dark:border-none  border border-purple-400
           transition-all 
           flex 
           flex-col 

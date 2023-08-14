@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const obj = {...product._doc, productCount: item.count}
         basketItems.push(obj)
       }
-      console.log(basketItems)
+
       return res.status(200).json(basketItems);
     }
     catch (error) {

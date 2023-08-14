@@ -138,9 +138,13 @@ const BagList = () => {
   
       axios.post(`/api/createOrder/?userId=${userId}`, objForRequest)
         .then(res => {
+          console.log('seccess')
+        })
+        .then(() => {
           router.push('/orderspage')
         })
         .catch(error => {
+          setReqSended(false)
           console.log(error)
         })
     }
@@ -193,7 +197,7 @@ const BagList = () => {
             }
           </div>
           <div 
-            className="w-full lg:w-auto relative rounded-xl bg-gray-600 p-6 text-2xl font-bold"
+            className="w-full lg:w-auto relative rounded-xl dark:bg-gray-600 bg-gray-100 p-6 text-2xl font-bold"
           >
             <div className={`${reqSended ? 'block' : 'hidden'} absolute inset-0 z-30 rounded-xl bg-gray-700`}></div>
             <div 
@@ -215,7 +219,7 @@ const BagList = () => {
                 </div>
               </div>
             </div>
-            <span>
+            <span className="dark:text-white text-gray-900">
               Итого: {countInfo.totalPrice} руб.
             </span>
             <div 

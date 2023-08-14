@@ -59,13 +59,12 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
         onClick={handleFunction}
         className={`
           ${mute && 'opacity-20'}
-          ${mute ? '' : 'hover:border-purple-400'}
+          ${mute ? '' : 'dark:hover:border-purple-400 hover:border-purple-500'}
           ${mute ? '' : 'cursor-pointer'}
           flex 
           gap-4 
           items-center 
           border 
-          border-gray-800 
           p-4 
           rounded-xl  transition-all
         `}
@@ -82,7 +81,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
     <div className="md:relative">
       <HiOutlineSquaresPlus
         onClick={() => openModal(label)}
-        className={`${isOpen && 'text-indigo-400'} hover:text-indiыgo-400 transition-colors`}
+        className={`${isOpen && 'text-indigo-400'} hover:text-indigo-400 transition-colors`}
       />
       <div 
         className={`
@@ -96,7 +95,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
           md:-translate-x-1/2 
           w-full
           md:w-[340px]
-          bg-gray-800 p-3 md:p-6
+          dark:bg-gray-800 bg-gray-200 p-3 md:p-6
           rounded-xl
         `}
       >
@@ -130,7 +129,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
           md:-translate-x-1/2 
           w-full
           md:w-[400px]
-          bg-gray-800 p-3 md:p-6
+          dark:bg-gray-800 bg-gray-200 p-3 md:p-6
           rounded-xl
         `}
       >
@@ -156,12 +155,10 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
                   w-full 
                   mt-4 md:mt-8
                   border 
-                  h-[80px] resize-none  transition-all duration-300 outline-none
-                  border-purple-400 
-                  capitalize 
-                  rounded-xl 
-                  bg-inherit p-2
-                  text-purple-200 
+                  h-[80px] resize-none  outline-none
+                  border-purple-400 bg-inherit
+                  rounded-xl  p-2
+                dark:text-white text-gray-900
                   text-lg
                 '
                 placeholder='Введите текст'
@@ -173,7 +170,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
                   mt-2 md:mt-4
                   text-base 
                   flex 
-                  border 
+                  border dark:border-white border-purple-400
                   items-center 
                   justify-center 
                   p-2 

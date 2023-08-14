@@ -10,7 +10,7 @@ export default function Home() {
       className="
         relative
         h-screen 
-      bg-gray-900 
+      dark:bg-gray-900 bg-white
         overflow-y-scroll 
       "
     >

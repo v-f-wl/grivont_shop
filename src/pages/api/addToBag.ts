@@ -18,9 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const { userId, productId }: RequestBody = req.body
   
-      console.log(userId)
       let basket = await UserModel.findById(userId);
-      console.log(basket)
       if (!basket) {
         res.status(500).json({ message: "Пользователь не найден" })
       }

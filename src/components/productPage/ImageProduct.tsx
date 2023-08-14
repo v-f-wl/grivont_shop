@@ -114,6 +114,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     }else{
       axios.patch('/api/changeCountOfProduct', {productId, count: newCount})
         .then(res => setChangeLoadCount(false))
+        .then(() => window.location.reload())
         .catch(error => {
           setErrorChangeCount(true)
           setChangeLoadCount(false)
@@ -170,11 +171,11 @@ const ImageProduct:React.FC<ImageProductProps> = ({
       </div>
       <div className="flex-1">
         <h2 
-          className="text-2xl md:text-3xl lg:text-4xl text-purple-400 font-bold clamped-text"
+          className="text-2xl md:text-3xl lg:text-4xl dark:text-purple-400 text-gray-800 font-bold clamped-text"
         >
           {productTitle}
         </h2>
-        <div className="mt-4 lg:mt-8 inline-flex flex-col gap-1 md:gap-2 text-gray-500 text-sm md:text-base">
+        <div className="mt-4 lg:mt-8 inline-flex flex-col gap-1 md:gap-2 dark:text-gray-300 text-gray-700 text-sm md:text-base">
           <div className="text-lg font-light">
             <span className='text-purple-400'>Город: </span><span className="capitalize"> {city}</span>
           </div>
@@ -188,7 +189,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
             <span className='text-purple-400'>В наличии: </span><span className="capitalize">{countOfProducts}</span>
           </div>
         </div>
-        <div className="mt-5 text-gray-400 text-2xl font-medium">
+        <div className="mt-5 dark:text-gray-300 text-purple-400 text-2xl font-medium">
           {price} руб
         </div>
         <div className="mt-8">
@@ -234,7 +235,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                 </div>
                 <div 
                   onClick={deleteProduct}
-                  className="cursor-pointer text-gray-300 underline"
+                  className="cursor-pointer dark:text-gray-200 text-gray-800 underline"
                 >
                   Удалить
                 </div>
@@ -291,7 +292,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                           md:py-3 py-2 px-4 md:px-5
                           border border-purple-400
                           rounded-full 
-                          text-white 
+                          dark:text-white text-gray-900
                           text-bold 
                           text-xl
                           cursor-pointer hover:opacity-80 transition-all
@@ -307,7 +308,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                           md:py-3 py-2 px-4 md:px-5
                           border border-purple-400
                           rounded-full 
-                          text-white 
+                          dark:text-white text-gray-900 
                           text-bold 
                           text-xl
                           cursor-pointer hover:opacity-60 transition-all

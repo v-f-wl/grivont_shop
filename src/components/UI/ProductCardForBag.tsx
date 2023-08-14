@@ -80,7 +80,8 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
         gap-8 
         items-start
         rounded-xl 
-        bg-gray-700 
+        dark:bg-gray-700 bg-gray-100
+        dark:text-white text-black
         p-4
       `}
     >
@@ -120,7 +121,7 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
         <div className="flex gap-9 items-center">
           <Link 
             href={`/productpage/?id=${productId}`} 
-            className="border rounded-full py-1 px-3 hover:border-purple-400 hover:text-purple-400 transition-all">
+            className="border dark:border-white border-gray-900 rounded-full py-1 px-3 hover:border-purple-400 hover:text-purple-400 transition-all">
             О товаре 
           </Link>
           {loadDelete ? 

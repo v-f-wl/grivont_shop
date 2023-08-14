@@ -7,30 +7,25 @@ import Container from "@/components/UI/Container";
 import HeaderContainer from '@/components/header/HeaderContainer';
 import BagContainer from '@/components/bag/BagContainer';
 import dynamic from 'next/dynamic';
+import { ReduxProvider } from '@/redux/provider';
 const LeftMenu = dynamic(() => import('@/components/UI/LeftMenu'), { ssr: false });
 
 const RobotoMono = Roboto_Mono({ subsets: ['latin'] })
 
-export default function ProfilePage(){
-  return ( 
-    <div className={RobotoMono.className}>
-      <div 
-        className='
-          relative
-          h-screen 
-        bg-gray-900 
-          overflow-y-scroll 
-        '
-      >
-        <Head>
-          <title>Grivont - Bag</title>
-        </Head>
-        <Container>
+export default function BagLayout() {
+  return (
+    <div lang="en" suppressHydrationWarning>
+      <div className={RobotoMono.className}>
+      <div className="dark:bg-gray-900 bg-white h-screen">
+        <ReduxProvider>
+          <Container>
           <LeftMenu/>
           <HeaderContainer/>
           <BagContainer/>
-        </Container>
+          </Container>
+        </ReduxProvider>
+      </div>
       </div>
     </div>
-  );
+  )
 }

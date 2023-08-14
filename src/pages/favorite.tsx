@@ -17,9 +17,8 @@ export default function Favorite(){
       <div 
         className='
           relative
-          h-screen 
-        bg-gray-900 
-          overflow-y-scroll 
+          h-full 
+          dark:bg-gray-900 bg-white 
         '
       >
         <Head>

@@ -16,25 +16,27 @@ export default function soon(){
         className="
           relative
           h-screen 
-        bg-gray-900 
           overflow-y-scroll 
         "
       >
         <Head>
           <title>Grivont - Profile</title>
         </Head>
-        <Container>
+        <div className="dark:bg-gray-900 bg-white h-screen">
+          <Container>
           <LeftMenu/>
           <HeaderContainer/>
-          <div 
-            className="h-screen flex flex-col items-center justify-center gap-6"
-          >
-            <h2 className="font-bold text-5xl text-gray-400">
-              Страница в разработке 
-            </h2>
-            <Link className='underline text-purple-500' href='/'>Вернуться на главную страницу</Link>
-          </div>
-        </Container>
+            <div 
+              className="h-screen flex flex-col items-center justify-center gap-6"
+            >
+              <h2 className="font-bold text-5xl dark:text-gray-200 text-gray-900">
+                Страница в разработке 
+              </h2>
+              <Link className='underline text-purple-500' href='/'>Вернуться на главную страницу</Link>
+            </div>
+
+          </Container>
+      </div>
       </div>
     </div>
   );
