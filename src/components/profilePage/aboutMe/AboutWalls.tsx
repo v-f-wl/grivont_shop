@@ -27,13 +27,13 @@ const AboutWalls = () => {
 
   useEffect(() => {
     if(userID !== undefined){
-      axios.get(`/api/getPosts/?id=${userID}`)
+      axios.get(`/api/post/getPosts/?id=${userID}`)
       .then(res => {
         setPosts(res.data.posts.reverse())
         setLoaded(true)
       })
       .catch(() => console.log())
-      axios.get(`/api/getNameOfPost/?id=${userID}`)
+      axios.get(`/api/user/getNameOfPost/?id=${userID}`)
       .then(res => {
         setAuthtorName(res.data.name)
       })

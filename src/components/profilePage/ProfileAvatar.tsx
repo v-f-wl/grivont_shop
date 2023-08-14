@@ -28,7 +28,7 @@ const ProfileAvatar = () => {
 
   useEffect(() => {
     if(id !== undefined){
-      axios.get(`/api/getProfileName/?id=${id}`)
+      axios.get(`/api/user/getProfileName/?id=${id}`)
       .then(res => {
         settUserData(res.data)
         setIsLoaded(true)

@@ -1,6 +1,5 @@
 'use client'
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -38,7 +37,7 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
 
   useEffect(() => {
     if(productId !== undefined || productId !== null){
-      axios.get(`/api/getOneProduct/?id=${productId}`)
+      axios.get(`/api/product/getOneProduct/?id=${productId}`)
       .then(res => {
           if(res.data !== null){
             setProductData(res.data)

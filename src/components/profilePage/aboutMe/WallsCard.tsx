@@ -74,7 +74,7 @@ const WallsCard:React.FC<WallsCardProps> = (
   }
   const targetLike = () => {
     const data = {userId, postId: id}
-    axios.patch('/api/likeTarget', data)
+    axios.patch('/api/post/likeTarget', data)
     .then(() => {
       setIsLiked(prev => prev = !prev)
       if(isLiked === false){
@@ -89,7 +89,7 @@ const WallsCard:React.FC<WallsCardProps> = (
   }
 
   const deletePost = () => {
-    axios.delete(`/api/deletePost/?id=${id}`)
+    axios.delete(`/api/post/deletePost/?id=${id}`)
     .then(() => {
       setPostDeleted(true)
     })

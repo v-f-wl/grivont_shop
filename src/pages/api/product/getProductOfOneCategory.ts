@@ -1,6 +1,7 @@
+
 import { NextApiRequest, NextApiResponse } from 'next';
-import connectDB from "../../../utils/connectMongoDB";
-import ProductModal from '../../../models/Product'
+import connectDB from "../../../../utils/connectMongoDB";
+import ProductModal from '../../../../models/Product'
 /**
  * 
  * @param {import('next').NextApiRequest} req 
@@ -9,15 +10,14 @@ import ProductModal from '../../../models/Product'
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if(req.method === 'GET'){
+  if(req.method === 'GET') {
     try {
       await connectDB()
-      const { id } = req.query
-      const products = await ProductModal.find({ userRef: id }).exec()
-      res.json(products)
-    } 
-    catch (error) {
-      res.status(500).json({ message: 'Товары пользователя не найдены' })
+      const id = req.query.id
+      const product = await ProductModal.find({categoryLink: id})
+      res.json(product)
+    } catch (error) {
+      res.status(500).json({ message: 'Карточка товара не найдена' })
     }
   }else{
     return res.status(500).json({ message: "Запрос не является GET" })

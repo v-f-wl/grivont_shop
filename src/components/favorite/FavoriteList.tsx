@@ -12,7 +12,7 @@ const FavoriteList = () => {
 
   useEffect(() => {
     if(userId !== undefined){
-      axios.get(`/api/getFavoriteItem/?userId=${userId}`)
+      axios.get(`/api/favorite/getFavoriteItem/?userId=${userId}`)
         .then(res => {
           setFavoriteItem(res.data)
           setLoaded(true)

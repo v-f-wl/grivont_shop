@@ -29,7 +29,7 @@ const OrderContainer = () => {
 
   useEffect(() => {
     if(userId !== undefined){
-      axios(`/api/getOrders/?id=${userId}`)
+      axios(`/api/order/getOrders/?id=${userId}`)
       .then(res => {
         setOrdersData(res.data.reverse())
         return

@@ -49,7 +49,7 @@ const ProductContainer = () => {
   const fetchProductData = async () => {
     if (id !== undefined) {
       try {
-        const response = await axios.get(`/api/getOneProduct/?id=${id}`);
+        const response = await axios.get(`/api/product/getOneProduct/?id=${id}`);
         if (!response.data) {
           router.push('/error');
         } else {

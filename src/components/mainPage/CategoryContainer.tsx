@@ -11,7 +11,7 @@ interface CategoryData{
 const CategoryContainer = () => {
   const [categoryData, setCategoryData] = useState<CategoryData[]>([])
   useEffect(() => {
-    axios.get('/api/getCategory')
+    axios.get('/api/category/getCategory')
     .then(res => {
       setCategoryData(res.data)
     })

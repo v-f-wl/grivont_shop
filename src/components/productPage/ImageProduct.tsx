@@ -61,11 +61,11 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     const fetchData = async () => {
       if (productId !== undefined && userId !== undefined) {
         try {
-          const bagResponse = await axios.get(`/api/checkProductInBag/?userId=${userId}&productId=${productId}`);
+          const bagResponse = await axios.get(`/api/bag/checkProductInBag/?userId=${userId}&productId=${productId}`);
           setInBag(bagResponse.data.result);
           setLoaded(true);
 
-          const favoriteResponse = await axios.get(`/api/checkProductInFavorite/?userId=${userId}&productId=${productId}`);
+          const favoriteResponse = await axios.get(`/api/favorite/checkProductInFavorite/?userId=${userId}&productId=${productId}`);
           setInFavorite(favoriteResponse.data.result);
           setLoadedFavorite(true);
         } catch (error) {
@@ -82,7 +82,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     const fetchAuthorNick = async () => {
       if (userRef !== undefined) {
         try {
-          const profileNameResponse = await axios.get(`/api/getProfileName/?id=${userRef}&onlyNick=true`);
+          const profileNameResponse = await axios.get(`/api/user/getProfileName/?id=${userRef}&onlyNick=true`);
           setAuthtorNick(profileNameResponse.data.nickname);
         } catch (error) {
           console.log(error);
@@ -112,7 +112,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     if(newCount < 1 || loadChangeCount === true){
       return
     }else{
-      axios.patch('/api/changeCountOfProduct', {productId, count: newCount})
+      axios.patch('/api/product/changeCountOfProduct', {productId, count: newCount})
         .then(res => setChangeLoadCount(false))
         .then(() => window.location.reload())
         .catch(error => {
@@ -125,7 +125,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   const addToBag = async () => {
     if (productId !== undefined && userId !== undefined && !inBag) {
       try {
-        await axios.post('/api/addToBag', { userId, productId });
+        await axios.post('/api/bag/addToBag', { userId, productId });
         setInBag(true);
       } catch (error) {
         console.log(error, 'error');
@@ -138,9 +138,9 @@ const ImageProduct:React.FC<ImageProductProps> = ({
       setLoadedFavorite(false);
       try {
         if (!inFavorite) {
-          await axios.post('/api/addToFavorite', { userId, productId });
+          await axios.post('/api/favorite/addToFavorite', { userId, productId });
         } else {
-          await axios.patch('/api/deleteFavoriteItem', { userId, productId });
+          await axios.patch('/api/favorite/deleteFavoriteItem', { userId, productId });
         }
         setInFavorite(!inFavorite);
         setLoadedFavorite(true);
@@ -154,7 +154,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     if(productId === undefined || imgId === undefined){
       return
     }
-    axios.delete(`/api/deleteProduct/?productId=${productId}&imgId=${imgId}`)
+    axios.delete(`/api/product/deleteProduct/?productId=${productId}&imgId=${imgId}`)
       .then((res) => {
         router.push('/')
       })

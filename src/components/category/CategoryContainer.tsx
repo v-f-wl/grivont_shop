@@ -30,7 +30,7 @@ const CategoryContainer = () => {
   
   useEffect(() => {
     if(categoryLink !== undefined){
-      axios.get(`/api/getProductOfOneCategory/?id=${categoryLink}`)
+      axios.get(`/api/product/getProductOfOneCategory/?id=${categoryLink}`)
       .then(res => {
         setProductData(res.data)
         setLoaded(true)

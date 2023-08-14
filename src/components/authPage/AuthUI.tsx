@@ -43,7 +43,7 @@ export const Title:React.FC<StringProps> = ({title}) => {
  
 export const SubTitle:React.FC<StringProps> = ({title}) => {
   return ( 
-    <div className="text-md md:text-xl text-gray-300 text-center">
+    <div className="text-md md:text-xl dark:text-gray-200 text-gray-700 text-center">
       {title}
     </div>
   );
@@ -62,7 +62,8 @@ export const Button:React.FC<ButtonProps> = ({title, handleClick}) => {
     <div 
       onClick={handleClick}
       className="
-        border 
+        border dark:border-gray-200
+        border-gray-800
         p-3 
         rounded-md 
         flex 

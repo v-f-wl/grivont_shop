@@ -57,7 +57,7 @@ const LogIn = () => {
     setNotValidField([])
     validValue(() => {
       if(notValidField.length === 0){
-        axios.post('/api/login', userData)
+        axios.post('/api/user/login', userData)
         .then(res => {
           Cookies.set('id', res.data._id)
           Cookies.set('token', res.data.token)

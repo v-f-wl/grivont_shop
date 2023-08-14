@@ -1,11 +1,13 @@
+
 import { NextApiRequest, NextApiResponse } from 'next';
-import connectDB from "../../../utils/connectMongoDB";
-import UserModal from '../../../models/User'
+import connectDB from "../../../../utils/connectMongoDB";
+import UserModal from '../../../../models/User'
 /**
  * 
  * @param {import('next').NextApiRequest} req 
  * @param {import('next').NextApiResponse} res 
  */
+
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectDB()
@@ -18,20 +20,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
       }
       const user = await UserModal.findById(userId)
-      
       if(!user){
+
         res.status(505).json({ message: 'Пользователь не найден' })
       }
-
       const { favorites } = user
 
-
-      for(const item in favorites){
-        if(favorites[item].productId === productId){
-          res.status(200).json({ result: true })
-        }
+      if(favorites.indexOf(productId) > -1){
+        res.status(200).json({ result: true })
+      }else{
+        res.status(200).json({ result: false })
       }
-      res.status(200).json({ result: false })
       
     }
     catch (error) {

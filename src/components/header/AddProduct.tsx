@@ -64,7 +64,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
       setSendPost(false)
       return false
     }else(
-      axios.post('/api/createPost', {userId, postText})
+      axios.post('/api/post/createPost', {userId, postText})
       .then((res) => {
         setSendPost(false)
         setPostText('')

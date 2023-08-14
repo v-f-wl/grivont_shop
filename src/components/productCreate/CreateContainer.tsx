@@ -106,9 +106,9 @@ const CreateContainer = () => {
       }
       const file = JSON.stringify({data: productData.imageSrc})
 
-      const uploadResponse = await axios.post('/api/uploadImage', file, {headers})
+      const uploadResponse = await axios.post('/api/product/uploadImage', file, {headers})
       const bodyInfo = {...productData, imageData: [uploadResponse], categoryLink: categoryMappings[productData.category]}
-      axios.post('/api/createProduct', bodyInfo)
+      axios.post('/api/product/createProduct', bodyInfo)
       .then(res => {
         router.push(`/profilepage/?id=${userId}`)
       })

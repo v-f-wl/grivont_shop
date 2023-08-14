@@ -27,7 +27,7 @@ const UserProfile = () => {
     if (!router || (!userId || !token)) {
       router.push('/auth');
     } else {
-      axios.post('/api/checkToken', { userId, token })
+      axios.post('/api/user/checkToken', { userId, token })
         .then(response => {
           const { fullName, _id, img } = response.data.user;
           const userDataObj = {

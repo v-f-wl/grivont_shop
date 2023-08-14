@@ -75,7 +75,7 @@ const BagList = () => {
     const fetchBagItems = async () => {
       if (userId !== undefined) {
         try {
-          const response = await axios.get(`/api/getBagItems/?userId=${userId}`);
+          const response = await axios.get(`/api/bag/getBagItems/?userId=${userId}`);
           setBagData(response.data)
           return response.data
         } catch (error) {
@@ -136,9 +136,9 @@ const BagList = () => {
         }))
       }
   
-      axios.post(`/api/createOrder/?userId=${userId}`, objForRequest)
-        .then(res => {
-          return res.data
+      axios.post(`/api/order/createOrder/?userId=${userId}`, objForRequest)
+        .then(() => {
+          setBagData([])
         })
         .then(() => {
           router.push('/orderspage')

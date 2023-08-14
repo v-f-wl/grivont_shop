@@ -17,14 +17,14 @@ const ProductContainer:React.FC<ProductContainerProps> = ({label, title, hasItem
 
 
   const fetchPopularProducts = () => {
-    axios.get('/api/getPopular')
+    axios.get('/api/category/getPopular')
       .then(response => setProductId(response.data))
       .catch(error => console.log('Error fetching popular products:', error));
   };
   
   const fetchFavoriteItems = () => {
     if (userId) {
-      axios.get(`/api/getFavoriteItem/?userId=${userId}`)
+      axios.get(`/api/favorite/getFavoriteItem/?userId=${userId}`)
         .then(response => setFavorite(response.data))
         .catch(error => console.log('Error fetching favorite items:', error));
     }

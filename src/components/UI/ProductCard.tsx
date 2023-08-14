@@ -1,7 +1,5 @@
 'use client'
 import Link from 'next/link'
-import { Fragment, useEffect, useState } from 'react'
-import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 
 interface ProductCardProps{

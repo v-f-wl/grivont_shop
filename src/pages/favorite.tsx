@@ -17,7 +17,7 @@ export default function Favorite(){
       <div 
         className='
           relative
-          h-full 
+          h-screen 
           dark:bg-gray-900 bg-white 
         '
       >

@@ -36,7 +36,7 @@ const AdsContainer:React.FC<AdsContainerProps> = ({idUser}) => {
 
   useEffect(() => {
     if(userId !== undefined){
-      axios.get(`/api/getProductsOfPerson/?id=${userId}`)
+      axios.get(`/api/product/getProductsOfPerson/?id=${userId}`)
       .then((res) => {
         setLoaded(true)
         setProductData(res.data.reverse())

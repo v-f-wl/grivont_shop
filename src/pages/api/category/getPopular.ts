@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import connectDB from "../../../utils/connectMongoDB";
-import MetricaModel from '../../../models/Metrica'
+import connectDB from "../../../../utils/connectMongoDB";
+import MetricaModel from '../../../../models/Metrica'
 /**
  * 
  * @param {import('next').NextApiRequest} req 

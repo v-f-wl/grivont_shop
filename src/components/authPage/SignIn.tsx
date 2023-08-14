@@ -85,7 +85,7 @@ const SignIn = () => {
           password: userData.password
     
         }
-        axios.post('/api/createAccount', data)
+        axios.post('/api/user/createAccount', data)
         .then(res => {
           Cookies.set('id', res.data._doc._id)
           Cookies.set('token', res.data.token)
@@ -117,7 +117,8 @@ const SignIn = () => {
             cursor-pointer 
             p-2 
             rounded-md 
-            bg-purple-400 bg-opacity-20
+          bg-purple-400
+            dark:bg-opacity-20 bg-opacity-70 text-gray-800 dark:text-gray-100
             text-sm font-light
           "
         >

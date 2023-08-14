@@ -47,7 +47,7 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
   const deletProduct = () => {
     setLoadDelete(true)
     if(isDeleted === false && userId !== undefined){
-      axios.patch('/api/deleteBagItem', {userId, productId: productId}).
+      axios.patch('/api/bag/deleteBagItem', {userId, productId: productId}).
       then(() => {
         setIsDeleted(prev => !prev)
         setLoadDelete(false)
