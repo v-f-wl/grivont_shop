@@ -138,7 +138,7 @@ const BagList = () => {
   
       axios.post(`/api/createOrder/?userId=${userId}`, objForRequest)
         .then(res => {
-          console.log('seccess')
+          return res.data
         })
         .then(() => {
           router.push('/orderspage')

@@ -51,19 +51,10 @@ const ProfileAvatar = () => {
               {userData.fullName}
             </h2>
           </div>
-          <div className="text-lg font-medium">
-            @{userData.nickname}
-          </div>
-          {/* <div className="flex items-center flex-wrap gap-3 md:gap-6">
-            <div className="flex items-center gap-1">
-              {userData.subscribers.length} подписчики
+            <div className="text-lg font-medium">
+              @{userData.nickname}
             </div>
-            <div className="flex items-center gap-1">
-            {userData.subscriptions.length} подписки
-            </div>
-          </div> */}
           </div>
-
         )
         :
         (

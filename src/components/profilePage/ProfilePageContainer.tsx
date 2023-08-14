@@ -73,7 +73,7 @@ const ProfilePageContainer = () => {
 
   const CreatorFunction = () =>{
     return (
-      <div className="flex gap-4">
+      <div className="flex gap-4 opacity-30">
         <Button title="Сообщения"/>
         {/* <Button title="Подписаться"/> */}
       </div>

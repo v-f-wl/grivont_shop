@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { HiOutlineSquaresPlus, HiOutlineTag, HiOutlineCalendarDays, HiOutlineXMark, HiOutlineHashtag  } from 'react-icons/hi2'
 import Cookies from "js-cookie";
 import axios from 'axios';
@@ -26,7 +26,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
   const [openPost, setOpenPost] = useState<boolean>(false)
   const [postText, setPostText] = useState<string>('')
   const userId = Cookies.get('id')
-
+  const divRef = useRef<HTMLDivElement | null>(null)
   useEffect(() => {
     setIsOpen(modalValue === label)
     setOpenPost(modalValue === 'post')
@@ -35,6 +35,28 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
   const postModal = () => {
     openModal('post')
   }
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Element
+      const elementWithId = document.getElementById('addproduct')
+      if (divRef.current && !divRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('click', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
+
+
+  useEffect(() => {
+    if(isOpen === false && modalValue === label){
+      openModal('')
+    }
+  }, [isOpen])
+
 
   const createPost = () => {
     setSendPost(true)
@@ -78,7 +100,9 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
   }
 
   return (  
-    <div className="md:relative">
+    <div 
+      ref={divRef}
+      className="md:relative" id='addproduct'>
       <HiOutlineSquaresPlus
         onClick={() => openModal(label)}
         className={`${isOpen && 'text-indigo-400'} hover:text-indigo-400 transition-colors`}

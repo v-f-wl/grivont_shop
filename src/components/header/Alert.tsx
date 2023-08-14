@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { HiOutlineBellAlert } from 'react-icons/hi2'
 import Loading from '../UI/Loading';
 
@@ -11,17 +11,33 @@ interface AlertProps{
 const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
   const label: string = 'alert'
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [hasPush, setHasPush] = useState<Object[]>([]);
-  const [loadPush, serLoadPush] = useState<boolean>(false);
+  const [hasPush, setHasPush] = useState<Object[]>([])
+  const [loadPush, serLoadPush] = useState<boolean>(true)
+  const divRef = useRef<HTMLDivElement | null>(null)
+
+
+  
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Element
+      const elementWithId = document.getElementById('addproduct')
+      if (divRef.current && !divRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('click', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
+
 
   useEffect(() => {
-    const updateStateWithTimeout = () => {
-      setTimeout(() => {
-        serLoadPush(true);
-      }, 3000);
-    };
-    updateStateWithTimeout();
-  }, []);
+    if(isOpen === false && modalValue === label){
+      openModal('')
+    }
+  }, [isOpen])
 
   useEffect(() => {
     setIsOpen(modalValue === label)
@@ -52,7 +68,10 @@ const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
     }
   }
   return ( 
-    <div className="md:relative">
+    <div 
+      ref={divRef}
+      className="md:relative"
+    >
       <HiOutlineBellAlert 
         onClick={() => openModal(label)}
         className={`${isOpen && 'text-indigo-400'} hover:text-indigo-400 transition-colors`}
@@ -64,7 +83,7 @@ const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
           ${isOpen ? 'visible' : 'invisible'}
           absolute transition-all
           top-14
-          md:top-12
+          md:top-12 overflow-y-scroll
           left-0 
           w-full
   

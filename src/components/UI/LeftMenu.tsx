@@ -22,8 +22,9 @@ const LeftMenu: React.FC = () => {
   const router = useRouter()
   const userID = Cookies.get('id')
 
-  const linkStyle = 'text-xl p-2 lg:text-4xl flex w-full gap-3 text-gray-100  justify-start rounded-xl items-center cursor-pointer font-light'
-  const styleForComponent = `${mobileBurger ? 'w-full' : 'w-50px'} ${mobileBurger ? 'dark:bg-gray-700 bg-purple-500' : ''} 
+  const linkStyle = `text-xl p-2 lg:text-4xl flex w-full gap-3 dark:text-gray-100 ${mobileBurger ? 'text-purple-500' : 'text-white'}  text-purple-500  justify-start rounded-xl items-center cursor-pointer font-light`
+
+  const styleForComponent = `${mobileBurger ? 'w-full' : 'w-50px'} ${mobileBurger ? 'dark:bg-gray-700 bg-white' : ''} 
     left-menu lg:hover:shadow-lg lg:hover:shadow-indigo-500/50  py-2 md:py-4 px-1 lg:py-6 lg:px-4 fixed z-40 left-0 top-0 
     lg:absolute lg:top-3 lg:left-3 lg:bottom-3  lg:w-[76px]  dark:lg:bg-gray-700 lg:bg-purple-500   lg:rounded-xl   
     duration-300 flex flex-col gap-6 items-center`
@@ -77,8 +78,8 @@ const LeftMenu: React.FC = () => {
         onClick={() => setMobileBurger(prev => !prev)}
         className="flex items-center gap-4"
       >
-        <BiHive size={48} className="dark:text-purple-700 text-white  lg:hover:rotate-90 cursor-pointer mr-1"/>
-        <span className={`${mobileBurger ? 'block' : 'hidden'} left-menu__name left-menu__name--logo text-2xl font-bold`}>Grivont</span>
+        <BiHive size={48} className='text-purple-500  lg:hover:rotate-90 cursor-pointer mr-1'/>
+        <span className={`${mobileBurger ? 'block' : 'hidden'} left-menu__name left-menu__name--logo text-purple-500 text-2xl font-bold`}>Grivont</span>
       </div>
       <div 
         onClick={() => setMobileBurger(false)}
@@ -96,6 +97,7 @@ const LeftMenu: React.FC = () => {
           ${mobileBurger ? 'left-0' : ''}  
           ${mobileBurger ? 'w-full' : ''}  
           ${mobileBurger ? 'h-screen' : ''}  
+          ${mobileBurger ? 'bg-white' : ''}  
           lg:visible
           top-[23px]
           md:top-[40px]
@@ -104,7 +106,7 @@ const LeftMenu: React.FC = () => {
           lg:pt-0
           
           z-30
-          dark:bg-gray-700 bg-purple-500
+          dark:bg-gray-700 
           absolute 
           lg:static
           mt-10 
@@ -122,7 +124,7 @@ const LeftMenu: React.FC = () => {
               <span className="left-menu__name">{item.label}</span>
             </div>
             {item.label === 'События' && (
-              <div className="w-full max-w-[280px] border-t-2 dark:border-purple-400 text-white p-1 lg:w-full lg:max-w-[full]"></div>
+              <div className="w-full max-w-[280px] border-t-2 border-purple-400  p-1 lg:w-full lg:max-w-[full]"></div>
             )}
           </Fragment>
         ))}

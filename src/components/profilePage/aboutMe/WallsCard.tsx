@@ -145,7 +145,7 @@ const WallsCard:React.FC<WallsCardProps> = (
           <HiOutlineHeart/>
           <span>{likeCount}</span>
         </div>
-        <div className="flex gap-2 items-center border-2 dark:border-white border-purple-400 rounded-full py-1 md:py-2 px-2 md:px-3">
+        <div className="flex gap-2 items-center border-2 dark:border-white border-purple-400 rounded-full py-1 md:py-2 px-2 md:px-3 opacity-40">
           <HiOutlineChatBubbleBottomCenterText/>
           <span>{commentCollection.length}</span>
         </div>

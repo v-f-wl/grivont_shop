@@ -6,6 +6,7 @@ import ThemeToggle from '../themeProvider/ThemeToggle';
 
 const NavHeader = () => {
   const [modalCategory, setModalCategory] = useState<string>('')
+
   const changeModal = (title: string) => {
     if(modalCategory === title){
       setModalCategory('')
