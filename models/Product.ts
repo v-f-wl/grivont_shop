@@ -31,6 +31,10 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    countOfProducts: {
+      type: Number,
+      default: 1
+    },
     imageSrc: {
       type: Array,
       default: []

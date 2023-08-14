@@ -45,7 +45,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
       axios.post('/api/createPost', {userId, postText})
       .then((res) => {
         setSendPost(false)
-        setPostText(prev => prev = '')
+        setPostText('')
         openModal(label)
       })
       .catch(() => {

@@ -24,26 +24,27 @@ const UserProfile = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if(router && (userId === undefined || token === undefined)){
-      router.push('/auth')
+    if (!router || (!userId || !token)) {
+      router.push('/auth');
+    } else {
+      axios.post('/api/checkToken', { userId, token })
+        .then(response => {
+          const { fullName, _id, img } = response.data.user;
+          const userDataObj = {
+            name: fullName,
+            imageSrc: img,
+            id: _id
+          };
+          setUserData(userDataObj);
+          setDataLoaded(true);
+        })
+        .catch(error => {
+          console.log('Error checking token:', error);
+          router.push('/auth');
+        });
     }
-    if(userId !== undefined || token !== undefined ){
-      axios.post('/api/checkToken', {userId: userId, token: token})
-      .then(res => {
-        const { fullName, _id, img } = res.data.user
-        const obj = {
-          name: fullName,
-          imageSrc: img,
-          id:_id
-        }
-        setUserData(obj)
-      })
-      .then(() => setDataLoaded(true))
-      .catch(() => {
-        router.push('/auth')
-      })
-    }
-  }, [token, userId])
+  }, [token, userId, router]);
+  
 
   return (  
     <Link 

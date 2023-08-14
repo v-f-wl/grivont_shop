@@ -23,6 +23,7 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: []
     },
+
     orderHistory: [
       {
         orderNumber: { type: String, required: true },
@@ -34,10 +35,17 @@ const UserSchema = new mongoose.Schema(
             productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
             image: { type: String },
             title: { type: String },
+            count: { type: Number, default: 1 },
             _id: { type: String },
           }
         ],
         status: { type: String, default: false },
+      }
+    ],
+    cart: [
+      {
+        count: { type: Number, default: 1 },
+        productId: { type: String, required: true }
       }
     ],
     passwordHash: {

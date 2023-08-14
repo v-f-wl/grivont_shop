@@ -20,7 +20,9 @@ interface initialStateProps {
   title: string,
   description: string,
   imageSrc: ImageObj[],
-  priceOfProduct: number
+  priceOfProduct: number,
+  countOfProducts: number,
+  productCount: number,
 }
 
 interface CountObj{
@@ -70,64 +72,91 @@ const BagList = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if(userId !== undefined){
-      axios.get(`/api/getBagItems/?userId=${userId}`)
-      .then(res => {
-        setBagData(res.data)
-        return res.data
-      })
-      .then((data) => {
-        let handler: number = 0
-        let count = 0
-        for(let item of data){
-          count++
-          handler = handler + item.priceOfProduct
+    const fetchBagItems = async () => {
+      if (userId !== undefined) {
+        try {
+          const response = await axios.get(`/api/getBagItems/?userId=${userId}`);
+          setBagData(response.data)
+          return response.data
+        } catch (error) {
+          console.log(error)
         }
-        setCountInfo(prev => ({ ...prev, totalPrice: handler }))
-        setCountInfo(prev => ({ ...prev, totalCount: count }))
-      })
-      .then(() => {
-        setLoaded(true)
-      })
-      .catch(error => console.log(error))
+      }
+      return null
     }
+  
+    const processDataAndSetLoaded = async () => {
+      const data = await fetchBagItems()
+      if (data !== null) {
+        setLoaded(true)
+      }
+    }
+  
+    processDataAndSetLoaded();
   }, [userId])
 
-  const changeCount = (value: number) => {
-    setCountInfo(prev => {
-      const obj = {...prev }
-      obj.totalPrice = prev.totalPrice - Math.abs(value)
-      obj.totalCount = prev.totalCount - 1
-      return obj
-    })
-  }
+
+  useEffect(() => {
+    changePrice(bagData)
+  }, [bagData])
+
+
+
+  const changePrice = (data: initialStateProps[]) => {
+    let totalPrice = 0
+    let totalCount = 0
+
+    for (const item of data) {
+      totalCount++
+      totalPrice += item.priceOfProduct * item.productCount
+    }
+
+    setCountInfo(prev => ({
+      ...prev,
+      totalPrice,
+      totalCount
+    }))
+  };
 
   const sendRequest = () => {
-    const orderNumber =  generateOrderNumber(7)
-    if(userId !== undefined){
+    if (userId !== undefined) {
+      const orderNumber = generateOrderNumber(7);
+  
       setReqSended(true)
+  
       const objForRequest: objForRequest = {
-        orderNumber: orderNumber,
+        orderNumber,
         totalPrice: countInfo.totalPrice,
         totalCount: countInfo.totalCount,
-        items:[]
-      }
-  
-      for(const item of bagData){
-        const obj = {
+        items: bagData.map(item => ({
           productId: item._id,
           image: item.imageSrc[0].data.url,
-          title: item.title
-        }
-        objForRequest.items.push(obj)
+          title: item.title,
+          count: item.productCount
+        }))
       }
+  
       axios.post(`/api/createOrder/?userId=${userId}`, objForRequest)
-      .then(res => {
-        setReqSended(false)
-        router.push('/orderspage')
-      })
-      .catch(error => console.log(error))
+        .then(res => {
+          router.push('/orderspage')
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
+  }
+
+  const changeCountOfProduct = (productId: string, value: number) => {
+    setBagData(prev => {
+      const arr = [...prev]
+      for(let item of arr){
+        if(item._id === productId){
+          item.productCount = value
+          break
+        }
+      }
+      return arr
+    })
   }
 
 
@@ -146,11 +175,13 @@ const BagList = () => {
                       productId={item._id}
                       imageSrc={item.imageSrc[0].data.url}
                       productTitle={item.title}
-                      productDescription={item.description}
                       productPrice={item.priceOfProduct}
-                      wasDeleted={changeCount}
+                      countOfProducts={item.countOfProducts}
+                      countInBag={item.productCount}
                       userId={userId}
                       orderLoading={reqSended}
+
+                      updateCount={changeCountOfProduct}
                     />
                   ))}
                 </div>
@@ -215,7 +246,7 @@ const BagList = () => {
       ) 
     }
     </>
-  );
+  )
 }
  
 export default BagList;

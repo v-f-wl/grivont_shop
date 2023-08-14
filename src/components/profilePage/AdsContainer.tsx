@@ -17,11 +17,11 @@ interface ImageObj{
 
 interface InitialStateProps{
   priceOfProduct: number,
+  countOfProducts: number,
   _id: string,
   basePlace:string,
   category:string,
   createdAt:string,
-  description:string,
   imageSrc: ImageObj[],
   title:string,
   userRef:string,
@@ -57,9 +57,9 @@ const AdsContainer:React.FC<AdsContainerProps> = ({idUser}) => {
                   key={item._id} 
                   link={item._id}
                   title={item.title}
-                  description={item.description}
                   imageSrc={item.imageSrc[0].data.url}
                   price={item.priceOfProduct}
+                  count={item.countOfProducts}
                 />
               ))
 

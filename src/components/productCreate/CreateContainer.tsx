@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import SelectCategory from "./SelectCategory";
 import { categoryMappings } from "../../../utils/categoryMappings";
 import AddImage from "./AddImage";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface InitialStateProps{
   title: string;
@@ -20,12 +21,14 @@ interface InitialStateProps{
   categoryLink: string;
   userId: string;
   price: number;
+  count: number;
 }
 const initialState: InitialStateProps = {
   title: '',
   description: '',
   city: 'Mосква',
   price: 0,
+  count: 0,
   category: '',
   categoryLink: '',
   imageSrc: '',
@@ -36,6 +39,7 @@ const CreateContainer = () => {
   const [productData, setProductData] = useState<InitialStateProps>(initialState)
   const [errorCreate, setErrorCreate] = useState<boolean>(false)
   const [fieldsError, setFieldsError] = useState<string []>([])
+  const [loading, setLoading] = useState<boolean>(false)
   const userId = Cookies.get('id')
   const router = useRouter()
   
@@ -83,12 +87,16 @@ const CreateContainer = () => {
     if(productData.imageSrc === ''){
       errorFieds.push('image')
     }
+    if(productData.count < 1){
+      errorFieds.push('count')
+    }
     setFieldsError(errorFieds)
     if(errorFieds.length === 0 ){
       callback()
     }else return
   }
   const createProduct = () => {
+    setLoading(true)
     setFieldsError([])
     validationValue(sendData)
   }
@@ -99,19 +107,22 @@ const CreateContainer = () => {
       const file = JSON.stringify({data: productData.imageSrc})
 
       const uploadResponse = await axios.post('/api/uploadImage', file, {headers})
-      console.log(uploadResponse)
       const bodyInfo = {...productData, imageData: [uploadResponse], categoryLink: categoryMappings[productData.category]}
       axios.post('/api/createProduct', bodyInfo)
       .then(res => {
         router.push(`/profilepage/?id=${userId}`)
       })
       .catch(() => {
+        setLoading(false)
         setErrorCreate(true)
       })
   }
 
   return ( 
     <div className="pt-[80px] md:pt-[120px] h-screen mb-[100px]">
+      <div className={`${loading ? 'flex' : 'hidden'} absolute inset-0 bg-slate-800 z-50  items-center justify-center`}>
+        <AiOutlineLoading3Quarters size={53} className="animate-spin"/>
+      </div>
       <Title title="Добавить продукт"/>
       <div className="mt-5 md:mt-8 flex flex-col gap-4 md:gap-10">
         <div className="">
@@ -151,8 +162,8 @@ const CreateContainer = () => {
           >
           </textarea>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          <div>
+        <div className="flex flex-wrap gap-x-10 gap-y-4  items-start">
+          <div className="">
             <LocalTitle title='Выберете город'/>
             <div className="mt-4">
               <SelectCity changeCity={handleChangeData}/>
@@ -163,6 +174,19 @@ const CreateContainer = () => {
             <NumericInput 
               handleError={fieldsError.indexOf('price') > -1}
               changePrice={handleChangeData}
+              placeholderValue='От 100'
+              label="руб."
+              argument="price"
+              />
+          </div>
+          <div>
+            <LocalTitle title="Укажите количество товара"/>
+            <NumericInput 
+              handleError={fieldsError.indexOf('count') > -1}
+              changePrice={handleChangeData}
+              placeholderValue='От 1'
+              label='шт.'
+              argument="count"
               />
           </div>
         </div>

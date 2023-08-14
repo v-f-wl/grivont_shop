@@ -9,7 +9,9 @@ const AuthContainer = () => {
 
   useEffect(() => {
     setPageItem(page)
-  }, [page]);
+  }, [page])
+
+  
   const renderComponent = () => {
     switch(pageItem){
       case 'signin':

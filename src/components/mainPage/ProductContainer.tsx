@@ -14,17 +14,29 @@ const ProductContainer:React.FC<ProductContainerProps> = ({label, title, hasItem
   const [productId, setProductId] = useState<string[]>([])
   const [favorite, setFavorite] = useState<string[]>([])
   const userId = Cookies.get('id')
-  useEffect(() => {
-    if(label === 'popular'){
-      axios.get('/api/getPopular')
-      .then(res => setProductId(res.data))
-    }else if(label === 'mark' && userId !== undefined){
+
+
+  const fetchPopularProducts = () => {
+    axios.get('/api/getPopular')
+      .then(response => setProductId(response.data))
+      .catch(error => console.log('Error fetching popular products:', error));
+  };
+  
+  const fetchFavoriteItems = () => {
+    if (userId) {
       axios.get(`/api/getFavoriteItem/?userId=${userId}`)
-      .then(res => {
-        setFavorite(res.data)
-      })
+        .then(response => setFavorite(response.data))
+        .catch(error => console.log('Error fetching favorite items:', error));
     }
-  },[label, userId])
+  };
+  
+  useEffect(() => {
+    if (label === 'popular') {
+      fetchPopularProducts();
+    } else if (label === 'mark') {
+      fetchFavoriteItems();
+    }
+  }, [label, userId]);
 
   const renderProduct = () => {
     const cardProduct: JSX.Element[]  = []

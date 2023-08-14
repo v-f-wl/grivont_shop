@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from "../../../utils/connectMongoDB";
-import BasketModel from '../../../models/Basket'
+import UserModel from '../../../models/User'
 /**
  * 
  * @param {import('next').NextApiRequest} req 
@@ -18,13 +18,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const { userId, productId }: RequestBody = req.body
   
-      let basket = await BasketModel.findOne({ userRef: userId });
-  
+      console.log(userId)
+      let basket = await UserModel.findById(userId);
+      console.log(basket)
       if (!basket) {
-        basket = await BasketModel.create({ userRef: userId });
+        res.status(500).json({ message: "Пользователь не найден" })
       }
-  
-      basket.collectionBag.push(productId);
+      basket.cart.push({
+        count: 1,
+        productId
+      });
       await basket.save();
       return res.status(200).json(basket);
     }catch (error) {

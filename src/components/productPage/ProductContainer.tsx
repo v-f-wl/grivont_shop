@@ -7,7 +7,7 @@ import Loading from "../UI/Loading";
 import { useRouter } from "next/router";
 import axios from "axios";
 
-type ImageData = {url: string}
+type ImageData = {url: string, id: string}
 
 interface ImageObj{
   data: ImageData 
@@ -21,7 +21,8 @@ interface initialStateProps {
   userRef: string,
   description: string,
   imageSrc: ImageObj[],
-  priceOfProduct: number
+  priceOfProduct: number,
+  countOfProducts: number,
 }
 
 const initialState: initialStateProps = {
@@ -32,7 +33,8 @@ const initialState: initialStateProps = {
   userRef: '',
   description: '',
   imageSrc: [],
-  priceOfProduct: 0
+  priceOfProduct: 0,
+  countOfProducts: 0,
 }
 
 
@@ -41,16 +43,27 @@ const ProductContainer = () => {
   const [productData, setProductData] = useState<initialStateProps>(initialState)
   const router = useRouter()
   const id = router.query.id
+
+
   useEffect(() => {
-    if(id !== undefined){
-      axios.get(`/api/getOneProduct/?id=${id}`)
-      .then(res => {
-        setProductData(res.data)
-        setIsLoaded('load');
-      })
-      .catch(error => console.log(error))
+  const fetchProductData = async () => {
+    if (id !== undefined) {
+      try {
+        const response = await axios.get(`/api/getOneProduct/?id=${id}`);
+        if (!response.data) {
+          router.push('/error');
+        } else {
+          setProductData(response.data);
+          setIsLoaded('load');
+        }
+      } catch (error) {
+        router.push('/error');
+      }
     }
-  }, [id]);
+  };
+
+  fetchProductData();
+}, [id])
 
   const renderComponent = () => {
     switch(isLoaded){
@@ -67,6 +80,8 @@ const ProductContainer = () => {
                 price={productData.priceOfProduct}
                 category={productData.category}
                 imageUrl={productData.imageSrc[0].data.url}
+                imgId={productData.imageSrc[0].data.id}
+                countOfProducts={productData.countOfProducts}
               />
             <AboutProduct
               description={productData.description}

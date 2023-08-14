@@ -13,11 +13,11 @@ const FavoriteList = () => {
   useEffect(() => {
     if(userId !== undefined){
       axios.get(`/api/getFavoriteItem/?userId=${userId}`)
-      .then(res => {
-        setFavoriteItem(res.data)
-        setLoaded(true)
-      })
-      .catch(error => console.log(error))
+        .then(res => {
+          setFavoriteItem(res.data)
+          setLoaded(true)
+        })
+        .catch(error => console.log(error))
     }
   },[userId])
   return ( 

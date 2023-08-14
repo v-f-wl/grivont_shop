@@ -16,6 +16,7 @@ interface ProductDataType{
   _id: string,
   title: string,
   priceOfProduct: number,
+  countOfProducts: number,
   imageSrc: ImageObj[],
   description: string,
 }
@@ -25,6 +26,8 @@ const CategoryContainer = () => {
   const [loaded, setLoaded] = useState<boolean>(false)
   const router = useRouter()
   const categoryLink = typeof router.query.id === 'string' ? router.query.id : undefined
+
+  
   useEffect(() => {
     if(categoryLink !== undefined){
       axios.get(`/api/getProductOfOneCategory/?id=${categoryLink}`)
@@ -50,12 +53,13 @@ const CategoryContainer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-8">
                   {productData.map(item => (
                     <ProductCard 
-                    key={item._id} 
-                    link={item._id}
-                    title={item.title}
-                    description={item.description}
-                    imageSrc={item.imageSrc[0].data.url}
-                    price={item.priceOfProduct}
+                      key={item._id} 
+                      link={item._id}
+                      title={item.title}
+                      count={item.countOfProducts}
+                      description={item.description}
+                      imageSrc={item.imageSrc[0].data.url}
+                      price={item.priceOfProduct}
                   />
                   ))}
                 </div>

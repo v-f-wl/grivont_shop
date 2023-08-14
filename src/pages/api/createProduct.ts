@@ -21,6 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         basePlace: req.body.city,
         imageSrc: req.body.imageData,
         priceOfProduct: req.body.price,
+        countOfProducts: req.body.count,
       })
       const product = await doc.save()
       res.status(200).json({

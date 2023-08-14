@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from "../../../utils/connectMongoDB";
-import UserModal from '../../../models/User'
+import ProductModal from '../../../models/Product'
 /**
  * 
  * @param {import('next').NextApiRequest} req 
@@ -8,35 +8,28 @@ import UserModal from '../../../models/User'
  */
 
 interface RequestBody {
-  userId: string;
   productId: string;
+  count: string;
 }
-
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectDB()
-  if(req.method === 'POST'){
+  if(req.method === 'PATCH'){
     try {
-      const { userId, productId }: RequestBody = req.body
-      if(userId === undefined || productId === undefined){
+      const { productId, count }: RequestBody = req.body
+      console.log(count)
+      if(productId === undefined || count === undefined){
         res.status(500).json({
           message: "Неправильные данные"
         })
       }
-      const basket = await UserModal.findById(userId)
-      if(basket === null){
+      const product = await ProductModal.findById(productId)
+      if(product === null){
         res.status(200).json({ result: false })
       }
-      const { cart } = basket
-
-      for(const item in cart){
-        if(cart[item].productId === productId){
-          console.log('sdfsdf')
-          res.status(200).json({ result: true })
-        }
-      }
-      res.status(200).json({ result: false })
-      
+      product.countOfProducts = count
+      await product.save()
+      res.status(200).json({ result: true })
     }
     catch (error) {
       res.status(500).json({ message: "Произошла ошибка" })

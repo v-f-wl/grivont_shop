@@ -1,13 +1,10 @@
 'use client'
 import Alert from './Alert';
 import AddProduct from './AddProduct';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const NavHeader = () => {
   const [modalCategory, setModalCategory] = useState<string>('')
-
-  useEffect(() => {
-  }, []);
   const changeModal = (title: string) => {
     if(modalCategory === title){
       setModalCategory('')

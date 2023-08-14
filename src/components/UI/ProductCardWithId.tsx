@@ -27,26 +27,34 @@ const initialState: ProductDataTypes = {
   title: '',
   description: '',
   priceOfProduct: '',
-  imageSrc: []
+  imageSrc: [{data: {url : 'sdfsdf'}}]
 }
 
 const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
   const [productData, setProductData] = useState<ProductDataTypes>(initialState)
   const [loaded, setLoaded] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false)
   const router = useRouter()
 
   useEffect(() => {
-    if(productId !== undefined){
+    if(productId !== undefined || productId !== null){
+      console.log('start')
       axios.get(`/api/getOneProduct/?id=${productId}`)
       .then(res => {
-          setProductData(res.data)
+          if(res.data !== null){
+            setProductData(res.data)
+            console.log(res.data)
+          }else{
+            setError(true)
+          }
           setLoaded(true)
         }
       )
+      .catch(error => console.log(error))
     }
   },[productId])
   return ( 
-    <div className="w-full flex flex-col gap-4 relative">
+    <div className={`${error ? 'hidden' : 'flex'} w-full flex-col gap-4 relative`}>
       {loaded && (
         <div 
           className="
