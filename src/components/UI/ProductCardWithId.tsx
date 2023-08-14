@@ -38,12 +38,10 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
 
   useEffect(() => {
     if(productId !== undefined || productId !== null){
-      console.log('start')
       axios.get(`/api/getOneProduct/?id=${productId}`)
       .then(res => {
           if(res.data !== null){
             setProductData(res.data)
-            console.log(res.data)
           }else{
             setError(true)
           }
