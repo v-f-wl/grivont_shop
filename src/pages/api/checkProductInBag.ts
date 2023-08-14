@@ -7,31 +7,27 @@ import UserModal from '../../../models/User'
  * @param {import('next').NextApiResponse} res 
  */
 
-interface RequestBody {
-  userId: string;
-  productId: string;
-}
-
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectDB()
-  if(req.method === 'POST'){
+  if(req.method === 'GET'){
     try {
-      const { userId, productId }: RequestBody = req.body
+      const { userId, productId } = req.query
       if(userId === undefined || productId === undefined){
         res.status(500).json({
           message: "Неправильные данные"
         })
       }
-      const basket = await UserModal.findById(userId)
-      if(basket === null){
-        res.status(200).json({ result: false })
+      const user = await UserModal.findById(userId)
+      
+      if(!user){
+        res.status(505).json({ message: 'Пользователь не найден' })
       }
-      const { cart } = basket
 
-      for(const item in cart){
-        if(cart[item].productId === productId){
-          console.log('sdfsdf')
+      const { favorites } = user
+
+
+      for(const item in favorites){
+        if(favorites[item].productId === productId){
           res.status(200).json({ result: true })
         }
       }

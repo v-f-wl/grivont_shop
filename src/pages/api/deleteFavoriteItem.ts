@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from "../../../utils/connectMongoDB";
-import FavoriteModal from '../../../models/Favorite'
+import UserModal from '../../../models/User'
 /**
  * 
  * @param {import('next').NextApiRequest} req 
@@ -14,19 +14,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const { userId, productId } = req.body;
   
-      const productsInBag = await FavoriteModal.findOne({ userRef: userId });
+      const productsInFavorite = await UserModal.findById(userId)
   
-      if (!productsInBag) {
-        return res.status(404).json({ message: 'Пользователь не найден' });
+      if (!productsInFavorite) {
+        return res.status(505).json({ message: 'Пользователь не найден' });
       }
   
-      const { collectionFavotite } = productsInBag;
-      const index = collectionFavotite.indexOf(productId);
+      const { favorites } = productsInFavorite
+      const index = favorites.indexOf(productId);
       console.log(index)
   
       if (index !== -1) {
-        collectionFavotite.splice(index, 1);
-        await productsInBag.save(); 
+        favorites.splice(index, 1);
+        await productsInFavorite.save(); 
   
         return res.json({ message: 'Элемент удален' });
       } else {

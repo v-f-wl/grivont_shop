@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from "../../../utils/connectMongoDB";
-import FavoriteModel from '../../../models/Favorite'
+import UserModel from '../../../models/User'
 /**
  * 
  * @param {import('next').NextApiRequest} req 
@@ -16,11 +16,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if(userId === undefined || userId === null){
         return res.status(200).json([])
       }
-      let basket = await FavoriteModel.findOne({ userRef: userId });
-      if( basket === null){
-        return res.status(200).json([])
+      let user = await UserModel.findById(userId)
+      if( user === null){
+        return res.status(505).json([])
       }
-      return res.status(200).json(basket.collectionFavotite);
+      return res.status(200).json(user.favorites);
     }
     catch (error) {
       console.log(error)

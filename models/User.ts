@@ -48,6 +48,10 @@ const UserSchema = new mongoose.Schema(
         productId: { type: String, required: true }
       }
     ],
+    favorites:{
+      type: Array,
+      default: []
+    },
     passwordHash: {
       type: String,
       required: true

@@ -61,11 +61,11 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     const fetchData = async () => {
       if (productId !== undefined && userId !== undefined) {
         try {
-          const bagResponse = await axios.post('/api/checkProductInBag', { userId, productId });
+          const bagResponse = await axios.get(`/api/checkProductInBag/?userId=${userId}&productId=${productId}`);
           setInBag(bagResponse.data.result);
           setLoaded(true);
 
-          const favoriteResponse = await axios.post('/api/checkProductInFavorite', { userId, productId });
+          const favoriteResponse = await axios.get(`/api/checkProductInFavorite/?userId=${userId}&productId=${productId}`);
           setInFavorite(favoriteResponse.data.result);
           setLoadedFavorite(true);
         } catch (error) {

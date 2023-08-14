@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from "../../../utils/connectMongoDB";
-import FavoriteModel from '../../../models/Favorite'
+import UserModel from '../../../models/User'
 /**
  * 
  * @param {import('next').NextApiRequest} req 
@@ -18,15 +18,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const { userId, productId }: RequestBody = req.body
   
-      let basket = await FavoriteModel.findOne({ userRef: userId });
+      let user = await UserModel.findById(userId);
   
-      if (!basket) {
-        basket = await FavoriteModel.create({ userRef: userId });
+      if (!user) {
+        res.status(505).json({message: 'Пользователь не найден'})
       }
   
-      basket.collectionFavotite.push(productId);
-      await basket.save();
-      return res.status(200).json(basket);
+      user.favorites.push(productId);
+      await user.save();
+      return res.status(200).json(user);
     }catch (error) {
       res.status(500).json({ message: "Не удалось добавить в корзину" })
     }
