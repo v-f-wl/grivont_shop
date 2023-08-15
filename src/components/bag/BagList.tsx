@@ -147,6 +147,7 @@ const BagList = () => {
         })
         .catch(error => {
           setReqSended(false)
+          setOrderModal(false)
           setReqError(true)
           console.log(error)
         })
