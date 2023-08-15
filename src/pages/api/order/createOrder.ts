@@ -10,7 +10,7 @@ import ProductModal from '../../../../models/Product'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectDB();
-  if (req.method === 'POST') {
+  if (req.method === 'PATCH') {
     try {
       const { userId } = req.query
       const dataValue = req.body

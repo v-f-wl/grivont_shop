@@ -32,9 +32,12 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
   const [isDeleted, setIsDeleted] = useState<boolean>(false)
   const [loadDelete, setLoadDelete] = useState<boolean>(false)
   const [countData, setCountData] = useState<number>(1)
-
+  const [muteProduct, setMuteProduct] = useState(false)
   useEffect(() => {
-    setCountData(countInBag)
+    if(countOfProducts === 0){
+      setMuteProduct(true)
+      setCountData(0)
+    }
   },[countInBag])
 
   useEffect(() => {
@@ -58,6 +61,9 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
   }
 
   const changeCount = (label: string) => {
+    if(countData === 0){
+      return
+    }
     if((label === 'minus' && countData === 1) || (label === 'plus' && countData === countOfProducts) || isDeleted === true){
       return
     }
@@ -74,6 +80,7 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
     <div 
       className={`
         ${isDeleted && 'opacity-30'} 
+        ${muteProduct && 'opacity-20'} 
         ${orderLoading && 'opacity-30'} 
         relative 
         flex flex-col md:flex-row
@@ -103,7 +110,7 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
           <div className="flex items-center gap-2">
             <div 
               onClick={() => changeCount('minus')}
-              className="bg-purple-400 text-white p-1 rounded-full cursor-pointer"
+              className={`${muteProduct ? 'cursor-default' : 'cursor-pointer'} bg-purple-400 text-white p-1 rounded-full`}
             >
               <HiMinusSmall size={22}/>
             </div>
@@ -112,7 +119,7 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
             </div>
             <div 
               onClick={() => changeCount('plus')}
-              className="bg-purple-400 text-white p-1 rounded-full cursor-pointer"
+              className={`${muteProduct ? 'cursor-default' : 'cursor-pointer'} bg-purple-400 text-white p-1 rounded-full cursor-pointer`}
             >
               <HiPlusSmall size={22}/>
             </div>

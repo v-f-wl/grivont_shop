@@ -18,6 +18,7 @@ interface ProductDataTypes{
   title: string,
   description: string,
   priceOfProduct: string,
+  countOfProducts: number,
   imageSrc: ImageObj[],
 }
 
@@ -26,6 +27,7 @@ const initialState: ProductDataTypes = {
   title: '',
   description: '',
   priceOfProduct: '',
+  countOfProducts: 0,
   imageSrc: [{data: {url : 'sdfsdf'}}]
 }
 
@@ -51,7 +53,7 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
     }
   },[productId])
   return ( 
-    <div className={`${error ? 'hidden' : 'flex'} w-full flex-col gap-2 relative`}>
+    <div className={`${error ? 'hidden' : 'flex'} ${productData.countOfProducts === 0 && 'opacity-30'} w-full flex-col gap-2 relative`}>
       {loaded && (
         <div 
           className="

@@ -67,6 +67,7 @@ const BagList = () => {
   const [countInfo, setCountInfo] = useState<CountObj>(initialState)
   const [reqSended, setReqSended] = useState<boolean>(false)
   const [orderModal, setOrderModal] = useState<boolean>(false)
+  const [reqError, setReqError] = useState(false)
 
   const userId: string | undefined = Cookies.get('id')
   const router = useRouter()
@@ -107,8 +108,10 @@ const BagList = () => {
     let totalCount = 0
 
     for (const item of data) {
-      totalCount++
-      totalPrice += item.priceOfProduct * item.productCount
+      if(item.countOfProducts !== 0){
+        totalCount++
+        totalPrice += item.priceOfProduct * item.productCount
+      }
     }
 
     setCountInfo(prev => ({
@@ -128,23 +131,23 @@ const BagList = () => {
         orderNumber,
         totalPrice: countInfo.totalPrice,
         totalCount: countInfo.totalCount,
-        items: bagData.map(item => ({
+        items: bagData
+          .filter(item => item.countOfProducts !== 0)
+          .map(item => ({
           productId: item._id,
           image: item.imageSrc[0].data.url,
           title: item.title,
           count: item.productCount
         }))
       }
-  
-      axios.post(`/api/order/createOrder/?userId=${userId}`, objForRequest)
+      axios.patch(`/api/order/createOrder/?userId=${userId}`, objForRequest)
         .then(() => {
           setBagData([])
-        })
-        .then(() => {
           router.push('/orderspage')
         })
         .catch(error => {
           setReqSended(false)
+          setReqError(true)
           console.log(error)
         })
     }
@@ -240,6 +243,7 @@ const BagList = () => {
               >
                 {countInfo.totalPrice > 0 ? 'Заказать' : 'Товаров нет'}
             </div>
+          <div className={`${reqError ? 'block' : 'hidden'} mt-4 text-red-400 text-sm text-light text-center`}>Что-то пошло не так</div>
           </div>
         </div>
 

@@ -23,11 +23,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(505).json({ message: 'Пользователь не найден' })
       }
 
-      const { favorites } = user
+      const { cart } = user
 
-
-      for(const item in favorites){
-        if(favorites[item].productId === productId){
+      for(const item in cart){
+        if(cart[item].productId === productId){
           res.status(200).json({ result: true })
         }
       }

@@ -29,7 +29,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   imageUrl,
   imgId
 }) => {
-  const [loaded, setLoaded] = useState<boolean>()
+  const [loaded, setLoaded] = useState<boolean>(false)
   const [loadChangeCount, setChangeLoadCount] = useState<boolean>(false)
   const [loadedFavorite, setLoadedFavorite] = useState<boolean>(false)
 
@@ -61,9 +61,14 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     const fetchData = async () => {
       if (productId !== undefined && userId !== undefined) {
         try {
-          const bagResponse = await axios.get(`/api/bag/checkProductInBag/?userId=${userId}&productId=${productId}`);
-          setInBag(bagResponse.data.result);
-          setLoaded(true);
+          await axios.get(`/api/bag/checkProductInBag/?userId=${userId}&productId=${productId}`)
+            .then(res => {
+              setInBag(res.data.result);
+              console.log(res.data.result)
+            })
+            .then(() => {
+              setLoaded(true)
+            })
 
           const favoriteResponse = await axios.get(`/api/favorite/checkProductInFavorite/?userId=${userId}&productId=${productId}`);
           setInFavorite(favoriteResponse.data.result);
@@ -123,7 +128,8 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   }
 
   const addToBag = async () => {
-    if (productId !== undefined && userId !== undefined && !inBag) {
+    if (productId !== undefined && userId !== undefined && !inBag && loaded === true) {
+      console.log(loaded === true, productId !== undefined, userId !== undefined)
       try {
         await axios.post('/api/bag/addToBag', { userId, productId });
         setInBag(true);
@@ -134,7 +140,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   }
 
   const changeFavorite = async () => {
-    if (productId !== undefined && userId !== undefined) {
+    if (productId !== undefined && userId !== undefined && loadedFavorite === true) {
       setLoadedFavorite(false);
       try {
         if (!inFavorite) {
