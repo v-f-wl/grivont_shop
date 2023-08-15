@@ -78,7 +78,7 @@ const LeftMenu: React.FC = () => {
         onClick={() => setMobileBurger(prev => !prev)}
         className="flex items-center gap-4"
       >
-        <BiHive size={48} className='text-purple-500  lg:hover:rotate-90 cursor-pointer mr-1'/>
+        <BiHive size={48} className='text-purple-500  cursor-pointer lg:cursor-default mr-1'/>
         <span className={`${mobileBurger ? 'block' : 'hidden'} left-menu__name left-menu__name--logo text-purple-500 text-2xl font-bold`}>Grivont</span>
       </div>
       <div 
@@ -99,7 +99,7 @@ const LeftMenu: React.FC = () => {
           ${mobileBurger ? 'h-screen' : ''}  
           ${mobileBurger ? 'bg-white' : ''}  
           lg:visible
-          top-[23px]
+          top-[23px] overflow-y-scroll
           md:top-[40px]
           lg:opacity-100
           pt-5

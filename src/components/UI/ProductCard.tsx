@@ -45,7 +45,7 @@ const ProductCard:React.FC<ProductCardProps> = ({
       <h3 className="text-xl font-medium clamped-text">{title}</h3>
       <div className="clamped-text-3 dark:text-gray-200 text-gray-600">{description}</div>
       <div className="flex items-center gap-6 justify-self-end">
-        <Link href={`/productpage/?id=${link}`} className="border-2 border-purple-400 dark:border-white rounded-full py-2 px-4 hover:border-indigo-400 hover:text-indigo-400 transition-all cursor-pointer">Подробнее</Link>
+        <Link href={`/productpage/?id=${link}`} className="w-full text-center border border-purple-400 dark:border-white rounded-full py-1 px-3 hover:border-indigo-400 hover:text-indigo-400 transition-all cursor-pointer">Подробнее</Link>
       </div>
     </div>
   );

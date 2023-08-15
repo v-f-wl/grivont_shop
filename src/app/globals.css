@@ -49,14 +49,14 @@ body{
 
 .clamped-text {
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* Ограничиваем текст на две строки */
+  -webkit-line-clamp: 1; /* Ограничиваем текст на две строки */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis; /* Добавляем троеточие в конце текста */
 }
 .clamped-text-3 {
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Ограничиваем текст на две строки */
+  -webkit-line-clamp: 2; /* Ограничиваем текст на две строки */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis; /* Добавляем троеточие в конце текста */

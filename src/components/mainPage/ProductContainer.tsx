@@ -48,7 +48,7 @@ const ProductContainer:React.FC<ProductContainerProps> = ({label, title, hasItem
   
   const renderFavorite = () => {
     const cardProduct: JSX.Element[]  = []
-    const index = Math.min(3, favorite.length)
+    const index = Math.min(4, favorite.length)
     for(let i = 0; i < index; i++){
       cardProduct.push(<ProductCardWithId key={favorite[i]} productId={favorite[i]}/>)
     }
@@ -61,19 +61,19 @@ const ProductContainer:React.FC<ProductContainerProps> = ({label, title, hasItem
         <Title titleValue={title}/>
       </div>
       {label === 'popular' && (
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start justify-between gap-4 md:gap-14">
+        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-between gap-4 md:gap-14">
           {renderProduct()}
         </div>
       )}
       {label === 'mark' && (
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start justify-between gap-4 md:gap-14">
+        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-between gap-4 md:gap-14">
           {favorite.length > 0 ? 
             (
               renderFavorite()
             ) 
             : 
             (
-              <div className="h-[80px] md:col-span-2 lg:col-span-3 flex items-center justify-center font-medium text-xl">У вас нет товаров в избранном</div>
+              <div className="h-[80px] col-span-2 md:col-span-3 lg:col-span-4 flex items-center justify-center font-medium text-xl">У вас нет товаров в избранном</div>
             )
           }
         </div>

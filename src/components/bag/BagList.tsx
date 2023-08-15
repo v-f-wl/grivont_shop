@@ -6,7 +6,7 @@ import EmptyPage from "../UI/EmptyPage";
 import Loading from "../UI/Loading";
 import ProductCardForBag from "../UI/ProductCardForBag"
 import { generateOrderNumber } from "../../../utils/generationOrder"
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 
 type ImageData = {url: string}
@@ -172,7 +172,7 @@ const BagList = () => {
           <div className="">
             {bagData.length > 0 ? 
               (
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col md:grid md:grid-cols-2 lg:flex lg:flex-col gap-6">
                   {bagData.map(item => (
                     <ProductCardForBag
                       key={item._id}

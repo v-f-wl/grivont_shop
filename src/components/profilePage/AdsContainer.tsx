@@ -50,7 +50,7 @@ const AdsContainer:React.FC<AdsContainerProps> = ({idUser}) => {
     <div className="grid">
       {loaded ? 
         (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
             {productData.length > 0 ? (
               productData.map(item => (
                 <ProductCard 

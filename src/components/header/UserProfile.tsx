@@ -29,14 +29,18 @@ const UserProfile = () => {
     } else {
       axios.post('/api/user/checkToken', { userId, token })
         .then(response => {
-          const { fullName, _id, img } = response.data.user;
-          const userDataObj = {
-            name: fullName,
-            imageSrc: img,
-            id: _id
-          };
-          setUserData(userDataObj);
-          setDataLoaded(true);
+          if(response.data.message === true){
+            const { fullName, _id, img } = response.data.user;
+            const userDataObj = {
+              name: fullName,
+              imageSrc: img,
+              id: _id
+            };
+            setUserData(userDataObj);
+            setDataLoaded(true);
+          }else{
+            router.push('/auth');
+          }
         })
         .catch(error => {
           console.log('Error checking token:', error);
@@ -77,7 +81,7 @@ const UserProfile = () => {
           alt="img" 
         />)
         :
-        <div className="w-full h-full dark:bg-gray-600 bg-gray-300 animate-pulse"></div>
+        <div className="w-full h-full rounded-full dark:bg-gray-600 bg-gray-300 animate-pulse"></div>
         }
       </div>
     </Link>

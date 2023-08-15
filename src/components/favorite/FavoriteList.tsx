@@ -24,7 +24,7 @@ const FavoriteList = () => {
     <div className="">
       {loaded ? 
         (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-between gap-4 md:gap-14">
             {favoriteItem.length > 0 ? 
               (
                 favoriteItem.map(item => (
