@@ -6,6 +6,7 @@ import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { HiCheck } from 'react-icons/hi2'
 
 interface ImageProductProps{
   productId: string
@@ -215,7 +216,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                       h-0
                       ${countModal === 'open' && 'h-auto'} 
                       overflow-hidden transition-all
-                      inline-flex items-center gap-4
+                      flex items-center gap-4
                     `}
                   >
                     <NumberInput 
@@ -227,14 +228,14 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                     />
                     <div 
                       onClick={changeCountReq}
-                      className="border border-purple-400 rounded-lg py-4 px-3 mt-4 text-lg cursor-pointer"
+                      className="border border-purple-400 rounded-lg py-3 md:py-4 px-3 mt-4 text-lg cursor-pointer"
                     >
                       {loadChangeCount ? 
                         (
                           <AiOutlineLoading3Quarters size={24} className="mx-3 animate-spin"/>
                         ) 
                         : 
-                        'Сохранить'
+                        <HiCheck size={24}/>
                       }
                     </div>
                   </div>

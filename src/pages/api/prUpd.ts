@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'PATCH') {
     try {
       // Обновляем поле countOfProducts для всех документов
-      const updateResult = await ProductModal.updateMany({}, { countOfProducts: 99 });
+      const updateResult = await ProductModal.updateMany({}, { countOfProducts: 49 });
 
       if (updateResult
         ) {

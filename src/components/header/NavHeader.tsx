@@ -17,7 +17,7 @@ const NavHeader = () => {
   return ( 
     <div className="mr-8 lg:mr-24 flex items-center justify-end flex-grow gap-4 lg:gap-10 text-3xl relative">
       <AddProduct openModal={changeModal} modalValue={modalCategory}/>
-      <Alert openModal={changeModal} modalValue={modalCategory}/>
+      {/* <Alert openModal={changeModal} modalValue={modalCategory}/> */}
       <ThemeToggle/>
       {/* <Link href={`/chatpage`} className="hover:text-indigo-400 transition-colors">
         <HiOutlineChatBubbleOvalLeft/>
