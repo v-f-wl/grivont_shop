@@ -65,7 +65,7 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
           border 
           p-4 
           rounded-xl relative 
-          z-50 
+          z-[34]
           
           dark:bg-gray-900 bg-white
           border-purple-400
@@ -97,7 +97,7 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
           flex-col 
           gap-2
           rounded-xl 
-          z-40
+          z-30
           capitalize
         `}
       >
@@ -118,7 +118,7 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
             p-4
             rounded-xl 
             relative 
-            z-30 
+            z-[25]
             dark:bg-gray-900 bg-white
             capitalize
           `}
@@ -149,7 +149,7 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
           flex-col 
           gap-2
           rounded-xl 
-          z-40
+          z-20
           capitalize
         `}
       >
