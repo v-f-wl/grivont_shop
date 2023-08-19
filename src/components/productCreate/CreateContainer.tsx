@@ -137,7 +137,7 @@ const CreateContainer = () => {
     <div className="pt-[80px] md:pt-[120px] pb-10 min-h-screen">
 
       {/* КОМПОНЕНТ Load ПРИ ОТПРАВКИ ДАННЫХ О ТОВАРЕ НА СЕРВЕР */}
-      <div className={`${loading ? 'flex' : 'hidden'} absolute inset-0 bg-slate-800 z-50  items-center justify-center`}>
+      <div className={`${loading ? 'flex' : 'hidden'} absolute inset-0 dark:bg-slate-800 bg-white dark:text-purple-300 text-purple-400 z-[55]  items-center justify-center`}>
         <AiOutlineLoading3Quarters size={53} className="animate-spin"/>
       </div>
 

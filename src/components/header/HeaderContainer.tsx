@@ -11,7 +11,7 @@ const HeaderContainer = () => {
         lg:px-0
         w-full
         max-w-[full]
-        z-30
+        z-[70]
         right-0
         lg:right-auto
         top-0

@@ -65,9 +65,10 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
           border 
           p-4 
           rounded-xl relative 
-          z-30 
+          z-50 
           
           dark:bg-gray-900 bg-white
+          border-purple-400
           capitalize
         `}
       >
@@ -88,14 +89,15 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
           absolute 
           w-full 
           p-4
-          dark:bg-gray-800 bg-white
-          dark:border-none border border-purple-400
+          border
+          dark:bg-gray-900 bg-white
+          border-purple-400
           transition-all 
           flex 
           flex-col 
           gap-2
           rounded-xl 
-          z-20
+          z-40
           capitalize
         `}
       >
@@ -113,11 +115,11 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
           className={`
             ${handleError && subCategory === '' ? 'border-red-400' : 'border-purple-400'} 
             border 
-            p-4 
+            p-4
             rounded-xl 
             relative 
             z-30 
-            bg-gray-900 
+            dark:bg-gray-900 bg-white
             capitalize
           `}
         >
@@ -137,16 +139,17 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
           left-0
           absolute 
           w-full 
-
+          border
           max-h-[210px] overflow-y-scroll
           p-4
-          bg-gray-800  
+          dark:bg-gray-900 bg-white
+          border-purple-400
           transition-all 
           flex 
           flex-col 
           gap-2
           rounded-xl 
-          z-30
+          z-40
           capitalize
         `}
       >

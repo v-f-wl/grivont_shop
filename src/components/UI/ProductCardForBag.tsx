@@ -12,11 +12,12 @@ interface ProductCardForBagProps{
   productTitle: string,
   productPrice: number,
   countOfProducts: number,
-  updateCount: (productId: string, value: number) => void,
   countInBag: number,
   userId: string | undefined,
-  orderLoading: boolean
+  orderLoading: boolean,
 
+  updateCount: (productId: string, value: number) => void,
+  deletProduct: (id: string) => void
 }
 const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
   productId,
@@ -26,10 +27,10 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
   countInBag,
   productPrice,
   updateCount,
+  deletProduct: updateData,
   userId,
   orderLoading
 }) => {
-  const [isDeleted, setIsDeleted] = useState<boolean>(false)
   const [loadDelete, setLoadDelete] = useState<boolean>(false)
   const [countData, setCountData] = useState<number>(1)
   const [muteProduct, setMuteProduct] = useState(false)
@@ -49,11 +50,11 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
 
   const deletProduct = () => {
     setLoadDelete(true)
-    if(isDeleted === false && userId !== undefined){
+    if(userId !== undefined){
       axios.patch('/api/bag/deleteBagItem', {userId, productId: productId}).
       then(() => {
-        setIsDeleted(prev => !prev)
         setLoadDelete(false)
+        updateData(productId)
       })
     }else{
       setLoadDelete(false)
@@ -64,7 +65,7 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
     if(countData === 0){
       return
     }
-    if((label === 'minus' && countData === 1) || (label === 'plus' && countData === countOfProducts) || isDeleted === true){
+    if((label === 'minus' && countData === 1) || (label === 'plus' && countData === countOfProducts)){
       return
     }
 
@@ -79,7 +80,6 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
   return ( 
     <div 
       className={`
-        ${isDeleted && 'opacity-30'} 
         ${muteProduct && 'opacity-20'} 
         ${orderLoading && 'opacity-30'} 
         relative 
@@ -103,7 +103,7 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
         />
       </div>
       <div className="w-auto flex flex-col gap-4 flex-1">
-        <h2 className="h-[58px] clamped-text text-2xl">{productTitle}</h2>
+        <h2 className="h-[64px] clamped-text text-2xl">{productTitle}</h2>
         <div className="flex flex-col gap-2">
           <div className="font-medium"><CategoryTitle title="Цена"/>  {productPrice} руб.</div>
           <div className="font-medium"><CategoryTitle title="В наличии"/> {countOfProducts}</div>
@@ -142,12 +142,10 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
             <div 
               onClick={deletProduct}
               className={`
-                ${!isDeleted && 'cursor-pointer'}
-                ${!isDeleted && 'hover:opacity-40'}
                 transition-colors duration-300 underline
               `}
             >
-              {isDeleted ? 'Удалено' : 'Удалить'}
+              Удалить
             </div>
             )
           }

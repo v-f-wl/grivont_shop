@@ -49,7 +49,7 @@ const LeftMenu: React.FC = () => {
     lg:hover:shadow-lg 
     lg:hover:shadow-indigo-500/50  
     py-2 md:py-4 px-1 lg:py-6 lg:px-4 
-    fixed z-40 left-0 top-0 
+    fixed z-[100] left-0 top-0 
     lg:absolute lg:top-3 lg:left-3 lg:bottom-3 
     lg:w-[76px]  
     dark:lg:bg-gray-700 

@@ -312,7 +312,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                             ${inBag ? 'cursor-default' : 'cursor-pointer'}
                             ${inBag ? '' : 'hover:opacity-80'}
                             ${inBag ? 'bg-gray-600' : 'bg-purple-400'}
-                            md:py-3 py-2 px-4 md:px-5 
+                            md:py-2 py-1 px-3 md:px-4 
                             rounded-full 
                             text-white 
                             text-bold 
@@ -327,7 +327,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                       (
                         <div 
                           className={`
-                            md:py-3 py-2 px-4 md:px-5
+                            md:py-2 py-1 px-3 md:px-4 
                             bg-purple-400 
                             rounded-full 
                             text-white 
@@ -353,7 +353,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                         onClick={changeFavorite}
                         className={`
                           ${errorButton ? 'hidden' : 'block'}
-                          md:py-3 py-2 px-4 md:px-5
+                          md:py-2 py-1 px-3 md:px-4 
                           border border-purple-400
                           rounded-full 
                           dark:text-white text-gray-900
@@ -369,7 +369,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                     (
                       <div 
                         className="
-                          md:py-3 py-2 px-4 md:px-5
+                          md:py-2 py-1 px-3 md:px-4 
                           border border-purple-400
                           rounded-full 
                           dark:text-white text-gray-900 

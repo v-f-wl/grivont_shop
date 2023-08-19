@@ -1,42 +1,36 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from "../../../../utils/connectMongoDB";
 import UserModal from '../../../../models/User'
-/**
- * 
- * @param {import('next').NextApiRequest} req 
- * @param {import('next').NextApiResponse} res 
- */
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectDB()
-  if(req.method === 'GET'){
+  if (req.method === 'GET') {
     try {
       const { userId, productId } = req.query
-      if(userId === undefined || productId === undefined){
-        res.status(500).json({
+      if (userId === undefined || productId === undefined) {
+        return res.status(400).json({
           message: "Неправильные данные"
         })
       }
       const user = await UserModal.findById(userId)
-      
-      if(!user){
-        res.status(505).json({ message: 'Пользователь не найден' })
+
+      if (!user) {
+        return res.status(404).json({ message: 'Пользователь не найден' })
       }
 
       const { cart } = user
 
-      for(const item in cart){
-        if(cart[item].productId === productId){
-          res.status(200).json({ result: true })
+      for (const item in cart) {
+        if (cart[item].productId === productId) {
+          return res.status(200).json({ result: true })
         }
       }
-      res.status(200).json({ result: false })
-      
+      return res.status(200).json({ result: false })
+
+    } catch (error) {
+      return res.status(500).json({ message: "Произошла ошибка" })
     }
-    catch (error) {
-      res.status(500).json({ message: "Произошла ошибка" })
-    }
-  }else{
-    return res.status(500).json({ message: "Запрос не является POST" })
+  } else {
+    return res.status(400).json({ message: "Запрос не является GET" })
   }
-} 
+}

@@ -78,6 +78,7 @@ const BagList = () => {
           const response = await axios.get(`/api/bag/getBagItems/?userId=${userId}`);
           setBagData(response.data)
           document.title = 'Grivont - Корзина '
+          console.log(response.data)
           return response.data
         } catch (error) {
           console.log(error)
@@ -97,6 +98,7 @@ const BagList = () => {
 
   // СЛЕДИТ ЗА ИЗМЕНЕНИЕМ КОЛИЧЕСТВА ТОВАРОВ
   useEffect(() => {
+    console.log(bagData)
     changePrice(bagData)
   }, [bagData])
 
@@ -156,6 +158,8 @@ const BagList = () => {
         })
     }
   }
+
+
   // ОТСЛЕЖИВАЕТ ИЗМЕНЕНИЕ КОЛИЧЕСТВА ОДНОЙ ПОЗИЦИИ
   const changeCountOfProduct = (productId: string, value: number) => {
     setBagData(prev => {
@@ -168,6 +172,15 @@ const BagList = () => {
       }
       return arr
     })
+  }
+
+  // УДАЛЕНИЕ ТОВАРА ИЗ КОРЗИНЫ ПРОИСХОДИТ ВНУТРИ КАРТОЧкИ ТОВАРА 
+  // ЭТА ФУНКЦИЯ НУЖНА ДЛЯ ОБНАВЛЕНИЯ ДАННЫХ В РОДИТЕЛЬСКОМ( ТЕКУЩЕМ ) КОМПОНЕНТЕ
+
+
+  const updateDeletedProduct = (id: string) => {
+    const newArray = bagData.filter(obj => obj._id !== id);
+    setBagData(newArray);
   }
 
   return (  
@@ -194,7 +207,7 @@ const BagList = () => {
                       countInBag={item.productCount}
                       userId={userId}
                       orderLoading={reqSended}
-
+                      deletProduct={updateDeletedProduct}
                       updateCount={changeCountOfProduct}
                     />
                   ))}
