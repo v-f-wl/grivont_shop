@@ -22,7 +22,8 @@ export default function Favorite(){
         '
       >
         <Head>
-          <title>Grivont - Favorite</title>
+          <title>Grivont - Избранное</title>
+          <link rel="icon" href="/favicon/favicon.ico"/>
         </Head>
         <Container>
           <LeftMenu/>

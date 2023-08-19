@@ -1,12 +1,15 @@
 'use client'
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+
 import axios from "axios";
+import Cookies from "js-cookie";
+
+import { generateOrderNumber } from "../../../utils/generationOrder" // ФУНКЦИЯ ДЛЯ ГЕНЕРАЦИИ УНИКАЛЬНОГО ЧИСЛА ДЛЯ ЗАКАЗА
+
 import EmptyPage from "../UI/EmptyPage";
 import Loading from "../UI/Loading";
 import ProductCardForBag from "../UI/ProductCardForBag"
-import { generateOrderNumber } from "../../../utils/generationOrder"
-import { useRouter } from "next/router";
 
 
 type ImageData = {url: string}
@@ -14,7 +17,7 @@ type ImageData = {url: string}
 interface ImageObj{
   data: ImageData 
 }
-
+// ИНТЕРФЕЙС ДАННЫХ КОТОРЫЕ ПРИХОДЯТ С СЕРВЕРА
 interface initialStateProps {
   _id: string,
   title: string,
@@ -30,9 +33,7 @@ interface CountObj{
   totalCount: number
 }
 
-// интерфейс объекта для отправки на сервер 
-// ==========
-
+// ИНТЕРФЕЙС ОБЪЕКТА ДЛЯ ОТПРАВКИ НА СЕРВЕР
 interface Items{
   productId: String,
   image: String,
@@ -52,10 +53,6 @@ const initialStateObj = {
   items: []
 }
 
-// ==========
-
-
-
 const initialState = {
   totalPrice: 0,
   totalCount: 0
@@ -72,12 +69,15 @@ const BagList = () => {
   const userId: string | undefined = Cookies.get('id')
   const router = useRouter()
 
+  // ПОЛУЧАЕТСЯ ЗНАЧЕНИЕ ID ПОЛЬЗОВАТЕЛЯ ИЗ COOKIES
+  // И ОТПРАВЛЯЕТ ЗАПРОС НА СЕРВЕР ДЛЯ ПОЛУЧЕНИЯ ДАННЫХ о КОРЗИНЕ
   useEffect(() => {
     const fetchBagItems = async () => {
       if (userId !== undefined) {
         try {
           const response = await axios.get(`/api/bag/getBagItems/?userId=${userId}`);
           setBagData(response.data)
+          document.title = 'Grivont - Корзина '
           return response.data
         } catch (error) {
           console.log(error)
@@ -85,24 +85,23 @@ const BagList = () => {
       }
       return null
     }
-  
     const processDataAndSetLoaded = async () => {
       const data = await fetchBagItems()
       if (data !== null) {
         setLoaded(true)
       }
     }
-  
     processDataAndSetLoaded();
   }, [userId])
 
 
+  // СЛЕДИТ ЗА ИЗМЕНЕНИЕМ КОЛИЧЕСТВА ТОВАРОВ
   useEffect(() => {
     changePrice(bagData)
   }, [bagData])
 
 
-
+  // ФУНКЦИЯ РАСЧИТЫВАЕТ ИТОГОВУ СТОИМОСТЬ КОРЗИНЫ
   const changePrice = (data: initialStateProps[]) => {
     let totalPrice = 0
     let totalCount = 0
@@ -113,7 +112,6 @@ const BagList = () => {
         totalPrice += item.priceOfProduct * item.productCount
       }
     }
-
     setCountInfo(prev => ({
       ...prev,
       totalPrice,
@@ -121,12 +119,17 @@ const BagList = () => {
     }))
   };
 
+  // ОТПРАВЛЯЕТ ЗАПРОС НА СЕРВЕР 
+  // ПРОВЕРКА НА ТО НЕ ЯВЛЯЕТСЯ ЛИ КОРЗИНА ПУСТОЙ ПРОИЗВОДИТСЯ В КОМПОНЕНТЕ
   const sendRequest = () => {
     if (userId !== undefined) {
-      const orderNumber = generateOrderNumber(7);
-  
+      // ГЕНЕРИРУЕТ ЧИСЛО ДЛЯ НОМЕРА ЗАКАЗА
+      const orderNumber = generateOrderNumber(7)
+
+      // ОТВЕЧАЕТ ЗА ВКЛЮЧЕНИЕ LOADER 
       setReqSended(true)
   
+      // СБОР ИНФОРМАЦИИ О ЗАКАЗЕ ДЛЯ ОТПРАВКИ
       const objForRequest: objForRequest = {
         orderNumber,
         totalPrice: countInfo.totalPrice,
@@ -153,7 +156,7 @@ const BagList = () => {
         })
     }
   }
-
+  // ОТСЛЕЖИВАЕТ ИЗМЕНЕНИЕ КОЛИЧЕСТВА ОДНОЙ ПОЗИЦИИ
   const changeCountOfProduct = (productId: string, value: number) => {
     setBagData(prev => {
       const arr = [...prev]
@@ -167,15 +170,18 @@ const BagList = () => {
     })
   }
 
-
   return (  
     <>
+    {/* ОКНО ЗАГРУЗКИ ПОКА ПРОИСХОДИТ ОЖИДАНИЕ ОТВЕТА С СЕРВЕРА */}
     {loaded ? 
+    // ОТВЕТ ПРИШЕЛ 
       (
         <div className="relative flex flex-col-reverse  lg:grid md:grid-cols-profile gap-4 md:gap-8 lg:gap-12 items-start">
+          {/* КОНТЕЙНЕР ДЛЯ ТОВАРОВ */}
           <div className="">
             {bagData.length > 0 ? 
               (
+              // РЕНДЕР ТОВАРОВ ПРИ ИХ НАЛИЧИИ
                 <div className="flex flex-col md:grid md:grid-cols-2 lg:flex lg:flex-col gap-6">
                   {bagData.map(item => (
                     <ProductCardForBag
@@ -196,14 +202,19 @@ const BagList = () => {
               ) 
               : 
               (
+              // ПРИ ОТСУТСТВИИ ТОВАРОВ
                 <EmptyPage title="Корзина пустая"/>
               )
             }
           </div>
+
+          {/* КОНТЕЙНЕР ДЛЯ ИТОГОВОЙ ЦЕНЫ И ЗАКАЗА */}
           <div 
             className="w-full lg:w-auto relative rounded-xl dark:bg-gray-600 bg-gray-100 p-6 text-2xl font-bold"
           >
+            {/* LOADER КОТОРОЫЙ ПОЯВЛЯЕТСЯ ПРИ ОТПРАВКИ ЗАПРОСА */}
             <div className={`${reqSended ? 'block' : 'hidden'} absolute inset-0 z-30 rounded-xl bg-gray-700`}></div>
+            {/* ОКНО ПОДТВЕРЖДЕНИЯ ЗАКАЗА */}
             <div 
               className={`${orderModal ? 'block' : 'hidden'} z-20 absolute p-4 bg-gray-700 rounded-xl inset-0 flex flex-col items-center justify-center gap-4`}
             >
@@ -223,10 +234,13 @@ const BagList = () => {
                 </div>
               </div>
             </div>
+
+            {/* ОКНО ИТОГОВОЙ ЦЕНЫ */}
             <span className="dark:text-white text-gray-900">
               Итого: {countInfo.totalPrice} руб.
             </span>
             <div 
+              // ПРОВЕРКА НА ТО - НЕ РАВНЯЕТСЯ ЛИ КОРЗИНА ПУСТОЙ
               onClick={() => {if(countInfo.totalPrice > 0) setOrderModal(true)}}
               className={`
                 ${countInfo.totalPrice === 0 && 'opacity-50'}
@@ -244,12 +258,13 @@ const BagList = () => {
               >
                 {countInfo.totalPrice > 0 ? 'Заказать' : 'Товаров нет'}
             </div>
+          {/* ОШИБКА ПРИ ОТПРАВКИ ДАННЫХ НА СЕРВЕР  */}
           <div className={`${reqError ? 'block' : 'hidden'} mt-4 text-red-400 text-sm text-light text-center`}>Что-то пошло не так</div>
           </div>
         </div>
-
       ) 
       : 
+      // ОЖИДАЕМ ОТВЕТ С СЕРВЕРА
       (
         <Loading/>
       ) 

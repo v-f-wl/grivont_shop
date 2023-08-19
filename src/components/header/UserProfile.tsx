@@ -1,8 +1,10 @@
 'use client'
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+import Cookies from "js-cookie";
 import axios from "axios";
 
 interface UserData{
@@ -10,6 +12,7 @@ interface UserData{
   imageSrc: string,
   id: string
 }
+
 const initialUserData: UserData = {
   name: '',
   imageSrc: '',
@@ -23,6 +26,7 @@ const UserProfile = () => {
   const token = Cookies.get("token")
   const router = useRouter()
 
+  // АУТЕНТЕФИКАЦИЯ ПОЛЬЗОВАТЕЛЯ ПО Id И Token
   useEffect(() => {
     if (!router || (!userId || !token)) {
       router.push('/auth');
@@ -66,21 +70,26 @@ const UserProfile = () => {
         transition-color
       `}
     >
+      {/* ОЖИДАЕМ ОТВЕТ ОТ ВЕРВЕРА */}
       {dataLoaded ? 
+      // РЕНДЕР ИМЕНИ
         (
           <span className="hidden lg:block text-inherit font-medium">{userData.name}</span>
         )
         :
+      // Loader ИМЕНИ
         <div className="w-[180px] h-8 dark:bg-gray-600 bg-gray-300 animate-pulse rounded-xl hidden lg:block"></div>
-        }
+      }
       <div className="w-9 h-9 rounded-full bg-gray-400 overflow-hidden">
         {dataLoaded ? 
+      // РЕНДЕР АВАТАРКИ 
         (<img 
           className="w-full h-full object-cover"
           src={userData.imageSrc !== ''  ? userData.imageSrc : 'https://i.pinimg.com/564x/e0/23/84/e0238444ff148e53cb7bdfe8b4efd4e7.jpg'} 
           alt="img" 
         />)
         :
+      // Loader АВАТАРКИ
         <div className="w-full h-full rounded-full dark:bg-gray-600 bg-gray-300 animate-pulse"></div>
         }
       </div>

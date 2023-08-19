@@ -23,7 +23,8 @@ export default function ProfilePage(){
         '
       >
         <Head>
-          <title>Grivont - Product</title>
+          <title>Grivont - Профиль</title>
+          <link rel="icon" href="/favicon/favicon.ico"/>
         </Head>
         <Container>
           <LeftMenu/>

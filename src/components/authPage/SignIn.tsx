@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux"
 import { isValidName, isValidNick, isValidPassword } from "./validations";
 import { Button, ErrorTitle, Input, SubTitle, Title } from "./AuthUI";
 
-
+// ДАННЫЕ С ПОЛЯ РЕГИСТРАЦИИ
 interface UserData {
   firstName: string;
   secondName: string;
@@ -33,23 +33,24 @@ const SignIn = () => {
   const [userData, setUserData] = useState<UserData>(initialUserData)
   const [notValidField, setNotValidField] = useState<string[]>([])
   const [notValidNick, setNotValidNick] = useState<boolean>(false)
+  const dispatch = useDispatch<AppDispatch>()
+  const router = useRouter()
+
+
+  // ФУНКЦИЯ КОТОРАЯ ОБНОВЛЯЕТ ЗНАЧЕНИЯ В userData ИЗ КОМПОНЕНТОВ AuthUI
   const handeChange = (label: string, value: string) => {
     setUserData(prev => {
       return {...prev, [label]: value}
     })
   }
 
-  const dispatch = useDispatch<AppDispatch>()
-  const router = useRouter()
 
-  
-  const validValue = (callback: ValidationCallback) => {
+  // ФУНКЦИЯ ВАЛИДАЦИИ ПОЛЕЙ С ПОСЛЕДУЮЩИМ ВЫЗОВОМ CALlBACK
+  const checkValidValue = (callback: ValidationCallback) => {
     let firstName = userData.firstName
     let secondName = userData.secondName
     let nickname = userData.nickname
     let password = userData.password
-
-
     const notValidFields = []
 
     if(firstName.trim().length < 2 || isValidName(firstName) === false){
@@ -75,9 +76,12 @@ const SignIn = () => {
   }
 
   const createUser = () => {
+    // ОБНУЛЯЕТ СПИСОК НЕВАЛИДНЫХ ПОЛЕЙ
     setNotValidField([])
+    // ОБНУЛЯЕТ state ОТВЕЧАЮЩИЙ ЗА УНИКАЛЬНОСТЬ НИКНЕЙМА
     setNotValidNick(false)
-    validValue(() => {
+
+    checkValidValue(() => {
       if(notValidField.length === 0){
         const data = {
           fullName: `${userData.firstName} ${userData.secondName}`,
@@ -91,6 +95,8 @@ const SignIn = () => {
           Cookies.set('token', res.data.token)
           router.push('/')
         })
+        // ЕСЛИ ПРИ СОЗДАНИИ АККАУНТА БЫЛ ВВЕДЕН НЕ УНИКАЛЬНЫЙ НИК - state 
+        // ПРИНИМАЕТ ЗНАЧЕНИЕ true
         .catch((res) => setNotValidNick(true))
       }else{
         return
@@ -104,6 +110,7 @@ const SignIn = () => {
         <Title title="Регистрация"/>
         <SubTitle title="Добро пожаловать в Grivont"/>
       </div>
+      {/* В СЛУЧАЕ ЕСЛИ НИК УЖЕ ЗАНЯТ ПОЛЬЗОВАТЕЛЕМ */}
       {notValidNick && (
         <ErrorTitle title="Ник уже занят"/>
       )}
@@ -111,6 +118,7 @@ const SignIn = () => {
         <Input id='firstName' inputType="text" changeValue={handeChange} palceHolder="Введите имя" errorField={notValidField.indexOf('firstName') === -1}/>
         <Input id='secondName' inputType="text" changeValue={handeChange} palceHolder="Введите фамилию" errorField={notValidField.indexOf('secondName') === -1}/>
         <Input id='nickname' inputType="text" changeValue={handeChange} palceHolder="Придумайте ник" errorField={notValidField.indexOf('nickname') === -1}/>
+        {/* ЗАГОЛОВОК АККОРДЕОНА С ИНФОРМАЦИЕЙ О ПРАВИЛАХ СОЗДАНИЯ НИКНЕЙМА*/}
         <div 
           onClick={() => setModalRules(prev => !prev)}
           className="
@@ -124,6 +132,7 @@ const SignIn = () => {
         >
           Подробнее о создании ника
         </div>
+        {/* ТЕЛО АККОРДЕОНА С ИНФОРМАЦИЕЙ О ПРАВИЛАХ СОЗДАНИЯ НИКНЕЙМА*/}
         <div 
           className={`
             ${modalRules ? '' : '-translate-y-6'}
@@ -141,6 +150,7 @@ const SignIn = () => {
         <Input id='password' inputType="password" changeValue={handeChange} palceHolder="Введите пароль" errorField={notValidField.indexOf('password') === -1}/>
         <Button title="Создать аккаунт" handleClick={createUser}/>
       </form>
+      {/* ППЕРЕКЛЮЧЕНИЕ К КОМПОНЕНТУ LogIn */}
       <div 
         onClick={() => dispatch(changeAuth('login'))}
         className="cursor-pointer"

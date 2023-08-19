@@ -1,16 +1,18 @@
 'use client'
 
-import { useAppSelector } from "@/redux/store";
-import AboutMe from "./AboutMe";
-import AdsContainer from "./AdsContainer";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useRouter as useRouterLink } from "next/navigation";
+
 import Cookies from "js-cookie";
+import { useAppSelector } from "@/redux/store";
+
+import PostContainer from "./PostContainer";
+import ProductsContainer from "./ProductsContainer";
 import PageNavigation from "./PageNavigation";
 import ProfileAvatar from "./ProfileAvatar";
 import Loading from "../UI/Loading";
 import EventsPage from "./EventsPage";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { useRouter as useRouterLink } from "next/navigation";
 
 
 import { AppDispatch } from "@/redux/store"
@@ -19,7 +21,8 @@ import { useDispatch } from "react-redux"
 
 
 interface ButtonProps{
-  title: string
+  title: string,
+  mute?: boolean
 }
 const ProfilePageContainer = () => {
   const router = useRouter()
@@ -30,6 +33,8 @@ const ProfilePageContainer = () => {
   const routerExit = useRouterLink()
   const dispatch = useDispatch<AppDispatch>()
 
+
+  // ОПРЕДЕЛЯЕТ ЯВЛЯЕТСЯ ЛИ СТРАНИЦА  СТРАНИЦЕЙ АВТОРА 
   useEffect(()=>{
     if(queryId !== undefined && storeId !== undefined){
       const result: boolean = queryId === storeId
@@ -39,14 +44,15 @@ const ProfilePageContainer = () => {
 
   },[queryId,storeId])
 
+
   const renderPage = () =>{
     switch(info){
       case undefined:
         return <Loading/>
       case 'page1': 
-        return <AdsContainer idUser={'sdv'}/>
+        return <ProductsContainer idUser={'sdv'}/>
       case 'page2': 
-        return <AboutMe/>
+        return <PostContainer/>
       case 'page3': 
         return <EventsPage/>
       default:
@@ -54,9 +60,9 @@ const ProfilePageContainer = () => {
     }
   }
 
-  const Button:React.FC<ButtonProps> = ({title}) =>{
+  const Button:React.FC<ButtonProps> = ({title, mute}) =>{
     return (
-      <div className="py-1 px-2 md:py-2 md:px-4 text-sm md:text-base border border-purple-400 rounded-full cursor-pointer">
+      <div className={`${mute && 'opacity-50'} py-1 px-2 md:py-2 md:px-4 text-sm md:text-base border border-purple-400 rounded-full cursor-pointer`}>
         {title}
       </div>
     )
@@ -74,17 +80,19 @@ const ProfilePageContainer = () => {
   const CreatorFunction = () =>{
     return (
       <div className="flex gap-4 opacity-30">
-        <Button title="Сообщения"/>
+        <Button title="Сообщения" mute={true}/>
         {/* <Button title="Подписаться"/> */}
       </div>
     )
   }
 
+  // ФУНКЦИЯ ВЫХОДА СО СТРАНИЦЫ
   const exit = () => {
     Cookies.set('id', '')
     Cookies.set('token', '')
     routerExit.push('/auth')
   }
+
   return (
     <div className="mt-[80px] md:mt-[120px] mb-4">
       <div className={`flex ${isPerson ? 'flex-row' : 'flex-col'} md:flex-row items-start gap-2 lg:gap-8 justify-between mt-2 lg:mr-8`}>

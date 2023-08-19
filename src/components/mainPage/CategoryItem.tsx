@@ -6,7 +6,6 @@ interface CategoryItemProps{
   imgSrc?: string
 }
 
-
 const CategoryItem:React.FC<CategoryItemProps> = ({titleValue, idLink,imgSrc}) => {
   return (  
     <Link 

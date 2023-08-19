@@ -1,8 +1,10 @@
 'use client'
 import { useEffect, useState } from "react";
-import Title from "./Title";
+
 import axios from "axios";
 import Cookies from "js-cookie";
+
+import Title from "./Title";
 import ProductCardWithId from "../UI/ProductCardWithId";
 
 interface ProductContainerProps{
@@ -15,13 +17,14 @@ const ProductContainer:React.FC<ProductContainerProps> = ({label, title, hasItem
   const [favorite, setFavorite] = useState<string[]>([])
   const userId = Cookies.get('id')
 
-
+  // ЗАПРОС ДЛЯ ПОПУЛЯРНЫХ ТОВАРОВ
   const fetchPopularProducts = () => {
     axios.get('/api/category/getPopular')
       .then(response => setProductId(response.data))
       .catch(error => console.log('Error fetching popular products:', error));
   };
   
+  // ЗАПРОС ДЛЯ ТОВАРОВ В ИЗБРАННОМ
   const fetchFavoriteItems = () => {
     if (userId) {
       axios.get(`/api/favorite/getFavoriteItem/?userId=${userId}`)
@@ -30,6 +33,7 @@ const ProductContainer:React.FC<ProductContainerProps> = ({label, title, hasItem
     }
   };
   
+  // ОТСЛЕЖИВАЕТ КАКУЮ КАТЕГОРИЮ ТОВАРОВ СТОИТ ЗАГРУЗИТЬ
   useEffect(() => {
     if (label === 'popular') {
       fetchPopularProducts();
@@ -38,6 +42,7 @@ const ProductContainer:React.FC<ProductContainerProps> = ({label, title, hasItem
     }
   }, [label, userId]);
 
+  // РЕНДЕР ПОПУЛЯРНЫХ ПРОДУКТОВ
   const renderProduct = () => {
     const cardProduct: JSX.Element[]  = []
     for(const item of productId){
@@ -45,7 +50,7 @@ const ProductContainer:React.FC<ProductContainerProps> = ({label, title, hasItem
     }
     return cardProduct
   }
-  
+  // РЕНДЕР ТОВАРОВ ИЗ ИЗБРАННОГО
   const renderFavorite = () => {
     const cardProduct: JSX.Element[]  = []
     const index = Math.min(4, favorite.length)
@@ -60,11 +65,13 @@ const ProductContainer:React.FC<ProductContainerProps> = ({label, title, hasItem
       <div className="flex items-center">
         <Title titleValue={title}/>
       </div>
+      {/* ЕСЛИ КОНТЕЙНЕР ПОПУЛЯРНОЕ */}
       {label === 'popular' && (
         <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-between gap-4 md:gap-14">
           {renderProduct()}
         </div>
       )}
+      {/* ЕСЛИ КОНТЕЙНЕР ИЗБРАННОЕ */}
       {label === 'mark' && (
         <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-between gap-4 md:gap-14">
           {favorite.length > 0 ? 

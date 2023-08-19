@@ -1,17 +1,21 @@
 'use client'
 import { useEffect, useState } from "react";
-import ProductCard from "../UI/ProductCard";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { reverseCategoryMappings } from "../../../utils/categoryMappings";
+
+import { reverseCategoryMappings } from "../../../utils/categoryMappings"; // ОБЪЕКТ С КАТЕГОРИЯМИ
+
+import ProductCard from "../UI/ProductCard";
 import Loading from "../UI/Loading";
 import EmptyPage from "../UI/EmptyPage";
+
 
 type ImageData = {url: string}
 
 interface ImageObj{
   data: ImageData 
 }
+// ИНТЕРФЕЙС КАРТОЧКИ ТОВАРА - КОТОРАЯ ПРИХОДИТ С СЕРВЕРА
 interface ProductDataType{
   _id: string,
   title: string,
@@ -27,7 +31,7 @@ const CategoryContainer = () => {
   const router = useRouter()
   const categoryLink = typeof router.query.id === 'string' ? router.query.id : undefined
 
-  
+  // ОТПРАВКА ЗАПРОСА НА СЕРВЕР ДЛЯ ПОЛУЧЕНИЯ ТОВАРОВ ОДНОЙ КАТЕГОРИИ
   useEffect(() => {
     if(categoryLink !== undefined){
       axios.get(`/api/product/getProductOfOneCategory/?id=${categoryLink}`)
@@ -42,14 +46,17 @@ const CategoryContainer = () => {
 
   return (  
     <div className="mt-[80px] md:mt-[120px]">
+      {/* ЗАГОЛОВОК КАТЕГОРИ */}
       <h2 className="font-bold text-4xl">
         {categoryLink !== undefined ? reverseCategoryMappings[categoryLink] : 'Категория'}
       </h2>
       <div className="mt-8 mb:mt-10 mb-2 md:mb-4">
+        {/* LOADER ДО ПОЛУЧЕНИЯ ДАННЫХ О ТОВАРАХ */}
         {loaded ? (
           <div className="">
             {productData.length > 0 ? 
               (
+              // ЕСЛИ ТОВАРЫ ИМЕЮТСЯ ПРОИСХОДИТ РЕНДЕР
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-8">
                   {productData.map(item => (
                     <ProductCard 
@@ -66,11 +73,15 @@ const CategoryContainer = () => {
               ) 
               : 
               (
+              // ЕСЛИ ТОВАРОВ НЕТ
                <EmptyPage title="Товары данной категории отсутсвуют"/>
               )
             }
           </div>
-        ) : (<Loading/>)}
+        ) 
+        : 
+        // LOADER ДО ПОЛУЧЕНИЯ ДАННЫХ С СЕРВЕРА
+        (<Loading/>)}
       </div>
     </div>
   );

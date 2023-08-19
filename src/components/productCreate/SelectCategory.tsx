@@ -14,24 +14,30 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
   const [openMainModal, setOpenMainModal] = useState<boolean>(false)
   const [openSubModal, setOpenSubModal] = useState<boolean>(false)
 
-
+  
+  // ОБНОВЛЕНИЕ ДАННЫХ РОДИТЕЛЬСКОГО КОМПОНЕНТА CreateContainer ПРИ ВЫБОРЕ ПОДКАТЕГОРИИ
   useEffect(() => {
     changeCategory('category', subCategory)
   },[subCategory])
+
   const openMainDropdown = () =>{
     setOpenSubModal(false)
     setOpenMainModal(prev => prev = !prev)
   }
+
   const openSubDropdown = () =>{
     setOpenMainModal(false)
     setOpenSubModal(prev => prev = !prev)
   }
+
   const changeMainCategory = (value: string) => {
     setMainCategory(value)
   }
+  
   const changeSubCategory = (value: string) => {
     setSubCategory(value)
   }
+
   const renderMainCategory = () => {
     const components = []
     for(const item in categories){
@@ -50,6 +56,8 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
   }
   return ( 
     <div className="mt-4 flex flex-col gap-8">
+
+      {/* КНИПКА ОТКРЫТИЯ ОСНОВНОГО МЕНЮ */}
       <div 
         onClick={openMainDropdown}
         className={`
@@ -64,11 +72,13 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
         `}
       >
         {mainCategory.length > 0 ? mainCategory : 'Выбрать категорию'}
+        {/* СТРЕЛОЧКА ПОКАЗЫВАЮЩАЯ ОТКРЫТИЕ ИЛИ ЗАКРЫТИЯ ОСНОВНОГО МЕНЮ */}
         <div
           className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
         >
           {openMainModal ? <HiMiniChevronUp size={26}/> : <HiMiniChevronDown size={26}/>}
         </div>
+        {/* БЛОК ОСНОВНОГО МЕНЮ */}
         <div 
         className={`
           ${openMainModal ? 'top-20' : 'top-0'}
@@ -92,9 +102,12 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
         <div className="">
           {renderMainCategory()}
         </div>
+        </div>
       </div>
-      </div>
+
+      {/* ПРОВЕРКА НА ТО, ЧТО ОСНОВНАЯ КАТЕГОРИЯ ВЫБРАНА */}
       {mainCategory.length > 0 && (
+        // КНОПКА ОТКРЫТИЯ ДОП МЕНЮ
         <div 
           onClick={openSubDropdown}
           className={`
@@ -103,17 +116,19 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
             p-4 
             rounded-xl 
             relative 
-            z-10 
+            z-30 
             bg-gray-900 
             capitalize
           `}
         >
           {subCategory.length > 0 ? subCategory : 'Выбрать подкатегорию'}
+        {/* СТРЕЛОЧКА ПОКАЗЫВАЮЩАЯ ОТКРЫТИЕ ИЛИ ЗАКРЫТИЯ ДОП МЕНЮ */}
         <div
           className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
         >
           {openSubModal ? <HiMiniChevronUp size={26}/> : <HiMiniChevronDown size={26}/>}
         </div>
+        {/* БЛОК ДОП МЕНЮ */}
         <div 
         className={`
           ${openSubModal ? 'top-20' : 'top-0'}
@@ -131,14 +146,14 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
           flex-col 
           gap-2
           rounded-xl 
-          z-20
+          z-30
           capitalize
         `}
       >
         <div className="">
           {renderSubCategory()}
         </div>
-      </div>
+        </div>
       </div>
       )}
     </div>

@@ -1,11 +1,13 @@
 'use client'
 import { useEffect, useState } from "react";
+
+import Cookies from "js-cookie";
+import axios from "axios";
+
 import Title from "../UI/Title";
 import Loading from "../UI/Loading";
 import EmptyPage from "../UI/EmptyPage";
 import OrderItem from "./OrderItem";
-import Cookies from "js-cookie";
-import axios from "axios";
 
 interface Items{
   productId: string,
@@ -27,6 +29,7 @@ const OrderContainer = () => {
   const [ordersData, setOrdersData] = useState<orderData[]>()
   const userId: string | undefined = Cookies.get('id')
 
+  // ПОЛУЧЕНИЕ ИНФОРМАЦИИ О ЗАКАЗАХ
   useEffect(() => {
     if(userId !== undefined){
       axios(`/api/order/getOrders/?id=${userId}`)
@@ -39,7 +42,9 @@ const OrderContainer = () => {
     }
   },[userId])
 
+  // РЕНДЕР ЗАКАЗОВ
   const renderScreen = () => {
+    // ЕСЛИ ЗАКАЗЫ ЕСТЬ
     if(ordersData !== undefined && ordersData.length > 0){
       return (
         <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
@@ -55,6 +60,7 @@ const OrderContainer = () => {
             ))}
         </div>
       )
+    // ЕСЛИ ЗАКАЗОВ НЕТ
     }else{
       return <EmptyPage title="У вас пока нет заказов"/>
     }
@@ -63,6 +69,7 @@ const OrderContainer = () => {
     <div className="mt-[80px] md:mt-[120px]">
       <Title title="Мои заказы"/>
       <div className="mt-6 md:mt-12  mb-4">
+        {/* Loader ОЖИДАНИЯ ДАННЫХ С СЕРВЕРА */}
         {loaded ? 
           (renderScreen()) 
           : 

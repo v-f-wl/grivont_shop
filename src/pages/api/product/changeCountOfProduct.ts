@@ -17,7 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if(req.method === 'PATCH'){
     try {
       const { productId, count }: RequestBody = req.body
-      console.log(count)
       if(productId === undefined || count === undefined){
         res.status(500).json({
           message: "Неправильные данные"

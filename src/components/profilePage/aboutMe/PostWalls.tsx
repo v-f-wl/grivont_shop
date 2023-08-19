@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
-import WallsCard from "./WallsCard";
+import PostCard from "./PostCard";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Loading from "@/components/UI/Loading";
@@ -16,7 +16,7 @@ interface PostsObj{
   createdAt: string
 }
 
-const AboutWalls = () => {
+const PostWalls = () => {
   const [posts, setPosts] = useState<PostsObj[]>([])
   const [loaded, setLoaded] = useState<boolean>(false)
   const [authtorName, setAuthtorName] = useState<string>('')
@@ -24,7 +24,7 @@ const AboutWalls = () => {
   const userID = router.query.id
   const isUser = useAppSelector((state) => state.isPerson.value) 
 
-
+  // ПОЛУЧЕНИЯ ПОСТОВ С БАЗЫ ДАННЫХ
   useEffect(() => {
     if(userID !== undefined){
       axios.get(`/api/post/getPosts/?id=${userID}`)
@@ -41,6 +41,8 @@ const AboutWalls = () => {
 
     }
   }, [userID])
+
+  
   return ( 
     <div className="">
       {loaded ? 
@@ -49,7 +51,7 @@ const AboutWalls = () => {
             {posts.length > 0 ? 
             (
               posts.map(item => (
-                <WallsCard 
+                <PostCard 
                   key={item._id}
                   id={item._id}
                   title={item.title}
@@ -79,4 +81,4 @@ const AboutWalls = () => {
   );
 }
  
-export default AboutWalls;
+export default PostWalls;

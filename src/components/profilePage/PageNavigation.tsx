@@ -10,6 +10,7 @@ interface ButtonProps{
 const PageNavigation = () => {
   const info = useAppSelector((state) => state.profileSwitch.value)
   const dispatch = useDispatch<AppDispatch>()
+
   const Button:React.FC<ButtonProps> = ({title, id}) => {
     return (
       <div 
@@ -35,6 +36,7 @@ const PageNavigation = () => {
 
 
   return (  
+    // ОТВЕЧАЕТ ЗА ПЕРЕКЛЮЧЕНИЕ МЕЖДУ ЭКРАНАМИ
     <div className="flex items-center gap-2 lg:gap-8">
       <Button title="Объявления" id='page1'/>
       <Button title="Лента" id='page2'/>

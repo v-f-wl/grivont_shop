@@ -1,11 +1,13 @@
 'use client'
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
+import axios from "axios";
+
 import AboutProduct from "./AboutProduct";
 import ImageProduct from "./ImageProduct";
 import Loading from "../UI/Loading";
-import { useRouter } from "next/router";
-import axios from "axios";
 
 type ImageData = {url: string, id: string}
 
@@ -54,6 +56,7 @@ const ProductContainer = () => {
           router.push('/error');
         } else {
           setProductData(response.data);
+          document.title = `Grivont - ${response.data.title}`
           setIsLoaded('load');
         }
       } catch (error) {

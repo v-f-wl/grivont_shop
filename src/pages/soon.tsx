@@ -12,6 +12,10 @@ const LeftMenu = dynamic(() => import('@/components/UI/LeftMenu'), { ssr: false 
 export default function soon(){
   return ( 
     <div className={RobotoMono.className}>
+      <Head>
+        <title>Grivont - Скоро</title>
+        <link rel="icon" href="/favicon/favicon.ico"/>
+      </Head>
       <div 
         className="
           relative
@@ -19,9 +23,6 @@ export default function soon(){
           overflow-y-scroll 
         "
       >
-        <Head>
-          <title>Grivont - Profile</title>
-        </Head>
         <div className="dark:bg-gray-900 bg-white h-screen">
           <Container>
           <LeftMenu/>
@@ -36,7 +37,7 @@ export default function soon(){
             </div>
 
           </Container>
-      </div>
+        </div>
       </div>
     </div>
   );

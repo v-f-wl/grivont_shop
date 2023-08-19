@@ -25,7 +25,7 @@ export default function ServicesPage(){
           '
         >
           <Head>
-            <title>Grivont - Profile</title>
+            <title>Grivont - Сервисы</title>
           </Head>
           <Container>
             <LeftMenu/>

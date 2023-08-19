@@ -1,8 +1,16 @@
-import Link from 'next/link';
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { HiOutlineSquaresPlus, HiOutlineTag, HiOutlineCalendarDays, HiOutlineXMark, HiOutlineHashtag  } from 'react-icons/hi2'
+import Link from 'next/link';
 import Cookies from "js-cookie";
 import axios from 'axios';
+
+import { 
+  HiOutlineSquaresPlus,
+   HiOutlineTag, 
+   HiOutlineCalendarDays, 
+   HiOutlineXMark, 
+   HiOutlineHashtag  
+} from 'react-icons/hi2'
+
 import Loading from '../UI/Loading';
 
 
@@ -20,21 +28,16 @@ interface ItemContainerProps {
 
 
 const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
-  const label: string = 'product'
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [sendPost, setSendPost] = useState<boolean>(false)
   const [openPost, setOpenPost] = useState<boolean>(false)
   const [postText, setPostText] = useState<string>('')
+
+  const label: string = 'product'
   const userId = Cookies.get('id')
   const divRef = useRef<HTMLDivElement | null>(null)
-  useEffect(() => {
-    setIsOpen(modalValue === label)
-    setOpenPost(modalValue === 'post')
-  }, [modalValue])
 
-  const postModal = () => {
-    openModal('post')
-  }
+  // В СЛУЧАЕ НАЖАТИЯ ВНЕ AddProduct - ЗАКРЫВАЕТ МЕНЮ
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Element
@@ -44,13 +47,12 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
       }
     }
     document.addEventListener('click', handleClickOutside)
-
     return () => {
       document.removeEventListener('click', handleClickOutside)
     }
   }, [])
 
-
+  // ОТВЕЧАЕТ ЗА ЗАКРЫТИЕ МЕНЮ НА УРОВНЕ КОМПОНЕНТА NavHeader
   useEffect(() => {
     if(isOpen === false && modalValue === label){
       openModal('')
@@ -58,6 +60,22 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
   }, [isOpen])
 
 
+  // В КОМПОНЕНТЕ isOpen(setIsOpen) ОТВЕЧАЕТ ЗА ОТКРЫТИЕ МЕНЮ В ЦЕЛОМ 
+  // openPost(setOpenPost) ОТВЕЧАЕТ ЗА ОТКРЫТИЕ ОКНА СОЗДАНИЕ ПОСТА
+  // modalValue ПРИХОДИТ ИЗ КОМПОНЕНТА NavHeader И НЕОБХОДИМО ДЛЯ ТОГО 
+  // ЧТОБЫ ТАКЖЕ УПРАВЛЯТЬ КОМПОНЕНТОВ Alert 
+  useEffect(() => {
+    setIsOpen(modalValue === label)
+    setOpenPost(modalValue === 'post')
+  }, [modalValue])
+
+
+  // ВЫЗЫВАЕТ ФУНКЦИЮ ИЗ NavHeader ДЛЯ ПЕРЕКЛЮЧЕНИЯ ОКНА
+  const postModal = () => {
+    openModal('post')
+  }
+  
+  // ОТПРАВЛЯЕТ ДАННЫЕ НА СЕРВЕР ДЛЯ СОЗДАНИЯ ПОСТА
   const createPost = () => {
     setSendPost(true)
     if(postText.trim().length < 5){
@@ -75,6 +93,8 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
       })
     )
   }
+
+  // ЭЛЕМЕНТЫ МЕНЮ
   const ItemContainer:React.FC<ItemContainerProps> = ({children, link, mute, handleFunction}) => {
     return (
       <Link href={link}
@@ -95,18 +115,22 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
       </Link>
     )
   }
+  // ЗАГОЛОВОК ДЛЯ ЭЛЕМЕНТОВ МЕНЮ
   const LadelTitle = ({title} : {title: string}) => {
     return <span className="">{title}</span>
   }
 
   return (  
     <div 
+      // ДЛЯ ОТСЛЕЖИВАНИЯ НАЖАТИЯ ВСЕ БЛОКА 
       ref={divRef}
       className="md:relative" id='addproduct'>
+      {/* ГЛАВНАЯ ИКОНКА, КОТОРАЯ ОТКРЫВАЕТ ЛИБО ЗАКРЫВАЕТ МЕНЮ */}
       <HiOutlineSquaresPlus
         onClick={() => openModal(label)}
         className={`${isOpen && 'text-indigo-400'} hover:text-indigo-400 transition-colors`}
       />
+      {/* БЛОК С ЭЛЕМЕНТАМИ МЕНЮ */}
       <div 
         className={`
           ${isOpen ? 'top-12' : '-top-12'}
@@ -140,6 +164,7 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
         </div>
       </div>
 
+      {/* бЛОК ПО СОЗДАНИЮ ПОСТОВ */}
       <div 
         className={`
           ${openPost ? 'top-12' : '-top-12'}
@@ -166,11 +191,14 @@ const AddProduct: React.FC<AddProductProps> = ({openModal, modalValue}) => {
             <HiOutlineXMark size={20}/>
           </div>
         </div>
+
         {sendPost ? 
+        // ЕСЛИ БЫЛИ ОТПРАВЛЕНЫ ДАННЫЕ ПОСТА НА СЕРВЕР ПОКАЗЫВАЕТСЫ Load
           (
             <Loading/>
           )
           :
+        // БЛОК ДЛЯ ВВОДА ТЕКСТА ПОСТА И КНОПКА ОТПРАВКИ
           (
             <>
               <textarea 

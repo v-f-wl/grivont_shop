@@ -1,4 +1,12 @@
 'use client'
+// 
+// 
+// 
+// КОМПОНЕНТ В РАЗРАБОТКЕ
+// 
+// 
+// 
+
 import { useEffect, useRef, useState } from 'react';
 import { HiOutlineBellAlert } from 'react-icons/hi2'
 import Loading from '../UI/Loading';
@@ -59,7 +67,7 @@ const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
             h-[25vh]
             flex 
             items-center 
-            justify-center 
+            justify-center text-center
           "
         >
           Уведомлений пока нет

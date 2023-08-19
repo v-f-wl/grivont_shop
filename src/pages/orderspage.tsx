@@ -23,7 +23,7 @@ export default function Favorite(){
         '
       >
         <Head>
-          <title>Grivont - Favorite</title>
+          <title>Grivont - Заказы</title>
         </Head>
         <Container>
           <LeftMenu/>

@@ -15,24 +15,6 @@ const SelectCity:React.FC<SelectCityProps> = ({changeCity}) => {
     setSelectedCity(value)
     changeCity('city', value)
   }
-  const CityItem = ({value} : {value: string}) => {
-    return (
-      <div 
-        onClick={() => changeValue(value)}
-        className={`
-          ${selectedCity === value ? 'text-indigo-500' : ''}
-          ${selectedCity === value ? 'opacity-80' : ''}
-          ${selectedCity === value ? 'hover:text-indigo-500' : ''}
-          py-2 
-          cursor-pointer 
-          transition-colors 
-          hover:text-purple-400
-        `}
-      >
-        {value}
-      </div>
-    )
-  }
 
   return ( 
     <div 
@@ -41,12 +23,14 @@ const SelectCity:React.FC<SelectCityProps> = ({changeCity}) => {
     >
       <div className="border p-3 md:p-4 border-purple-400 rounded-xl relative z-20 dark:bg-gray-900 bg-white capitalize">
         {selectedCity !== '' ? selectedCity : 'Выберете город'}
+        {/* СТРЕЛКА */}
         <div
           className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
         >
           {openModal ? <HiMiniChevronUp size={26}/> : <HiMiniChevronDown size={26}/>}
         </div>
       </div>
+      {/* БЛОК МЕНЮ */}
       <div 
         className={`
           ${openModal ? 'top-20' : 'top-0'}

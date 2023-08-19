@@ -1,14 +1,21 @@
 'use client'
-import { HiOutlineHeart, HiOutlineEllipsisVertical, HiOutlineChatBubbleBottomCenterText } from 'react-icons/hi2'
-import Cookies from 'js-cookie'
+
 import { useEffect, useState } from 'react'
+
 import axios from 'axios'
+import Cookies from 'js-cookie'
+
+import { 
+  HiOutlineHeart, 
+  HiOutlineEllipsisVertical,
+  HiOutlineChatBubbleBottomCenterText 
+} from 'react-icons/hi2'
 
 import { AppDispatch, useAppSelector } from '@/redux/store'
 import { useDispatch } from 'react-redux'
 import { changeMenu } from "@/redux/features/wallsCard-slice"
 
-interface WallsCardProps{
+interface PostCardProps{
   id: string,
   title: string,
   time: string,
@@ -18,14 +25,7 @@ interface WallsCardProps{
   commentCollection: Object[],
 }
 
-interface OptionType{
-  hour: string,
-  minute: string,
-  year: string,
-  month: string,
-  day: string,
-}
-const WallsCard:React.FC<WallsCardProps> = (
+const PostCard:React.FC<PostCardProps> = (
   {
     id,
     title, 
@@ -53,6 +53,8 @@ const WallsCard:React.FC<WallsCardProps> = (
   const userId = Cookies.get('id')
 
   const dispatch = useDispatch<AppDispatch>()
+
+  // ПРОВЕРКА НА ТО, ПОСТАВИЛ ЛИ ПОЛЬЗОВАТЕЛЬ ЛАЙК
   useEffect(() => {
     if(userId !== undefined){
       if(likeCollection.indexOf(userId) > -1){
@@ -61,10 +63,12 @@ const WallsCard:React.FC<WallsCardProps> = (
     }
   },[likeCollection, userId])
 
+  // ОТКРЫТИЕ МЕНЮ У ОДНОГО ПОСТА
   useEffect(() => {
     setMenuIsOpen(isOpenMenu === id)
   },[isOpenMenu, id])
 
+  // ОТКРЫТИЕ МЕНЮ У ОДНОГО ПОСТА
   const openMenu = () => {
     if(isOpenMenu === id){
       dispatch(changeMenu(''))
@@ -72,6 +76,8 @@ const WallsCard:React.FC<WallsCardProps> = (
       dispatch(changeMenu(id))
     }
   }
+
+  // ДОБАВЛЕНИЕ/УДАЛЕНИЕ ЛАЙКА
   const targetLike = () => {
     const data = {userId, postId: id}
     axios.patch('/api/post/likeTarget', data)
@@ -88,13 +94,17 @@ const WallsCard:React.FC<WallsCardProps> = (
     
   }
 
+  // УДАЛЕНИЕ ПОСТА
   const deletePost = () => {
     axios.delete(`/api/post/deletePost/?id=${id}`)
     .then(() => {
       setPostDeleted(true)
     })
   }
+
+  // ПРЕОБРАЗОВАНИЕ ДАТЫ
   const dateString = createData.toLocaleDateString('ru-RU', options);
+
   return ( 
     <div 
       className={`
@@ -102,6 +112,8 @@ const WallsCard:React.FC<WallsCardProps> = (
         dark:bg-gray-800 bg-gray-100 p-3 md:p-8 rounded-xl flex flex-col gap-2 md:gap-4 z-0 relative
       `}
     >
+
+      {/* МЕНЮ ДЛЯ ПОЛЬЗОВАТЕЛЯТЬ ДЛЯ УДАЛЕНИЯ ПОСТА */}
       <div className={`${isUser ? 'block' : 'hidden'} absolute top-3 md:top-8 right-3 md:right-4`}>
         <div 
           onClick={openMenu}
@@ -130,13 +142,22 @@ const WallsCard:React.FC<WallsCardProps> = (
           </ul>
         </div>
       </div>
+
+
+      {/* БЛОК ИМЕНИ И ДАТЫ */}
       <div className="">
         <div className="text-md dark:font-normal font-medium md:text-xl">{name}</div>
         <div className="text-sm md:text-base font-light text-gray-400">{dateString}</div>
       </div>
-      <h3 className="text-md md:text-xl font-medium dark:text-indigo-300 text-gray-600 pr-4 whitespace-normal  break-words">
+
+
+      {/* ТЕКСТ ПОСТА */}
+      <div className="text-md md:text-xl font-medium dark:text-indigo-300 text-gray-600 pr-4 whitespace-normal  break-words">
         {title}
-      </h3>
+      </div>
+
+
+      {/* КНОПКА ЛАЙКА И КОМЕНТАРИЕВ */}
       <div className="mt-2 md:mt-4 flex gap-3 md:gap-6 text-md md:text-xl">
         <div 
           onClick={() => targetLike()}
@@ -154,4 +175,4 @@ const WallsCard:React.FC<WallsCardProps> = (
   );
 }
  
-export default WallsCard;
+export default PostCard;
