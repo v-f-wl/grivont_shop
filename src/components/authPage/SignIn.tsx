@@ -31,6 +31,9 @@ const initialUserData: UserData = {
 const SignIn = () => {
   const [modalRules, setModalRules] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserData>(initialUserData)
+
+  const [requestSend, setRequestSend] = useState<boolean>(false)
+
   const [notValidField, setNotValidField] = useState<string[]>([])
   const [notValidNick, setNotValidNick] = useState<boolean>(false)
   const dispatch = useDispatch<AppDispatch>()
@@ -76,8 +79,13 @@ const SignIn = () => {
   }
 
   const createUser = () => {
+
+    // ВКЛЮЧЕНИЕ ЛОАДЕРА ДЛЯ КНОПКИ
+    setRequestSend(true)
+
     // ОБНУЛЯЕТ СПИСОК НЕВАЛИДНЫХ ПОЛЕЙ
     setNotValidField([])
+    
     // ОБНУЛЯЕТ state ОТВЕЧАЮЩИЙ ЗА УНИКАЛЬНОСТЬ НИКНЕЙМА
     setNotValidNick(false)
 
@@ -97,7 +105,10 @@ const SignIn = () => {
         })
         // ЕСЛИ ПРИ СОЗДАНИИ АККАУНТА БЫЛ ВВЕДЕН НЕ УНИКАЛЬНЫЙ НИК - state 
         // ПРИНИМАЕТ ЗНАЧЕНИЕ true
-        .catch((res) => setNotValidNick(true))
+        .catch((res) => {
+          setNotValidNick(true)
+          setRequestSend(false)
+        })
       }else{
         return
       }
@@ -148,12 +159,12 @@ const SignIn = () => {
           </ul>
         </div>
         <Input id='password' inputType="password" changeValue={handeChange} palceHolder="Введите пароль" errorField={notValidField.indexOf('password') === -1}/>
-        <Button title="Создать аккаунт" handleClick={createUser}/>
+        <Button title="Создать аккаунт" handleClick={createUser} isLoading={requestSend}/>
       </form>
       {/* ППЕРЕКЛЮЧЕНИЕ К КОМПОНЕНТУ LogIn */}
       <div 
         onClick={() => dispatch(changeAuth('login'))}
-        className="cursor-pointer"
+        className={`${requestSend && 'hidden'} cursor-pointer`}
       >
         Войти
       </div>

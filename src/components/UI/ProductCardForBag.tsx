@@ -103,7 +103,7 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
         />
       </div>
       <div className="w-auto flex flex-col gap-4 flex-1">
-        <h2 className="h-[56px] clamped-text text-2xl">{productTitle}</h2>
+        <h2 className="h-[58px] clamped-text text-2xl">{productTitle}</h2>
         <div className="flex flex-col gap-2">
           <div className="font-medium"><CategoryTitle title="Цена"/>  {productPrice} руб.</div>
           <div className="font-medium"><CategoryTitle title="В наличии"/> {countOfProducts}</div>

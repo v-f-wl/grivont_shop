@@ -29,7 +29,7 @@ export default function soon(){
           <div 
             className="h-screen flex flex-col items-center justify-center gap-6"
           >
-            <h2 className="font-bold text-5xl text-gray-400">
+            <h2 className="font-bold text-center text-4xl md:text-5xl text-gray-400">
               Страница не найдена 
             </h2>
             <Link className='underline text-purple-500' href='/'>Вернуться на главную страницу</Link>

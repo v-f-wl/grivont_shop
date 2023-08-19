@@ -28,6 +28,8 @@ const initialUserData: UserData = {
 const LogIn = () => {
   const [userData, setUserData] = useState<UserData>(initialUserData)
   const [notValidField, setNotValidField] = useState<string[]>([])
+
+  const [requestSend, setRequestSend] = useState<boolean>(false)
   const [responsIsFaled, setRespontIsFaled] = useState<boolean>(false)
   
   const router = useRouter()
@@ -64,6 +66,9 @@ const LogIn = () => {
   //ВЫЗОВ ФУНКЦИИ ВАЛИДАЦИИ ПОЛЕЙ И ПОСЛЕДУЮЩАЯ ОТПРАВКА ДАННЫХ НА СЕРВЕР
   const loginRequest = () => {
 
+    // ВКЛЮЧЕНИЕ ЛОАДЕРА ДЛЯ КНОПКИ
+    setRequestSend(true)
+
     // ОЧИЩАЕТ СПИСОК НЕВАЛИДНЫХ ПОЛЕЙ 
     setNotValidField([])
     
@@ -75,7 +80,10 @@ const LogIn = () => {
           Cookies.set('token', res.data.token)
           router.push('/')
         })
-        .catch(() => setRespontIsFaled(true))
+        .catch(() => {
+          setRespontIsFaled(true)
+          setRequestSend(false)
+        })
       }else{
         return
       }
@@ -107,12 +115,12 @@ const LogIn = () => {
       <div className="flex flex-col gap-3 w-full md:w-2/3">
         <Input id='nickname' inputType="text" changeValue={handeChange} palceHolder="Введите ник" errorField={notValidField.indexOf('nickname') === -1}/>
         <Input id='password' inputType="password" changeValue={handeChange} palceHolder="Введите пароль" errorField={notValidField.indexOf('password') === -1}/>
-        <Button title="Войти" handleClick={loginRequest}/>
+        <Button title="Войти" handleClick={loginRequest} isLoading={requestSend}/>
       </div>
       {/* КНОПКА СМЕНЫ СТРАНИЦЫ НА SignIn */}
       <div 
         onClick={() => dispatch(changeAuth('signin'))}
-        className="cursor-pointer"
+        className={`${requestSend && 'hidden'} cursor-pointer`}
       >
         Регистрация
       </div>

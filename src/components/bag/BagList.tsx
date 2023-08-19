@@ -178,7 +178,7 @@ const BagList = () => {
       (
         <div className="relative flex flex-col-reverse  lg:grid md:grid-cols-profile gap-4 md:gap-8 lg:gap-12 items-start">
           {/* КОНТЕЙНЕР ДЛЯ ТОВАРОВ */}
-          <div className="">
+          <div className="w-full">
             {bagData.length > 0 ? 
               (
               // РЕНДЕР ТОВАРОВ ПРИ ИХ НАЛИЧИИ
@@ -203,7 +203,9 @@ const BagList = () => {
               : 
               (
               // ПРИ ОТСУТСТВИИ ТОВАРОВ
+              <div className="md:col-span-2 ">
                 <EmptyPage title="Корзина пустая"/>
+              </div>
               )
             }
           </div>

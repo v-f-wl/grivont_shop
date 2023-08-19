@@ -73,7 +73,7 @@ const ProductsContainer:React.FC<AdsContainerProps> = ({idUser}) => {
               ) 
               : 
               (
-                <div className="mt-8 md:cal-span-2 lg:col-span-3 text-center text-2xl">У вас пока нет товаров</div>
+                <div className="mt-8 col-span-2 w-full md:col-span-3 lg:col-span-4 text-center text-2xl">У вас пока нет товаров</div>
               )
             }
           </div>

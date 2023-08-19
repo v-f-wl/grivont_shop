@@ -1,5 +1,6 @@
 'use client'
 import { useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 
 interface StringProps{
@@ -8,7 +9,8 @@ interface StringProps{
 
 interface ButtonProps{
   title: string,
-  handleClick: () => void
+  handleClick: () => void,
+  isLoading: boolean
 }
 
 interface InputProps{
@@ -57,10 +59,10 @@ export const ErrorTitle:React.FC<StringProps> = ({title}) => {
   )
 }
 
-export const Button:React.FC<ButtonProps> = ({title, handleClick}) => {
+export const Button:React.FC<ButtonProps> = ({title, handleClick, isLoading}) => {
   return (
     <div 
-      onClick={handleClick}
+      onClick={() => {if(!isLoading) handleClick()}}
       className="
         border dark:border-gray-200
         border-gray-800
@@ -71,7 +73,13 @@ export const Button:React.FC<ButtonProps> = ({title, handleClick}) => {
         justify-center text-xl cursor-pointer
       "
     >
-      {title}
+      {isLoading ? 
+        <AiOutlineLoading3Quarters size={24} className="animate-spin"/>
+        :
+        <>
+          {title}
+        </>
+      }
     </div>
   )
 }
