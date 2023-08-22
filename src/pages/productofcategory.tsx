@@ -3,7 +3,6 @@ import '../app/globals.css'
 import { Roboto_Mono } from 'next/font/google'
 import Head from 'next/head';
 import Container from "@/components/UI/Container";
-// import LeftMenu from '@/components/UI/LeftMenu';
 import HeaderContainer from '@/components/header/HeaderContainer';
 import CategoryContainer from '@/components/category/CategoryContainer';
 import dynamic from 'next/dynamic';

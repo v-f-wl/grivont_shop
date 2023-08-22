@@ -8,6 +8,7 @@ import { reverseCategoryMappings } from "../../../utils/categoryMappings"; // О
 import ProductCard from "../UI/ProductCard";
 import Loading from "../UI/Loading";
 import EmptyPage from "../UI/EmptyPage";
+import FilterProduct from "../UI/FilterProduct";
 
 
 type ImageData = {url: string}
@@ -21,20 +22,27 @@ interface ProductDataType{
   title: string,
   priceOfProduct: number,
   countOfProducts: number,
+  colorLink: string,
   imageSrc: ImageObj[],
   description: string,
+}
+
+interface CategoryParams{
+  [key: string]: string
 }
 
 const CategoryContainer = () => {
   const [productData, setProductData] = useState<ProductDataType[]>([])
   const [loaded, setLoaded] = useState<boolean>(false)
+  const [queryCategory, setQueryCategory] = useState<CategoryParams>({})
   const router = useRouter()
   const categoryLink = typeof router.query.id === 'string' ? router.query.id : undefined
 
   // ОТПРАВКА ЗАПРОСА НА СЕРВЕР ДЛЯ ПОЛУЧЕНИЯ ТОВАРОВ ОДНОЙ КАТЕГОРИИ
   useEffect(() => {
     if(categoryLink !== undefined){
-      axios.get(`/api/product/getProductOfOneCategory/?id=${categoryLink}`)
+      setLoaded(false)
+      axios.get(`/api/product/getProductOfOneCategory/?subCategory=${categoryLink}&color=${queryCategory.color}&maxPrice=${queryCategory.maxPrice}&inStock=${queryCategory.inStock}`)
       .then(res => {
         setProductData(res.data)
         setLoaded(true)
@@ -42,22 +50,43 @@ const CategoryContainer = () => {
       )
       .catch(() => console.log('error'))
     }
-  }, [categoryLink])
+  }, [categoryLink, queryCategory])
+
+  const changeFilter = (label: string, value: string) => {
+    setQueryCategory(prev => {
+      const obj = {...prev}
+      obj[label] = value
+      return obj
+    })
+  }
+
 
   return (  
     <div className="mt-[80px] md:mt-[120px]">
+
+
       {/* ЗАГОЛОВОК КАТЕГОРИ */}
-      <h2 className="font-bold text-4xl">
+      <h2 className="font-bold text-2xl md:text-4xl">
         {categoryLink !== undefined ? reverseCategoryMappings[categoryLink] : 'Категория'}
       </h2>
-      <div className="mt-8 mb:mt-10 mb-2 md:mb-4">
+
+
+      {/* ФИЛЬТР ТОВАРОВ */}
+      <div className="mt-3 md:mt-6">
+        <FilterProduct isLoading={loaded && productData.length > 0} handleChange={changeFilter} withCategory={false}/>
+      </div>
+      <div className="mt-6 mb:mt-8 mb-2 md:mb-4">
+
+
         {/* LOADER ДО ПОЛУЧЕНИЯ ДАННЫХ О ТОВАРАХ */}
         {loaded ? (
           <div className="">
             {productData.length > 0 ? 
-              (
+
+
               // ЕСЛИ ТОВАРЫ ИМЕЮТСЯ ПРОИСХОДИТ РЕНДЕР
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-8">
+              (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-2 md:gap-8">
                   {productData.map(item => (
                     <ProductCard 
                       key={item._id} 
@@ -72,14 +101,17 @@ const CategoryContainer = () => {
                 </div>
               ) 
               : 
-              (
+
+
               // ЕСЛИ ТОВАРОВ НЕТ
+              (
                <EmptyPage title="Товары данной категории отсутсвуют"/>
               )
             }
           </div>
         ) 
         : 
+
         // LOADER ДО ПОЛУЧЕНИЯ ДАННЫХ С СЕРВЕРА
         (<Loading/>)}
       </div>

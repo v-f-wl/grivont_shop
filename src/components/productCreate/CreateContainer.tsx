@@ -12,31 +12,35 @@ import Title from "../UI/Title";
 import SelectCategory from "./SelectCategory";
 import AddImage from "./AddImage";
 import NumericInput from "./NumberInput";
-import SelectCity from "./SelectCity";
+import SelectColor from "./SelectColor";
 
 interface InitialStateProps{
   title: string;
   description: string;
-  city: string;
   category: string;
   imageSrc: string;
   imageData: Object[];
   categoryLink: string;
+  mainCategoryLink: string;
+  mainCategory: string;
   userId: string;
   price: number;
   count: number;
+  colorLink: string;
 }
 const initialState: InitialStateProps = {
   title: '',
   description: '',
-  city: 'Mосква',
   price: 0,
   count: 0,
   category: '',
+  mainCategoryLink: '',
+  mainCategory: '',
   categoryLink: '',
   imageSrc: '',
   imageData: [],
-  userId: ''
+  userId: '',
+  colorLink: ''
 }
 
 const CreateContainer = () => {
@@ -62,6 +66,7 @@ const CreateContainer = () => {
     setProductData(prev => {
       const obj = {...prev}
       obj.categoryLink = categoryMappings[productData.category]
+      obj.mainCategoryLink = categoryMappings[productData.mainCategory]
       return obj
     })
   }, [productData.category])
@@ -109,6 +114,7 @@ const CreateContainer = () => {
       const headers = {
         'Content-Type': 'application/json'
       }
+      console.log(productData)
       const file = JSON.stringify({data: productData.imageSrc})
 
       // ОТПРАВКА ИЗОБРАЖЕНИЯ
@@ -188,24 +194,22 @@ const CreateContainer = () => {
           </textarea>
         </div>
 
-      {/* КОМПОНЕНТ ВЫБОРА КАТЕГОРИИ */}
-        <div className="w-full md:w-2/5">
-          <LocalTitle title="Добавить категорию"/>
-          <SelectCategory changeCategory={handleChangeData} handleError={fieldsError.indexOf('category') > -1}/>
-        </div>
-
-        <div className="flex flex-wrap gap-x-10 gap-y-4  items-start">
-
-
-        {/* ВЫБОР ГОРОДА */}
-          <div className="">
-            <LocalTitle title='Выберете город'/>
-            <div className="mt-4">
-              <SelectCity changeCity={handleChangeData}/>
-            </div>
+        <div className="flex w-full items-start gap-14 justify-between">
+        {/* КОМПОНЕНТ ВЫБОРА КАТЕГОРИИ */}
+          <div className="w-full flex-1">
+            <LocalTitle title="Выбор категории"/>
+            <SelectCategory changeCategory={handleChangeData} handleError={fieldsError.indexOf('category') > -1}/>
           </div>
 
 
+        {/* Компонент выбора цвета */}
+          <div className="w-full flex-1">
+          <LocalTitle title="Выбор цвета"/>
+            <SelectColor changeColor={handleChangeData} handleError={fieldsError.indexOf('color') > -1}/>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-x-10 gap-y-4  items-start">
         {/* ВВОД ЦЕНЫ */}
           <div>
             <LocalTitle title="Укажите цену"/>

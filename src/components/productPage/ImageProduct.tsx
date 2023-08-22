@@ -9,7 +9,7 @@ import axios from 'axios'
 
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { HiCheck } from 'react-icons/hi2'
-
+import { colorsPallet } from '../../../utils/colors'
 import NumberInput from '../productCreate/NumberInput'
 
 interface ImageProductProps{
@@ -18,7 +18,7 @@ interface ImageProductProps{
   category: string,
   price: number,
   countOfProducts: number,
-  city: string,
+  colorInfo?: string,
   userRef: string,
   imageUrl: string,
   imgId: string
@@ -28,9 +28,9 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   productTitle,
   price,
   category,
+  colorInfo,
   userRef,
   countOfProducts,
-  city,
   imageUrl,
   imgId
 }) => {
@@ -72,7 +72,6 @@ const ImageProduct:React.FC<ImageProductProps> = ({
           await axios.get(`/api/bag/checkProductInBag/?userId=${userId}&productId=${productId}`)
             .then(res => {
               setInBag(res.data.result);
-              console.log(res.data.result)
             })
             .then(() => {
               setLoaded(true)
@@ -127,7 +126,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   const changeCountRequest = () => {
     // ВКЛЮЧЕНИЕ LOADER ДЛЯ КНОПКИ 
     setChangeLoadCount(true)
-    if(newCount < 1 || loadChangeCount === true){
+    if(loadChangeCount === true){
       return
     }else{
       axios.patch('/api/product/changeCountOfProduct', {productId, count: newCount})
@@ -214,13 +213,13 @@ const ImageProduct:React.FC<ImageProductProps> = ({
         {/* ИНФОРМАЦИЯ О ТОВАРЕ */}
         <div className="mt-4 lg:mt-8 inline-flex flex-col gap-1 md:gap-2 dark:text-gray-300 text-gray-700 text-sm md:text-base">
           <div className="text-lg font-light">
-            <span className='text-purple-400'>Город: </span><span className="capitalize"> {city}</span>
+            <span className='text-purple-400'>Категория: </span><span className="capitalize">{category}</span>
           </div>
           <Link href={`/profilepage/?id=${userRef}`} className="text-lg font-light cursor-pointer">
             <span className='text-purple-400'>Автор: </span><span className="capitalize underline">@{authtorNick}</span>
           </Link>
           <div className="text-lg font-light">
-            <span className='text-purple-400'>Категория: </span><span className="capitalize">{category}</span>
+            <span className='text-purple-400'>Цвет: </span><span className="capitalize">{colorInfo ? colorsPallet[colorInfo].value : '-'}</span>
           </div>
           <div className="text-lg font-light">
             <span className='text-purple-400'>В наличии: </span><span className="capitalize">{countOfProducts}</span>

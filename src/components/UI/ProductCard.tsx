@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import { useEffect } from 'react';
 
 
 interface ProductCardProps{
@@ -18,7 +19,6 @@ const ProductCard:React.FC<ProductCardProps> = ({
   price,
   count
 }) => {
-
   return (
     <div className={` ${count === 0 && 'opacity-50'} w-full flex flex-col p-2 gap-4 relative`}>
       <div 

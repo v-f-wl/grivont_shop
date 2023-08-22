@@ -18,6 +18,7 @@ const SelectCategory:React.FC<SelectCategory> = ({changeCategory, handleError}) 
   // ОБНОВЛЕНИЕ ДАННЫХ РОДИТЕЛЬСКОГО КОМПОНЕНТА CreateContainer ПРИ ВЫБОРЕ ПОДКАТЕГОРИИ
   useEffect(() => {
     changeCategory('category', subCategory)
+    changeCategory('mainCategory', mainCategory)
   },[subCategory])
 
   const openMainDropdown = () =>{

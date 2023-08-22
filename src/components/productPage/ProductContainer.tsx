@@ -22,6 +22,7 @@ interface initialStateProps {
   category: string,
   userRef: string,
   description: string,
+  color: string,
   imageSrc: ImageObj[],
   priceOfProduct: number,
   countOfProducts: number,
@@ -33,6 +34,7 @@ const initialState: initialStateProps = {
   basePlace: '',
   category: '',
   userRef: '',
+  color: '',
   description: '',
   imageSrc: [],
   priceOfProduct: 0,
@@ -56,6 +58,7 @@ const ProductContainer = () => {
           router.push('/error');
         } else {
           setProductData(response.data);
+          console.log(response.data)
           document.title = `Grivont - ${response.data.title}`
           setIsLoaded('load');
         }
@@ -79,8 +82,8 @@ const ProductContainer = () => {
                 productId={productData._id}
                 productTitle={productData.title}
                 userRef={productData.userRef}
-                city={productData.basePlace}
                 price={productData.priceOfProduct}
+                colorInfo={productData.color}
                 category={productData.category}
                 imageUrl={productData.imageSrc[0].data.url}
                 imgId={productData.imageSrc[0].data.id}

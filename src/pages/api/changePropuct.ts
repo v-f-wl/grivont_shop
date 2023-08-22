@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from "../../../utils/connectMongoDB";
-import PostModal from '../../../models/Metrica'
+import PostModal from '../../../models/Product'
 /**
  * 
  * @param {import('next').NextApiRequest} req 
@@ -12,18 +12,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if(req.method === 'PATCH'){
     try {
       await connectDB()
-      const { id } = req.query
-      const updatedPost = await PostModal.findById({_id: '64cec23fd4054e4f808f0d37'})
-  
-      const { popularProducts } = updatedPost;
-  
-      const userIndex = popularProducts.push(id)
-  
-      await updatedPost.save()
-  
+      const products = await PostModal.find();
+
+      for (const product of products) {
+        product.mainCategory = 'Одежда'; // Замените yourFieldName на имя поля, которое вы хотите обновить
+        product.mainCategoryLink = 'Clothing'; // Замените yourFieldName на имя поля, которое вы хотите обновить
+        await product.save(); // Сохранить изменения
+      }
+
       res.json({
         success: true,
-        updatedPost,
       })
     } 
     catch (error) {

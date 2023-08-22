@@ -6,7 +6,7 @@ const FavoriveContainer = () => {
   return ( 
     <div className="mt-[80px] md:mt-[120px] h-full">
       <Title title="Избранное"/>
-      <div className="mt-8 mb-4">
+      <div className=" mb-4">
         <FavoriteList/>
       </div>
     </div>

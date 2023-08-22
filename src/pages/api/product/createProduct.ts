@@ -18,10 +18,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         userRef: req.body.userId,
         title: req.body.title,
         description: req.body.description,
-        basePlace: req.body.city,
         imageSrc: req.body.imageData,
         priceOfProduct: req.body.price,
         countOfProducts: req.body.count,
+        mainCategoryLink: req.body.mainCategoryLink,
+        mainCategory: req.body.mainCategory,
+        color: req.body.color
       })
       const product = await doc.save()
       res.status(200).json({
