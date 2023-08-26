@@ -1,7 +1,7 @@
 import Container from "@/components/UI/Container";
 import LeftMenu from "@/components/UI/LeftMenu";
-import HeaderContainer from "@/components/header/HeaderContainer";
-import MainContainer from "@/components/mainPage/MainContainer";
+import HeaderContainer from "@/components/header/CHeader";
+import CMain from "@/components/mainPage/CMain";
 
 
 export default function Home() {
@@ -10,14 +10,14 @@ export default function Home() {
       className="
         relative
         h-screen 
-      bg-gray-900 
+      dark:bg-gray-900 bg-white
         overflow-y-scroll 
       "
     >
       <Container>
         <LeftMenu/>
         <HeaderContainer/>
-        <MainContainer/>
+        <CMain/>
       </Container>
     </div>
   )

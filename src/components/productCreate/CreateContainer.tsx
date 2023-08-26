@@ -1,40 +1,48 @@
 'use client'
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import Title from "../UI/Title";
-import NumericInput from "./NumberInput";
-import SelectCity from "./SelectCity";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import SelectCategory from "./SelectCategory";
+
+import Cookies from "js-cookie";
 import { categoryMappings } from "../../../utils/categoryMappings";
-import AddImage from "./AddImage";
+import axios from "axios";
+
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
+import Title from "../UI/Title";
+import SelectCategory from "./SelectCategory";
+import AddImage from "./AddImage";
+import NumericInput from "./NumberInput";
+import SelectColor from "./SelectColor";
 
 interface InitialStateProps{
   title: string;
   description: string;
-  city: string;
   category: string;
   imageSrc: string;
   imageData: Object[];
   categoryLink: string;
+  mainCategoryLink: string;
+  mainCategory: string;
   userId: string;
   price: number;
   count: number;
+  colorLink: string;
 }
 const initialState: InitialStateProps = {
   title: '',
   description: '',
-  city: 'Mосква',
   price: 0,
   count: 0,
   category: '',
+  mainCategoryLink: '',
+  mainCategory: '',
   categoryLink: '',
   imageSrc: '',
   imageData: [],
-  userId: ''
+  userId: '',
+  colorLink: ''
 }
+
 const CreateContainer = () => {
   const [productData, setProductData] = useState<InitialStateProps>(initialState)
   const [errorCreate, setErrorCreate] = useState<boolean>(false)
@@ -43,6 +51,7 @@ const CreateContainer = () => {
   const userId = Cookies.get('id')
   const router = useRouter()
   
+  // Добавление ID пользователя в productData 
   useEffect(() => {
     if(userId !== undefined){
       setProductData(prev => {
@@ -51,18 +60,23 @@ const CreateContainer = () => {
     }
   }, [userId])
 
+  // ПРИ ИЗМЕНЕНИИ productData.category
+  // В ПОЛЕ categoryLink ДОБАВЛЯЕТСЯ АНГЛИЙСКАЯ ВЕРСИЯ КАТЕРОГИИ
   useEffect(() => {
     setProductData(prev => {
       const obj = {...prev}
       obj.categoryLink = categoryMappings[productData.category]
+      obj.mainCategoryLink = categoryMappings[productData.mainCategory]
       return obj
     })
   }, [productData.category])
 
+
   const LocalTitle = ({title} : {title : string}) => {
-    return <h3 className="text-2xl text-gray-300 font-medium">{title}</h3>
+    return <h3 className="text-2xl dark:text-gray-200 text-gray-800 font-medium">{title}</h3>
   }
 
+  // ОБНОВЛЯЕТ ГЛАВНЫЙ ОБЪЕКТ
   const handleChangeData = (label: string, value: string | number) => {
     setProductData(prev => {
       return {...prev, [label]: value}
@@ -95,20 +109,20 @@ const CreateContainer = () => {
       callback()
     }else return
   }
-  const createProduct = () => {
-    setLoading(true)
-    setFieldsError([])
-    validationValue(sendData)
-  }
+  
   async function sendData() {
       const headers = {
         'Content-Type': 'application/json'
       }
+      console.log(productData)
       const file = JSON.stringify({data: productData.imageSrc})
 
-      const uploadResponse = await axios.post('/api/uploadImage', file, {headers})
+      // ОТПРАВКА ИЗОБРАЖЕНИЯ
+      const uploadResponse = await axios.post('/api/product/uploadImage', file, {headers})
+      // ПОЛУЧЕНИЯ ССЫЛКИ НА ИЗОБРАЖЕНИЕ
       const bodyInfo = {...productData, imageData: [uploadResponse], categoryLink: categoryMappings[productData.category]}
-      axios.post('/api/createProduct', bodyInfo)
+      // СОЗДАНИЕ ПРОДУКТА
+      axios.post('/api/product/createProduct', bodyInfo)
       .then(res => {
         router.push(`/profilepage/?id=${userId}`)
       })
@@ -118,13 +132,27 @@ const CreateContainer = () => {
       })
   }
 
+  const createProduct = () => {
+    setLoading(true)
+    setFieldsError([])
+    validationValue(sendData)
+  }
+  
+
   return ( 
-    <div className="pt-[80px] md:pt-[120px] h-screen mb-[100px]">
-      <div className={`${loading ? 'flex' : 'hidden'} absolute inset-0 bg-slate-800 z-50  items-center justify-center`}>
+    <div className="pt-[80px] md:pt-[120px] pb-10 min-h-screen">
+
+      {/* КОМПОНЕНТ Load ПРИ ОТПРАВКИ ДАННЫХ О ТОВАРЕ НА СЕРВЕР */}
+      <div className={`${loading ? 'flex' : 'hidden'} absolute inset-0 dark:bg-slate-800 bg-white dark:text-purple-300 text-purple-400 z-[55]  items-center justify-center`}>
         <AiOutlineLoading3Quarters size={53} className="animate-spin"/>
       </div>
+
+
       <Title title="Добавить продукт"/>
       <div className="mt-5 md:mt-8 flex flex-col gap-4 md:gap-10">
+
+
+      {/* ЗАГОЛОВОК */}
         <div className="">
           <LocalTitle title='Заголовок товара'/>
           <input 
@@ -134,12 +162,15 @@ const CreateContainer = () => {
               ${fieldsError.indexOf('title') > -1 ? 'border-red-400' : 'border-purple-400'} 
               w-full mt-4
               border capitalize border-purple-400 rounded-xl bg-inherit p-3 md:p-4 
-              text-purple-200 text-base md:text-lg
+              dark:text-purple-200 text-purple-600 text-base md:text-lg
             `}
             placeholder="Введите заголовок(минимальное количество символов 10)"
             value={productData.title}
           />
         </div>
+
+
+      {/* ОПИСАНИЕ ТОВАРА */}
         <div className="">
           <LocalTitle title='Описание товара'/>
           <textarea 
@@ -154,7 +185,7 @@ const CreateContainer = () => {
               capitalize 
               rounded-xl 
               bg-inherit p-3 md:p-4 
-              text-purple-200 
+              dark:text-purple-200 text-purple-600 
               text-base md:text-lg
             `}
             placeholder="Опишите товар(минимальное количество символов 20)"
@@ -162,47 +193,67 @@ const CreateContainer = () => {
           >
           </textarea>
         </div>
-        <div className="flex flex-wrap gap-x-10 gap-y-4  items-start">
-          <div className="">
-            <LocalTitle title='Выберете город'/>
-            <div className="mt-4">
-              <SelectCity changeCity={handleChangeData}/>
-            </div>
+
+        <div className="flex w-full items-start gap-14 justify-between">
+        {/* КОМПОНЕНТ ВЫБОРА КАТЕГОРИИ */}
+          <div className="w-full flex-1">
+            <LocalTitle title="Выбор категории"/>
+            <SelectCategory changeCategory={handleChangeData} handleError={fieldsError.indexOf('category') > -1}/>
           </div>
+
+
+        {/* Компонент выбора цвета */}
+          <div className="w-full flex-1">
+          <LocalTitle title="Выбор цвета"/>
+            <SelectColor changeColor={handleChangeData} handleError={fieldsError.indexOf('color') > -1}/>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-x-10 gap-y-4  items-start">
+        {/* ВВОД ЦЕНЫ */}
           <div>
             <LocalTitle title="Укажите цену"/>
             <NumericInput 
               handleError={fieldsError.indexOf('price') > -1}
               changePrice={handleChangeData}
               placeholderValue='От 100'
-              label="руб."
-              argument="price"
+              context="руб."
+              label="price"
               />
           </div>
+
+
+        {/* ВВОД КОЛИЧЕСТВА ТОВАРА */}
           <div>
             <LocalTitle title="Укажите количество товара"/>
             <NumericInput 
               handleError={fieldsError.indexOf('count') > -1}
               changePrice={handleChangeData}
               placeholderValue='От 1'
-              label='шт.'
-              argument="count"
+              context='шт.'
+              label="count"
               />
           </div>
+
         </div>
+
         <div className="flex flex-col md:flex-row items-start gap-8">
+
+
+          {/* КОМПОНЕНТ ДОБАВЛЕНИЯ ИЗОБРАЖЕНИЯ */}
           <div className="w-full md:w-3/5">
             <LocalTitle title="Добавить фото товара"/>
             <AddImage handleError={fieldsError.indexOf('image') > -1} changeCategory={handleChangeData}/>
           </div>
-          <div className="w-full md:w-2/5">
-            <LocalTitle title="Добавить категорию"/>
-            <SelectCategory changeCategory={handleChangeData} handleError={fieldsError.indexOf('category') > -1}/>
-          </div>
         </div>
+
+
+        {/* БЛОГ ОШИБКИ ОТПРАВКИ ДАННЫХ НА СЕРВЕР */}
         <div className={`${errorCreate  ? "block" : 'hidden'} text-center text-xl font-light`}>
           Что-то пошло не так -  попробуйте позже
         </div>
+
+        {/* КНОПКА СОЗДАНИЯ ПОСТА */}
         <div 
           onClick={() => createProduct()}
           className="mt-4 border py-3 flex justify-center border-purple-400  rounded-xl text-xl font-bold cursor-pointer">

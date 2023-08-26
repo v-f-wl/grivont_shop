@@ -6,6 +6,14 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    mainCategory: {
+      type: String,
+      default: ''
+    },
+    mainCategoryLink: {
+      type: String,
+      default: ''
+    },
     categoryLink: {
       type: String,
       required: true
@@ -24,10 +32,6 @@ const ProductSchema = new mongoose.Schema(
       default: false
     },
     description: {
-      type: String,
-      required: true
-    },
-    basePlace: {
       type: String,
       required: true
     },

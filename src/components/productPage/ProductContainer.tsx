@@ -1,11 +1,13 @@
 'use client'
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
+import axios from "axios";
+
 import AboutProduct from "./AboutProduct";
 import ImageProduct from "./ImageProduct";
 import Loading from "../UI/Loading";
-import { useRouter } from "next/router";
-import axios from "axios";
 
 type ImageData = {url: string, id: string}
 
@@ -20,6 +22,7 @@ interface initialStateProps {
   category: string,
   userRef: string,
   description: string,
+  color: string,
   imageSrc: ImageObj[],
   priceOfProduct: number,
   countOfProducts: number,
@@ -31,6 +34,7 @@ const initialState: initialStateProps = {
   basePlace: '',
   category: '',
   userRef: '',
+  color: '',
   description: '',
   imageSrc: [],
   priceOfProduct: 0,
@@ -49,11 +53,13 @@ const ProductContainer = () => {
   const fetchProductData = async () => {
     if (id !== undefined) {
       try {
-        const response = await axios.get(`/api/getOneProduct/?id=${id}`);
+        const response = await axios.get(`/api/product/getOneProduct/?id=${id}`);
         if (!response.data) {
           router.push('/error');
         } else {
           setProductData(response.data);
+          console.log(response.data)
+          document.title = `Grivont - ${response.data.title}`
           setIsLoaded('load');
         }
       } catch (error) {
@@ -76,8 +82,8 @@ const ProductContainer = () => {
                 productId={productData._id}
                 productTitle={productData.title}
                 userRef={productData.userRef}
-                city={productData.basePlace}
                 price={productData.priceOfProduct}
+                colorInfo={productData.color}
                 category={productData.category}
                 imageUrl={productData.imageSrc[0].data.url}
                 imgId={productData.imageSrc[0].data.id}

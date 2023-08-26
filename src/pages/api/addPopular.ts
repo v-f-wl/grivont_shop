@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if(req.method === 'PATCH'){
     try {
       await connectDB()
-      const { id } = req.body
+      const { id } = req.query
       const updatedPost = await PostModal.findById({_id: '64cec23fd4054e4f808f0d37'})
   
       const { popularProducts } = updatedPost;

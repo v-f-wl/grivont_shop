@@ -1,11 +1,16 @@
 'use client'
+
 import { Fragment, useEffect, useState } from 'react'
-import NumberInput from '../productCreate/NumberInput'
-import Cookies from 'js-cookie'
-import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+
+import Cookies from 'js-cookie'
+import axios from 'axios'
+
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { HiCheck } from 'react-icons/hi2'
+import { colorsPallet } from '../../../utils/colors'
+import NumberInput from '../productCreate/NumberInput'
 
 interface ImageProductProps{
   productId: string
@@ -13,7 +18,7 @@ interface ImageProductProps{
   category: string,
   price: number,
   countOfProducts: number,
-  city: string,
+  colorInfo?: string,
   userRef: string,
   imageUrl: string,
   imgId: string
@@ -23,13 +28,13 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   productTitle,
   price,
   category,
+  colorInfo,
   userRef,
   countOfProducts,
-  city,
   imageUrl,
   imgId
 }) => {
-  const [loaded, setLoaded] = useState<boolean>()
+  const [loaded, setLoaded] = useState<boolean>(false)
   const [loadChangeCount, setChangeLoadCount] = useState<boolean>(false)
   const [loadedFavorite, setLoadedFavorite] = useState<boolean>(false)
 
@@ -52,20 +57,27 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     setNewCount(countOfProducts)
   }, [countOfProducts])
 
+
+  // ЯВЛЯЕТСЯ ЛИ ПОЛЬЗОВАТЕЛЬ АВТОРОМ ТОВАРА
   useEffect(() => {
     setIsAuthtor(userRef === userId)
   }, [userRef, userId])
 
 
+  // ПОЛУЧЕНИЕ ДАННЫХ О ТОВАРЕ
   useEffect(() => {
     const fetchData = async () => {
       if (productId !== undefined && userId !== undefined) {
         try {
-          const bagResponse = await axios.get(`/api/checkProductInBag/?userId=${userId}&productId=${productId}`);
-          setInBag(bagResponse.data.result);
-          setLoaded(true);
+          await axios.get(`/api/bag/checkProductInBag/?userId=${userId}&productId=${productId}`)
+            .then(res => {
+              setInBag(res.data.result);
+            })
+            .then(() => {
+              setLoaded(true)
+            })
 
-          const favoriteResponse = await axios.get(`/api/checkProductInFavorite/?userId=${userId}&productId=${productId}`);
+          const favoriteResponse = await axios.get(`/api/favorite/checkProductInFavorite/?userId=${userId}&productId=${productId}`);
           setInFavorite(favoriteResponse.data.result);
           setLoadedFavorite(true);
         } catch (error) {
@@ -78,11 +90,12 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   }, [productId, userId]);
 
 
+  // ПОЛУЧЕНИЕ ССЫЛКИ НА АВТОРА ТОВАРА ИЗ НИКНЕЙМА
   useEffect(() => {
     const fetchAuthorNick = async () => {
       if (userRef !== undefined) {
         try {
-          const profileNameResponse = await axios.get(`/api/getProfileName/?id=${userRef}&onlyNick=true`);
+          const profileNameResponse = await axios.get(`/api/user/getProfileName/?id=${userRef}&onlyNick=true`);
           setAuthtorNick(profileNameResponse.data.nickname);
         } catch (error) {
           console.log(error);
@@ -93,6 +106,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     fetchAuthorNick();
   }, [userRef]);
 
+  // ОКТРЫТИЕ БЛОКА ИЗМЕНЕНИЧ КОЛИЧЕСТВА ТОВАРА
   const openCountModal = () => {
     setCOuntModal(prev => {
       if(prev === 'close'){
@@ -103,17 +117,26 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     })
   }
 
+  // ФУНКЦИЯ ИЗМЕНЕНИЯ КОЛИЧЕСТВА ТОВАРА
   const changeValueComponent = (label: string, value: number) => {
     setNewCount(value)
   }
 
-  const changeCountReq = () => {
+  // ИЗМЕНЕНИЕ КОЛИЧЕСТВА ТОВАРА В БАЗЕ ДАННЫХ
+  const changeCountRequest = () => {
+    // ВКЛЮЧЕНИЕ LOADER ДЛЯ КНОПКИ 
     setChangeLoadCount(true)
-    if(newCount < 1 || loadChangeCount === true){
+    if(loadChangeCount === true){
       return
     }else{
-      axios.patch('/api/changeCountOfProduct', {productId, count: newCount})
+      axios.patch('/api/product/changeCountOfProduct', {productId, count: newCount})
         .then(res => setChangeLoadCount(false))
+        .then(() => {
+          const currentURL = window.location.href;
+          const newURL = currentURL
+          window.location.href = newURL;
+
+        })
         .catch(error => {
           setErrorChangeCount(true)
           setChangeLoadCount(false)
@@ -121,10 +144,12 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     }
   }
 
+  // ДОБАВЛЕНИЕ ТОВАРА В КОРЗИНУ 
   const addToBag = async () => {
-    if (productId !== undefined && userId !== undefined && !inBag) {
+    if (productId !== undefined && userId !== undefined && !inBag && loaded === true) {
+      console.log(loaded === true, productId !== undefined, userId !== undefined)
       try {
-        await axios.post('/api/addToBag', { userId, productId });
+        await axios.post('/api/bag/addToBag', { userId, productId });
         setInBag(true);
       } catch (error) {
         console.log(error, 'error');
@@ -132,14 +157,15 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     }
   }
 
+  // ДОБАВЛЕНИЕ ЛИБО УДАЛЕНИЕ ТОВАРА ИЗ ИЗБРАННОГО
   const changeFavorite = async () => {
-    if (productId !== undefined && userId !== undefined) {
+    if (productId !== undefined && userId !== undefined && loadedFavorite === true) {
       setLoadedFavorite(false);
       try {
         if (!inFavorite) {
-          await axios.post('/api/addToFavorite', { userId, productId });
+          await axios.post('/api/favorite/addToFavorite', { userId, productId });
         } else {
-          await axios.patch('/api/deleteFavoriteItem', { userId, productId });
+          await axios.patch('/api/favorite/deleteFavoriteItem', { userId, productId });
         }
         setInFavorite(!inFavorite);
         setLoadedFavorite(true);
@@ -149,11 +175,12 @@ const ImageProduct:React.FC<ImageProductProps> = ({
     }
   }
 
+  // УДАЛИТЬ ТОВАР
   const deleteProduct = () => {
     if(productId === undefined || imgId === undefined){
       return
     }
-    axios.delete(`/api/deleteProduct/?productId=${productId}&imgId=${imgId}`)
+    axios.delete(`/api/product/deleteProduct/?productId=${productId}&imgId=${imgId}`)
       .then((res) => {
         router.push('/')
       })
@@ -161,6 +188,9 @@ const ImageProduct:React.FC<ImageProductProps> = ({
   }
   return (  
     <div className="flex flex-col lg:flex-row lg:grid lg:grid-cols-chat lg:gap-8">
+
+
+      {/* БЛОК С ИЗОБРАЖЕНИЕМ ТОВАРА */}
       <div className="h-[230px] md:h-auto aspect-square rounded-xl overflow-hidden flex justify-center">
         <img 
           className="max-w-full max-h-full object-cover rounded-xl overflow-hidden"
@@ -168,34 +198,49 @@ const ImageProduct:React.FC<ImageProductProps> = ({
           alt="img" 
         />
       </div>
+
+
+      {/* БЛОК С ОПИСАНИЕМ ТОВАРА */}
       <div className="flex-1">
-        <h2 
-          className="text-2xl md:text-3xl lg:text-4xl text-purple-400 font-bold clamped-text"
-        >
+
+
+        {/* ЗАГОЛОВОК ТОВАРА */}
+        <h2 className="text-2xl md:text-3xl lg:text-4xl dark:text-purple-400 text-gray-800 font-bold">
           {productTitle}
         </h2>
-        <div className="mt-4 lg:mt-8 inline-flex flex-col gap-1 md:gap-2 text-gray-500 text-sm md:text-base">
+
+
+        {/* ИНФОРМАЦИЯ О ТОВАРЕ */}
+        <div className="mt-4 lg:mt-8 inline-flex flex-col gap-1 md:gap-2 dark:text-gray-300 text-gray-700 text-sm md:text-base">
           <div className="text-lg font-light">
-            <span className='text-purple-400'>Город: </span><span className="capitalize"> {city}</span>
+            <span className='text-purple-400'>Категория: </span><span className="capitalize">{category}</span>
           </div>
           <Link href={`/profilepage/?id=${userRef}`} className="text-lg font-light cursor-pointer">
             <span className='text-purple-400'>Автор: </span><span className="capitalize underline">@{authtorNick}</span>
           </Link>
           <div className="text-lg font-light">
-            <span className='text-purple-400'>Категория: </span><span className="capitalize">{category}</span>
+            <span className='text-purple-400'>Цвет: </span><span className="capitalize">{colorInfo ? colorsPallet[colorInfo].value : '-'}</span>
           </div>
           <div className="text-lg font-light">
             <span className='text-purple-400'>В наличии: </span><span className="capitalize">{countOfProducts}</span>
           </div>
         </div>
-        <div className="mt-5 text-gray-400 text-2xl font-medium">
+
+
+        {/* ЦЕНА ТОВАРА */}
+        <div className="mt-5 dark:text-gray-300 text-purple-400 text-2xl font-medium">
           {price} руб
         </div>
+
+        {/* ПРОВЕРКА НА ТО ЯВЛЯЕТСЯ ЛИ ПОЛЬЗОВАТЕЛЕМ АВТОРОМ ЭТОГО ТОВАРА */}
         <div className="mt-8">
           {isAuthtor ? 
             (
+
+              // АВТОР ТОВАРА
               <div className="flex flex-col gap-4">
                 
+                {/* ИЗМЕНЕНИЕ КОЛИЧЕСТВА ТОВАРА */}
                 <div className="flex flex-col gap-2">
                   <span 
                     onClick={() => openCountModal()}
@@ -203,38 +248,41 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                   >
                     Изменить Количество
                   </span>
-                  <div 
+                  <form 
                     className={`
                       h-0
                       ${countModal === 'open' && 'h-auto'} 
                       overflow-hidden transition-all
-                      inline-flex items-center gap-4
+                      flex items-center gap-4
                     `}
                   >
                     <NumberInput 
                       changePrice={changeValueComponent} 
                       handleError={errorChangeCount} 
                       placeholderValue='Новое колличество'
-                      label='' 
-                      argument={'count'}
+                      context='' 
+                      label={'count'}
                     />
                     <div 
-                      onClick={changeCountReq}
-                      className="border border-purple-400 rounded-lg py-4 px-3 mt-4 text-lg cursor-pointer"
+                      onClick={changeCountRequest}
+                      className="border border-purple-400 rounded-lg py-3 md:py-4 px-3 mt-4 text-lg cursor-pointer"
                     >
                       {loadChangeCount ? 
                         (
                           <AiOutlineLoading3Quarters size={24} className="mx-3 animate-spin"/>
                         ) 
                         : 
-                        'Сохранить'
+                        <HiCheck size={24}/>
                       }
                     </div>
-                  </div>
+                  </form>
                 </div>
+
+
+                {/* УДАЛЕНИЕ ТОВАРА */}
                 <div 
                   onClick={deleteProduct}
-                  className="cursor-pointer text-gray-300 underline"
+                  className="cursor-pointer dark:text-gray-200 text-gray-800 underline"
                 >
                   Удалить
                 </div>
@@ -243,8 +291,17 @@ const ImageProduct:React.FC<ImageProductProps> = ({
             : 
             (
               <Fragment>
+                {/* ПРОВЕРКА НА ТО ЕСТЬ ЛИ ТОВАР В НАЛИЧИИ*/}
                 {countOfProducts > 0 ? (
+                  
                   <div className={`${errorButton ? 'hidden' : 'block'} mt-8 lg:mt-16 flex flex-col lg:flex-row flex-wrap items-start gap-4 lg:gap-6`}>
+                    
+                    
+                    {/* 
+                        КНОПКА ДОБАВЛЕНИЯ В КОРЗИНУ 
+                        false - отправлен запрос на сервер для проверки есть ли товар в корзине, включен loader
+                        true - ответ получен
+                    */}
                     {loaded ? 
                       (
                         <div 
@@ -254,7 +311,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                             ${inBag ? 'cursor-default' : 'cursor-pointer'}
                             ${inBag ? '' : 'hover:opacity-80'}
                             ${inBag ? 'bg-gray-600' : 'bg-purple-400'}
-                            md:py-3 py-2 px-4 md:px-5 
+                            md:py-2 py-1 px-3 md:px-4 
                             rounded-full 
                             text-white 
                             text-bold 
@@ -269,7 +326,7 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                       (
                         <div 
                           className={`
-                            md:py-3 py-2 px-4 md:px-5
+                            md:py-2 py-1 px-3 md:px-4 
                             bg-purple-400 
                             rounded-full 
                             text-white 
@@ -282,16 +339,23 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                         </div>
                       )
                     }
+
+
+                    {/* 
+                        КНОПКА ЗАКЛАДКИ 
+                        false - отправлен запрос на сервер для проверки есть ли товар в избранном, включен loader
+                        true - ответ получен
+                    */}
                     {loadedFavorite ?
                     (
                       <div 
                         onClick={changeFavorite}
                         className={`
                           ${errorButton ? 'hidden' : 'block'}
-                          md:py-3 py-2 px-4 md:px-5
+                          md:py-2 py-1 px-3 md:px-4 
                           border border-purple-400
                           rounded-full 
-                          text-white 
+                          dark:text-white text-gray-900
                           text-bold 
                           text-xl
                           cursor-pointer hover:opacity-80 transition-all
@@ -304,10 +368,10 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                     (
                       <div 
                         className="
-                          md:py-3 py-2 px-4 md:px-5
+                          md:py-2 py-1 px-3 md:px-4 
                           border border-purple-400
                           rounded-full 
-                          text-white 
+                          dark:text-white text-gray-900 
                           text-bold 
                           text-xl
                           cursor-pointer hover:opacity-60 transition-all
@@ -318,14 +382,6 @@ const ImageProduct:React.FC<ImageProductProps> = ({
                       </div>
                     )
                     }
-                  {/* <div className=""> */}
-                    {/* <div className="flex lg:inline-flex gap-3 items-center md:py-3 py-2 px-4 md:px-5 border text-bold rounded-full text-xl cursor-pointer hover:opacity-60 transition-all">
-                      <span className="">
-                        <HiOutlineChatBubbleOvalLeft size={24}/>
-                      </span>
-                      <span className="">Связаться с автором</span>
-                    </div> */}
-                  {/* </div> */}
                   </div>
         
                 ) : 

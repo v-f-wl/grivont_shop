@@ -1,6 +1,5 @@
 'use client'
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -19,6 +18,7 @@ interface ProductDataTypes{
   title: string,
   description: string,
   priceOfProduct: string,
+  countOfProducts: number,
   imageSrc: ImageObj[],
 }
 
@@ -27,6 +27,7 @@ const initialState: ProductDataTypes = {
   title: '',
   description: '',
   priceOfProduct: '',
+  countOfProducts: 0,
   imageSrc: [{data: {url : 'sdfsdf'}}]
 }
 
@@ -38,12 +39,10 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
 
   useEffect(() => {
     if(productId !== undefined || productId !== null){
-      console.log('start')
-      axios.get(`/api/getOneProduct/?id=${productId}`)
+      axios.get(`/api/product/getOneProduct/?id=${productId}`)
       .then(res => {
           if(res.data !== null){
             setProductData(res.data)
-            console.log(res.data)
           }else{
             setError(true)
           }
@@ -54,7 +53,7 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
     }
   },[productId])
   return ( 
-    <div className={`${error ? 'hidden' : 'flex'} w-full flex-col gap-4 relative`}>
+    <div className={`${error ? 'hidden' : 'flex'} ${productData.countOfProducts === 0 && 'opacity-30'} w-full flex-col gap-2 relative`}>
       {loaded && (
         <div 
           className="
@@ -65,13 +64,13 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
             top-4 
             right-4 
             bg-purple-400 
-            text-sm
+            text-sm text-white
           "
         >
           {productData.priceOfProduct} p
         </div>
       )}
-      <div className="w-full h-full aspect-square rounded-xl bg-gray-700 overflow-hidden">
+      <div className="w-full h-full aspect-square rounded-xl dark:bg-gray-400 bg-gray-200 overflow-hidden">
         {loaded ? 
           (
             <img 
@@ -82,32 +81,41 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
           ) 
           : 
           (
-            <div className="w-full h-full bg-gray-400 animate-pulse"></div>
+            <div className="w-full h-full rounded-xl dark:bg-gray-400 bg-gray-200 animate-pulse"></div>
           )
         }
       </div>
       {loaded ? 
           (
-            <h3 className="text-xl font-medium clamped-text">{productData.title}</h3>
+            <h3 className="text-lg  font-medium h-[36px] clamped-text">{productData.title}</h3>
           ) 
           : 
           (
-            <div className="w-full h-[20px] bg-gray-400 animate-pulse rounded-xl"></div>
+            <div className="w-full h-[30px] dark:bg-gray-400 bg-gray-200 animate-pulse rounded-xl"></div>
           )
       }
       {loaded ? 
           (
-            <div className="font-light text-sm clamped-text-3 text-purple-300">{productData.description}</div>
+            <div className="font-light text-sm clamped-text-3 h-[54px] text-gray-800 dark:text-gray-300">{productData.description}</div>
           ) 
           : 
           (
-            <div className="w-full h-[40px] bg-gray-400 animate-pulse rounded-xl"></div>
+            <div className="w-full h-[40px] dark:bg-gray-400 bg-gray-200 animate-pulse rounded-xl"></div>
           )
       }
       {loaded ? 
           (
-            <div onClick={() => router.push(`/productpage/?id=${productData._id}`)} className="flex items-center gap-6 justify-self-end">
-              <div className="border rounded-full py-2 px-4 hover:border-indigo-400 hover:text-indigo-400 transition-all cursor-pointer">Подробнее</div>
+            <div onClick={() => router.push(`/productpage/?id=${productData._id}`)} className="mt-2 flex items-center gap-6 justify-self-end">
+              <div 
+                className="
+                  border-2 
+                  w-full text-center
+                  border-purple-400 
+                  dark:border-white 
+                  rounded-full py-1 px-3 hover:border-indigo-400 
+                  hover:text-indigo-400 transition-all 
+                  dark:text-white text-gray-900 
+                  cursor-pointer">Подробнее</div>
             </div>
           ) 
           : 

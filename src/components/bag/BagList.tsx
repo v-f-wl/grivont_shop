@@ -1,12 +1,15 @@
 'use client'
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+
 import axios from "axios";
+import Cookies from "js-cookie";
+
+import { generateOrderNumber } from "../../../utils/generationOrder" // ФУНКЦИЯ ДЛЯ ГЕНЕРАЦИИ УНИКАЛЬНОГО ЧИСЛА ДЛЯ ЗАКАЗА
+
 import EmptyPage from "../UI/EmptyPage";
 import Loading from "../UI/Loading";
 import ProductCardForBag from "../UI/ProductCardForBag"
-import { generateOrderNumber } from "../../../utils/generationOrder"
-import { useRouter } from "next/navigation";
 
 
 type ImageData = {url: string}
@@ -14,7 +17,7 @@ type ImageData = {url: string}
 interface ImageObj{
   data: ImageData 
 }
-
+// ИНТЕРФЕЙС ДАННЫХ КОТОРЫЕ ПРИХОДЯТ С СЕРВЕРА
 interface initialStateProps {
   _id: string,
   title: string,
@@ -30,9 +33,7 @@ interface CountObj{
   totalCount: number
 }
 
-// интерфейс объекта для отправки на сервер 
-// ==========
-
+// ИНТЕРФЕЙС ОБЪЕКТА ДЛЯ ОТПРАВКИ НА СЕРВЕР
 interface Items{
   productId: String,
   image: String,
@@ -52,10 +53,6 @@ const initialStateObj = {
   items: []
 }
 
-// ==========
-
-
-
 const initialState = {
   totalPrice: 0,
   totalCount: 0
@@ -67,16 +64,21 @@ const BagList = () => {
   const [countInfo, setCountInfo] = useState<CountObj>(initialState)
   const [reqSended, setReqSended] = useState<boolean>(false)
   const [orderModal, setOrderModal] = useState<boolean>(false)
+  const [reqError, setReqError] = useState(false)
 
   const userId: string | undefined = Cookies.get('id')
   const router = useRouter()
 
+  // ПОЛУЧАЕТСЯ ЗНАЧЕНИЕ ID ПОЛЬЗОВАТЕЛЯ ИЗ COOKIES
+  // И ОТПРАВЛЯЕТ ЗАПРОС НА СЕРВЕР ДЛЯ ПОЛУЧЕНИЯ ДАННЫХ о КОРЗИНЕ
   useEffect(() => {
     const fetchBagItems = async () => {
       if (userId !== undefined) {
         try {
-          const response = await axios.get(`/api/getBagItems/?userId=${userId}`);
+          const response = await axios.get(`/api/bag/getBagItems/?userId=${userId}`);
           setBagData(response.data)
+          document.title = 'Grivont - Корзина '
+          console.log(response.data)
           return response.data
         } catch (error) {
           console.log(error)
@@ -84,33 +86,34 @@ const BagList = () => {
       }
       return null
     }
-  
     const processDataAndSetLoaded = async () => {
       const data = await fetchBagItems()
       if (data !== null) {
         setLoaded(true)
       }
     }
-  
     processDataAndSetLoaded();
   }, [userId])
 
 
+  // СЛЕДИТ ЗА ИЗМЕНЕНИЕМ КОЛИЧЕСТВА ТОВАРОВ
   useEffect(() => {
+    console.log(bagData)
     changePrice(bagData)
   }, [bagData])
 
 
-
+  // ФУНКЦИЯ РАСЧИТЫВАЕТ ИТОГОВУ СТОИМОСТЬ КОРЗИНЫ
   const changePrice = (data: initialStateProps[]) => {
     let totalPrice = 0
     let totalCount = 0
 
     for (const item of data) {
-      totalCount++
-      totalPrice += item.priceOfProduct * item.productCount
+      if(item.countOfProducts !== 0){
+        totalCount++
+        totalPrice += item.priceOfProduct * item.productCount
+      }
     }
-
     setCountInfo(prev => ({
       ...prev,
       totalPrice,
@@ -118,34 +121,46 @@ const BagList = () => {
     }))
   };
 
+  // ОТПРАВЛЯЕТ ЗАПРОС НА СЕРВЕР 
+  // ПРОВЕРКА НА ТО НЕ ЯВЛЯЕТСЯ ЛИ КОРЗИНА ПУСТОЙ ПРОИЗВОДИТСЯ В КОМПОНЕНТЕ
   const sendRequest = () => {
     if (userId !== undefined) {
-      const orderNumber = generateOrderNumber(7);
-  
+      // ГЕНЕРИРУЕТ ЧИСЛО ДЛЯ НОМЕРА ЗАКАЗА
+      const orderNumber = generateOrderNumber(7)
+
+      // ОТВЕЧАЕТ ЗА ВКЛЮЧЕНИЕ LOADER 
       setReqSended(true)
   
+      // СБОР ИНФОРМАЦИИ О ЗАКАЗЕ ДЛЯ ОТПРАВКИ
       const objForRequest: objForRequest = {
         orderNumber,
         totalPrice: countInfo.totalPrice,
         totalCount: countInfo.totalCount,
-        items: bagData.map(item => ({
+        items: bagData
+          .filter(item => item.countOfProducts !== 0)
+          .map(item => ({
           productId: item._id,
           image: item.imageSrc[0].data.url,
           title: item.title,
           count: item.productCount
         }))
       }
-  
-      axios.post(`/api/createOrder/?userId=${userId}`, objForRequest)
-        .then(res => {
+      axios.patch(`/api/order/createOrder/?userId=${userId}`, objForRequest)
+        .then(() => {
+          setBagData([])
           router.push('/orderspage')
         })
         .catch(error => {
+          setReqSended(false)
+          setOrderModal(false)
+          setReqError(true)
           console.log(error)
         })
     }
   }
 
+
+  // ОТСЛЕЖИВАЕТ ИЗМЕНЕНИЕ КОЛИЧЕСТВА ОДНОЙ ПОЗИЦИИ
   const changeCountOfProduct = (productId: string, value: number) => {
     setBagData(prev => {
       const arr = [...prev]
@@ -159,16 +174,27 @@ const BagList = () => {
     })
   }
 
+  // УДАЛЕНИЕ ТОВАРА ИЗ КОРЗИНЫ ПРОИСХОДИТ ВНУТРИ КАРТОЧкИ ТОВАРА 
+  // ЭТА ФУНКЦИЯ НУЖНА ДЛЯ ОБНАВЛЕНИЯ ДАННЫХ В РОДИТЕЛЬСКОМ( ТЕКУЩЕМ ) КОМПОНЕНТЕ
+
+  const updateDeletedProduct = (id: string) => {
+    const newArray = bagData.filter(obj => obj._id !== id);
+    setBagData(newArray);
+  }
 
   return (  
     <>
+    {/* ОКНО ЗАГРУЗКИ ПОКА ПРОИСХОДИТ ОЖИДАНИЕ ОТВЕТА С СЕРВЕРА */}
     {loaded ? 
+    // ОТВЕТ ПРИШЕЛ 
       (
         <div className="relative flex flex-col-reverse  lg:grid md:grid-cols-profile gap-4 md:gap-8 lg:gap-12 items-start">
-          <div className="">
+          {/* КОНТЕЙНЕР ДЛЯ ТОВАРОВ */}
+          <div className="w-full">
             {bagData.length > 0 ? 
               (
-                <div className="flex flex-col gap-6">
+              // РЕНДЕР ТОВАРОВ ПРИ ИХ НАЛИЧИИ
+                <div className="flex flex-col md:grid md:grid-cols-2 lg:flex lg:flex-col gap-6">
                   {bagData.map(item => (
                     <ProductCardForBag
                       key={item._id}
@@ -180,7 +206,7 @@ const BagList = () => {
                       countInBag={item.productCount}
                       userId={userId}
                       orderLoading={reqSended}
-
+                      deletProduct={updateDeletedProduct}
                       updateCount={changeCountOfProduct}
                     />
                   ))}
@@ -188,14 +214,21 @@ const BagList = () => {
               ) 
               : 
               (
+              // ПРИ ОТСУТСТВИИ ТОВАРОВ
+              <div className="md:col-span-2 ">
                 <EmptyPage title="Корзина пустая"/>
+              </div>
               )
             }
           </div>
+
+          {/* КОНТЕЙНЕР ДЛЯ ИТОГОВОЙ ЦЕНЫ И ЗАКАЗА */}
           <div 
-            className="w-full lg:w-auto relative rounded-xl bg-gray-600 p-6 text-2xl font-bold"
+            className="w-full lg:w-auto relative rounded-xl dark:bg-gray-600 bg-gray-100 p-6 text-2xl font-bold"
           >
+            {/* LOADER КОТОРОЫЙ ПОЯВЛЯЕТСЯ ПРИ ОТПРАВКИ ЗАПРОСА */}
             <div className={`${reqSended ? 'block' : 'hidden'} absolute inset-0 z-30 rounded-xl bg-gray-700`}></div>
+            {/* ОКНО ПОДТВЕРЖДЕНИЯ ЗАКАЗА */}
             <div 
               className={`${orderModal ? 'block' : 'hidden'} z-20 absolute p-4 bg-gray-700 rounded-xl inset-0 flex flex-col items-center justify-center gap-4`}
             >
@@ -215,10 +248,13 @@ const BagList = () => {
                 </div>
               </div>
             </div>
-            <span>
+
+            {/* ОКНО ИТОГОВОЙ ЦЕНЫ */}
+            <span className="dark:text-white text-gray-900">
               Итого: {countInfo.totalPrice} руб.
             </span>
             <div 
+              // ПРОВЕРКА НА ТО - НЕ РАВНЯЕТСЯ ЛИ КОРЗИНА ПУСТОЙ
               onClick={() => {if(countInfo.totalPrice > 0) setOrderModal(true)}}
               className={`
                 ${countInfo.totalPrice === 0 && 'opacity-50'}
@@ -236,11 +272,13 @@ const BagList = () => {
               >
                 {countInfo.totalPrice > 0 ? 'Заказать' : 'Товаров нет'}
             </div>
+          {/* ОШИБКА ПРИ ОТПРАВКИ ДАННЫХ НА СЕРВЕР  */}
+          <div className={`${reqError ? 'block' : 'hidden'} mt-4 text-red-400 text-sm text-light text-center`}>Что-то пошло не так</div>
           </div>
         </div>
-
       ) 
       : 
+      // ОЖИДАЕМ ОТВЕТ С СЕРВЕРА
       (
         <Loading/>
       ) 

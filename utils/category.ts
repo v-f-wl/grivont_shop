@@ -1,7 +1,3 @@
-interface Category {
-  title: string;
-  subTitle: string[];
-}
 
 export const categories: { [key: string]: string[] } = {
   "Одежда": [
@@ -31,5 +27,5 @@ export const categories: { [key: string]: string[] } = {
     "Броши",
   ]
 }
-
+const mainCategory: string[] = []
 

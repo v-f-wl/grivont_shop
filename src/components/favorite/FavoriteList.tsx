@@ -1,52 +1,54 @@
 'use client'
+
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import Loading from "../UI/Loading";
-import ProductCardWithId from "../UI/ProductCardWithId";
+
+import { ProductDataType } from "../../../utils/types";
+import CProduct from "../UI/CProduct";
+import Filter from "../UI/Filter";
+import CColor from "../UI/FilterComponents/CColor";
+import CCategory from "../UI/FilterComponents/CCategory";
+import CPrice from "../UI/FilterComponents/CPrice";
+import { useAppSelector } from "@/redux/store";
 
 const FavoriteList = () => {
-  const [favoriteItem, setFavoriteItem] = useState<string[]>([])
+  const [favoriteItem, setFavoriteItem] = useState<ProductDataType []>([])
   const [loaded, setLoaded] = useState<boolean>(false)
+  const queryParams = useAppSelector(store => store.filterData)
   const userId = Cookies.get('id')
 
+  // ПОЛУЧЕНИЯ ДАННЫХ О ТОВАРАХ ДОБАВЛЕННЫЕ В ИЗБРАННОЕ
   useEffect(() => {
+    const queryParamsReq = {
+      userId,
+      color: queryParams.color,
+      mainCategory: queryParams.mainCategory,
+      subCategory: queryParams.subCategory,
+      maxPrice: queryParams.maxPrice,
+      inStock: queryParams.inStock,
+    };
+    setLoaded(false)
     if(userId !== undefined){
-      axios.get(`/api/getFavoriteItem/?userId=${userId}`)
+        axios.get('/api/favorite/getFavoriteItem/', { params: queryParamsReq })
         .then(res => {
           setFavoriteItem(res.data)
           setLoaded(true)
         })
         .catch(error => console.log(error))
     }
-  },[userId])
+  },[userId, queryParams])
+
   return ( 
     <div className="">
-      {loaded ? 
-        (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {favoriteItem.length > 0 ? 
-              (
-                favoriteItem.map(item => (
-                  <ProductCardWithId key={item} productId={item}/>
-                ))
-              ) 
-              : 
-              (
-                <div className="col-span-3 mt-8 text-center text-3xl font-bold">
-                  У вас пока нет товаров в закладках
-                </div>
-              )
-            }
-          </div>
-        ) 
-        : 
-        (
-          <div className="h-[30vh]">
-            <Loading/>
-          </div>
-        )
-      }
+      <div className="mt-3 md:mt-6">
+        <Filter isLoaded={loaded} >
+          <CColor/>
+          <CCategory/>
+          <CPrice/>
+        </Filter>
+      </div>
+      <CProduct productList={favoriteItem} emptyTitle="У вас пока нет товаров в избранном" isLoaded={loaded}/>
     </div>
   );
 }

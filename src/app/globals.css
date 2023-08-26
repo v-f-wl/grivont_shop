@@ -11,8 +11,8 @@
 
 html,
 body{
-  background-color: #111827;
-  color-scheme: dark;
+  /* background-color: #111827; */
+  /* color-scheme: dark; */
   white-space: normal;
   cursor: default;
 }
@@ -20,7 +20,7 @@ body{
 
 @media (min-width: 1024px) { 
   .left-menu{
-    transition: 0.3s;
+    transition: width 0.3s ease, font-size 0.3s ease;
   }
   .left-menu:hover {
     width: 280px;
@@ -32,15 +32,12 @@ body{
     display: none;
   }
   .left-menu__name{
-    transition: 0.3s;
+    transition: width 0.3s ease, font-size 0.3s ease;
     font-size: 0px;
     max-height: 35px;
     overflow: hidden;
   }
   
-  .left-menu__name:hover{
-    color: #fff;
-  }
 
 }
 
@@ -52,6 +49,13 @@ body{
 
 .clamped-text {
   display: -webkit-box;
+  -webkit-line-clamp: 1; /* Ограничиваем текст на две строки */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Добавляем троеточие в конце текста */
+}
+.clamped-text-2 {
+  display: -webkit-box;
   -webkit-line-clamp: 2; /* Ограничиваем текст на две строки */
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -59,7 +63,7 @@ body{
 }
 .clamped-text-3 {
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Ограничиваем текст на две строки */
+  -webkit-line-clamp: 2; /* Ограничиваем текст на две строки */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis; /* Добавляем троеточие в конце текста */
@@ -67,4 +71,15 @@ body{
 
 .category-item:hover .category-item__img{
   border: 1px solid #818cf8
+}
+
+
+@layer base {
+  :root {
+    --text-second: text-red-400;
+  }
+ 
+  .dark {
+    --text-second: text-blue-400;
+  }
 }

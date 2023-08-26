@@ -11,18 +11,19 @@ const RobotoMono = Roboto_Mono({ subsets: ['latin'] })
 export default function Favorite(){
   return ( 
     <ReduxProvider>
+
       <div className={RobotoMono.className}>
+        <Head>
+          <title>Grivont - Profile</title>
+        </Head>
         <div 
           className='
             relative
             h-screen 
-          bg-gray-900 
+          dark:bg-gray-900 bg-white
             overflow-y-scroll 
           '
         >
-          <Head>
-            <title>Grivont - Profile</title>
-          </Head>
           <Container>
             <AuthContainer/>
           </Container>
