@@ -1,94 +1,29 @@
-'use client'
-// 
-// 
-// 
-// КОМПОНЕНТ В РАЗРАБОТКЕ
-// 
-// 
-// 
+import { AppDispatch, useAppSelector } from "@/redux/store"
+import { changeModal } from "@/redux/features/createModalOpen-slice"
+import { useDispatch } from "react-redux"
 
-import { useEffect, useRef, useState } from 'react';
 import { HiOutlineBellAlert } from 'react-icons/hi2'
-import Loading from '../UI/Loading';
 
-interface AlertProps{
-  openModal: (title: string) => void;
-  modalValue: string
-}
+const Alert = () => {
+  const modalLavbel = useAppSelector(store => store.createModal.openModal)
+  const dispatch = useDispatch<AppDispatch>()
 
-const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
-  const label: string = 'alert'
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [hasPush, setHasPush] = useState<Object[]>([])
-  const [loadPush, serLoadPush] = useState<boolean>(true)
-  const divRef = useRef<HTMLDivElement | null>(null)
-
-
-  
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      const target = event.target as Element
-      const elementWithId = document.getElementById('addproduct')
-      if (divRef.current && !divRef.current.contains(event.target as Node)) {
-        setIsOpen(false)
-      }
-    }
-    document.addEventListener('click', handleClickOutside)
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside)
-    }
-  }, [])
-
-
-  useEffect(() => {
-    if(isOpen === false && modalValue === label){
-      openModal('')
-    }
-  }, [isOpen])
-
-  useEffect(() => {
-    setIsOpen(modalValue === label)
-  }, [modalValue]);
-
-  const renderConponent = () => {
-    if(loadPush === false && hasPush.length === 0){
-      return <Loading/>
-
-    }else if(loadPush === true && hasPush.length > 0){
-      return <div className="">dfvdfv</div>
-    }else{
-      return (
-        <div 
-          className="
-            mt-4 
-            text-xl font-medium
-            dark:text-purple-400 text-purple-500
-            h-[25vh]
-            flex 
-            items-center 
-            justify-center text-center
-          "
-        >
-          Уведомлений пока нет
-        </div>
-      )
-    }
+  const openAlertModal = () => {
+    dispatch(changeModal('alert'))
   }
   return ( 
     <div 
-      ref={divRef}
       className="md:relative"
     >
       <HiOutlineBellAlert 
-        onClick={() => openModal(label)}
-        className={`${isOpen && 'text-indigo-400'} hover:text-indigo-400 transition-colors`}
+        onClick={openAlertModal}
+        className={`${modalLavbel === 'alert' && 'text-indigo-400'} hover:text-indigo-400 transition-colors`}
       />
       <div 
         className={`
-          ${isOpen ? 'top-12' : '-top-12'}
-          ${isOpen ? 'opacity-100' : 'opacity-0'}
-          ${isOpen ? 'visible' : 'invisible'}
+          ${modalLavbel === 'alert' ? 'top-12' : '-top-12'}
+          ${modalLavbel === 'alert' ? 'opacity-100' : 'opacity-0'}
+          ${modalLavbel === 'alert' ? 'visible' : 'invisible'}
           absolute transition-all
           top-14
           md:top-12 overflow-y-scroll
@@ -105,7 +40,9 @@ const Alert:React.FC<AlertProps> = ({openModal, modalValue}) => {
         `}
       >
        <h3 className="">Уведомления</h3>
-       <div className="h-full">{renderConponent()}</div>
+       <div className="h-full text-base text-center mt-10 text-purple-400">
+          Уведомлений нет
+       </div>
       </div>
     </div>
   );

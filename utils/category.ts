@@ -27,5 +27,5 @@ export const categories: { [key: string]: string[] } = {
     "Броши",
   ]
 }
-
+const mainCategory: string[] = []
 

@@ -87,7 +87,7 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
       </div>
       {loaded ? 
           (
-            <h3 className="text-lg  font-medium h-[24px] clamped-text">{productData.title}</h3>
+            <h3 className="text-lg  font-medium h-[36px] clamped-text">{productData.title}</h3>
           ) 
           : 
           (
@@ -96,7 +96,7 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
       }
       {loaded ? 
           (
-            <div className="font-light text-sm clamped-text-3 h-[38px] text-gray-800 dark:text-gray-300">{productData.description}</div>
+            <div className="font-light text-sm clamped-text-3 h-[54px] text-gray-800 dark:text-gray-300">{productData.description}</div>
           ) 
           : 
           (

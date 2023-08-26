@@ -1,11 +1,11 @@
 import 'tailwindcss/tailwind.css';
 import '../app/globals.css'
 import { Roboto_Mono } from 'next/font/google'
-import Head from 'next/head';
+
 import Container from "@/components/UI/Container";
-// import LeftMenu from '@/components/UI/LeftMenu';
-import HeaderContainer from '@/components/header/HeaderContainer';
-import BagContainer from '@/components/bag/BagContainer';
+
+import CHeader from '@/components/header/CHeader';
+import CBag from '@/components/bag/CBag';
 import dynamic from 'next/dynamic';
 import { ReduxProvider } from '@/redux/provider';
 const LeftMenu = dynamic(() => import('@/components/UI/LeftMenu'), { ssr: false });
@@ -20,8 +20,8 @@ export default function BagLayout() {
         <ReduxProvider>
           <Container>
           <LeftMenu/>
-          <HeaderContainer/>
-          <BagContainer/>
+          <CHeader/>
+          <CBag/>
           </Container>
         </ReduxProvider>
       </div>

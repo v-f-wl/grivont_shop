@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Title from "../mainPage/Title";
+import Title from "../UI/Title";
 
 const ServiceContainer = () => {
   return (  
     <div className="mt-[120px]">
-      <Title titleValue="Сервисы"/>
+      <Title title="Сервисы"/>
       <div className="mt-8 flex flex-col gap-8">
         <Link href="https://flumpf.vercel.app/">
           <span className="text-2xl font-bold text-purple-400">Flumpf</span>

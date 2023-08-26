@@ -6,7 +6,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 
 import Container from "@/components/UI/Container";
-import HeaderContainer from '@/components/header/HeaderContainer';
+import CHeader from '@/components/header/CHeader';
 import ProfilePageContainer from '@/components/profilePage/ProfilePageContainer';
 const LeftMenu = dynamic(() => import('@/components/UI/LeftMenu'), { ssr: false });
 
@@ -35,7 +35,7 @@ export default function ProfilePage(){
           </Head>
           <Container>
             <LeftMenu/>
-            <HeaderContainer/>
+            <CHeader/>
             <ProfilePageContainer/>
           </Container>
         </div>

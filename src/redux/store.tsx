@@ -3,6 +3,9 @@ import profileSwitch from './features/profileSwitch-slice'
 import authSwitch from './features/authSwitch-slice'
 import isPerson from './features/isPerson-slice'
 import cardMenu from './features/wallsCard-slice'
+import createModal from "./features/createModalOpen-slice";
+import filterModal from "./features/filterModal-slice";
+import filterData from "./features/filterData-slice";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 export const store = configureStore({
@@ -10,7 +13,10 @@ export const store = configureStore({
     profileSwitch,
     authSwitch,
     isPerson,
-    cardMenu
+    cardMenu,
+    createModal,
+    filterModal,
+    filterData
   }
 })
 

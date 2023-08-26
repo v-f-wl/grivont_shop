@@ -1,25 +1,35 @@
 'use client'
-import { useState } from 'react';
-
 import Alert from './Alert';
-import AddProduct from './AddProduct';
+import AddProduct from './CreateBlock/CreateBlock';
 import ThemeToggle from '../themeProvider/ThemeToggle';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { changeModal } from '@/redux/features/createModalOpen-slice';
+import { useEffect, useRef } from 'react';
 
 const NavHeader = () => {
-  const [modalCategory, setModalCategory] = useState<string>('')
+  const blockRef = useRef<HTMLDivElement | null>(null)
+  const dispatch = useDispatch<AppDispatch>()
 
-  //СЛУЖИТ ДЛЯ ПЕРЕКЛЮЧЕНИЯ МЕЖДУ ОКНАМИ 
-  const changeModal = (title: string) => {
-    if(modalCategory === title){
-      setModalCategory('')
-    }else{
-      setModalCategory(title)
+  const handleClickOutside = (e: MouseEvent) => {
+    if (blockRef.current && e.target instanceof Node && !blockRef.current.contains(e.target)) {
+      dispatch(changeModal(''))
     }
-  }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  })
   return ( 
-    <div className="mr-8 lg:mr-24 flex items-center justify-end flex-grow gap-4 lg:gap-10 text-3xl relative">
-      <AddProduct openModal={changeModal} modalValue={modalCategory}/>
-      <Alert openModal={changeModal} modalValue={modalCategory}/>
+    <div 
+      ref={blockRef}
+      className="mr-8 lg:mr-24 z-20 flex items-center justify-end flex-grow gap-4 lg:gap-10 text-3xl relative"
+    >
+      <AddProduct/>
+      <Alert/>
       <ThemeToggle/>
     </div>
   );

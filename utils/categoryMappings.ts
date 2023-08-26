@@ -79,3 +79,6 @@ export const categories: { [key: string]: string[] } = {
     "Броши",
   ]
 }
+
+
+export const mainCategory: string[] = ['Одежда', 'Аксессуары', 'Украшения']

@@ -5,11 +5,12 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-import { AppDispatch } from "@/redux/store"
-import { changeAuth } from "@/redux/features/authSwitch-slice"
-import { useDispatch } from "react-redux"
 import { isValidName, isValidNick, isValidPassword } from "./validations";
-import { Button, ErrorTitle, Input, SubTitle, Title } from "./AuthUI";
+import { Button, ErrorTitle, Input, SubTitle, SwitchWindow, Title } from "./AuthUI/AuthUI";
+import ContainerForForm from "./AuthUI/ContainerForForm";
+import ContainerForTitle from "./AuthUI/ContainerForTitle";
+import PasswordRules from "./AuthUI/PasswordRules";
+import ContainerForWindow from "./AuthUI/ContainerForWindow";
 
 // ДАННЫЕ С ПОЛЯ РЕГИСТРАЦИИ
 interface UserData {
@@ -29,16 +30,11 @@ const initialUserData: UserData = {
 
 
 const SignIn = () => {
-  const [modalRules, setModalRules] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserData>(initialUserData)
-
   const [requestSend, setRequestSend] = useState<boolean>(false)
-
   const [notValidField, setNotValidField] = useState<string[]>([])
   const [notValidNick, setNotValidNick] = useState<boolean>(false)
-  const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
-
 
   // ФУНКЦИЯ КОТОРАЯ ОБНОВЛЯЕТ ЗНАЧЕНИЯ В userData ИЗ КОМПОНЕНТОВ AuthUI
   const handeChange = (label: string, value: string) => {
@@ -116,59 +112,26 @@ const SignIn = () => {
   }
 
   return (
-    <div className="w-full px-8 md:px-0 md:w-1/2 h-3/4 flex flex-col gap-8 items-center">
-      <div className="flex flex-col gap-4 items-center">
+    <ContainerForWindow>
+      <ContainerForTitle>
         <Title title="Регистрация"/>
         <SubTitle title="Добро пожаловать в Grivont"/>
-      </div>
-      {/* В СЛУЧАЕ ЕСЛИ НИК УЖЕ ЗАНЯТ ПОЛЬЗОВАТЕЛЕМ */}
-      {notValidNick && (
-        <ErrorTitle title="Ник уже занят"/>
-      )}
-      <form className="flex flex-col gap-3 w-full md:w-2/3">
+      </ContainerForTitle>
+
+      {/* В СЛУЧАЕ ОШИБКИ ПОЯВЛЯЕТСЯ БЛОК */}
+      <ErrorTitle title="Ник уже занят" show={notValidNick}/>
+      <ContainerForForm>
         <Input id='firstName' inputType="text" changeValue={handeChange} palceHolder="Введите имя" errorField={notValidField.indexOf('firstName') === -1}/>
         <Input id='secondName' inputType="text" changeValue={handeChange} palceHolder="Введите фамилию" errorField={notValidField.indexOf('secondName') === -1}/>
         <Input id='nickname' inputType="text" changeValue={handeChange} palceHolder="Придумайте ник" errorField={notValidField.indexOf('nickname') === -1}/>
-        {/* ЗАГОЛОВОК АККОРДЕОНА С ИНФОРМАЦИЕЙ О ПРАВИЛАХ СОЗДАНИЯ НИКНЕЙМА*/}
-        <div 
-          onClick={() => setModalRules(prev => !prev)}
-          className="
-            cursor-pointer 
-            p-2 
-            rounded-md 
-          bg-purple-400
-            dark:bg-opacity-20 bg-opacity-70 text-gray-800 dark:text-gray-100
-            text-sm font-light
-          "
-        >
-          Подробнее о создании ника
-        </div>
-        {/* ТЕЛО АККОРДЕОНА С ИНФОРМАЦИЕЙ О ПРАВИЛАХ СОЗДАНИЯ НИКНЕЙМА*/}
-        <div 
-          className={`
-            ${modalRules ? '' : '-translate-y-6'}
-            ${modalRules ? '' : 'h-0'} 
-            overflow-hidden transition-all duration-300
-          `}
-        >
-          <ul className="text-sm md:text-base list-disc list-inside text-gray-600">
-            <li>Используйте только латинские буквы и цифры.</li>
-            <li>Длина ника должна быть от 4 до 20 символов.</li>
-            <li>Вы можете использовать символы &quot;_&quot;, &quot;-&quot;, и &quot;/&quot;.</li>
-            <li>Ник должен быть уникальным.</li>
-          </ul>
-        </div>
+        <PasswordRules/>
         <Input id='password' inputType="password" changeValue={handeChange} palceHolder="Введите пароль" errorField={notValidField.indexOf('password') === -1}/>
         <Button title="Создать аккаунт" handleClick={createUser} isLoading={requestSend}/>
-      </form>
-      {/* ППЕРЕКЛЮЧЕНИЕ К КОМПОНЕНТУ LogIn */}
-      <div 
-        onClick={() => dispatch(changeAuth('login'))}
-        className={`${requestSend && 'hidden'} cursor-pointer`}
-      >
-        Войти
-      </div>
-    </div>
+      </ContainerForForm>
+
+      {/* ПЕРЕКЛЮЧЕНИЕ К КОМПОНЕНТУ LogIn */}
+      <SwitchWindow labelWindow="login" hidden={requestSend} buttonTitle="Войти"/>
+    </ContainerForWindow>
   );
 }
 

@@ -2,15 +2,15 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
-import { AppDispatch } from "@/redux/store"
-import { changeAuth } from "@/redux/features/authSwitch-slice"
-import { useDispatch } from "react-redux"
 import axios from "axios"
 
 import Cookies from "js-cookie";
 
 import { isValidNick, isValidPassword } from "./validations"
-import { Button, Input, ErrorTitle, SubTitle, Title } from "./AuthUI"
+import { Button, Input, ErrorTitle, SubTitle, Title, SwitchWindow } from "./AuthUI/AuthUI"
+import ContainerForTitle from "./AuthUI/ContainerForTitle"
+import ContainerForWindow from "./AuthUI/ContainerForWindow"
+import ContainerForForm from "./AuthUI/ContainerForForm"
 
 
 interface UserData {
@@ -33,7 +33,6 @@ const LogIn = () => {
   const [responsIsFaled, setRespontIsFaled] = useState<boolean>(false)
   
   const router = useRouter()
-  const dispatch = useDispatch<AppDispatch>()
 
   // ФУНКЦИЯ КОТОРАЯ ОБНОВЛЯЕТ ЗНАЧЕНИЯ В userData ИЗ КОМПОНЕНТОВ AuthUI
   const handeChange = (label: string, value: string) => {
@@ -84,47 +83,30 @@ const LogIn = () => {
           setRespontIsFaled(true)
           setRequestSend(false)
         })
-      }else{
-        return
       }
+      return
     })
   }
 
   return ( 
-    <div 
-      className="
-        px-8 md:px-0 
-        w-full md:w-1/2
-        h-3/4 
-        flex flex-col 
-        gap-6 md:gap-8
-        items-center
-      "
-    >
-      <div className="flex flex-col gap-4 items-center">
+    <ContainerForWindow>
+      <ContainerForTitle>
         <Title title="Войти"/>
         <SubTitle title="Добро пожаловать в Grivont"/>
-      </div>
+      </ContainerForTitle>
 
       {/* В СЛУЧАЕ НЕВАЛИДНЫХ ДАННЫХ ПОЯВИЛСЯ ЭТОТ БЛОК */}
-      {responsIsFaled && (
-        <ErrorTitle title="Пожалуйста, убедитесь, что вы ввели свой никнейм и пароль верно"/>
-      )}
+      <ErrorTitle title="Пожалуйста, убедитесь, что вы ввели свой никнейм и пароль верно" show={responsIsFaled}/>
 
       {/* ПОЛЯ ВВОДА */}
-      <div className="flex flex-col gap-3 w-full md:w-2/3">
+      <ContainerForForm>
         <Input id='nickname' inputType="text" changeValue={handeChange} palceHolder="Введите ник" errorField={notValidField.indexOf('nickname') === -1}/>
         <Input id='password' inputType="password" changeValue={handeChange} palceHolder="Введите пароль" errorField={notValidField.indexOf('password') === -1}/>
         <Button title="Войти" handleClick={loginRequest} isLoading={requestSend}/>
-      </div>
+      </ContainerForForm>
       {/* КНОПКА СМЕНЫ СТРАНИЦЫ НА SignIn */}
-      <div 
-        onClick={() => dispatch(changeAuth('signin'))}
-        className={`${requestSend && 'hidden'} cursor-pointer`}
-      >
-        Регистрация
-      </div>
-    </div>
+      <SwitchWindow labelWindow="signin" hidden={requestSend} buttonTitle="Регистрация"/>
+    </ContainerForWindow>
   );
 }
  

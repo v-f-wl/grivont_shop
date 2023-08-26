@@ -11,32 +11,33 @@ import ProductModal from '../../../../models/Product'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if(req.method === 'GET') {
+    const filter: any = {}; 
+    const {userId, color, subCategory, mainCategory, maxPrice, inStock, maxCount} = req.query
+    if (color && color !== 'undefined') {
+      filter.color = color;
+    }
+
+    if (subCategory && subCategory !== 'undefined') {
+      filter.categoryLink = subCategory;
+    } else if (mainCategory && mainCategory !== 'undefined') {
+      filter.mainCategoryLink = mainCategory;
+    }
+
+    if(maxPrice !== "undefined" && maxPrice){
+      filter.priceOfProduct = {
+        $lte: parseInt(maxPrice as string, 10),
+      };
+    }
+
+    if (inStock && inStock !== undefined) {
+      filter.countOfProducts = {
+        $gte: 1,
+      };
+    }
     try {
       await connectDB();
 
-      const filters: any = {}; // Используем any для фильтров
-      // Проверяем наличие параметров в запросе и добавляем фильтры при необходимости
-      if (req.query.subCategory !== 'undefined') {
-        filters.categoryLink = req.query.subCategory as string;
-      }else if(req.query.mainCategory !== 'undefined'){
-        filters.categoryLink = req.query.mainCategory as string;
-      }
-
-      if (req.query.color !== 'undefined') {
-        filters.color = req.query.color as string;
-      }
-
-      if(req.query.maxPrice !== "undefined"){
-        filters.priceOfProduct = {
-          $lte: parseInt(req.query.maxPrice as string, 10),
-        };
-      }
-      if(req.query.inStock !== "undefined"){
-        filters.countOfProducts = {
-          $gte: 1
-        };
-      }
-      const products = await ProductModal.find(filters);
+      const products = await ProductModal.find(filter);
       res.json(products);
     } catch (error) {
       res.status(500).json({ message: 'Карточка товара не найдена' })

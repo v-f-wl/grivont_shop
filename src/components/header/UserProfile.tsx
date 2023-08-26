@@ -72,24 +72,24 @@ const UserProfile = () => {
     >
       {/* ОЖИДАЕМ ОТВЕТ ОТ ВЕРВЕРА */}
       {dataLoaded ? 
-      // РЕНДЕР ИМЕНИ
+        // РЕНДЕР ИМЕНИ
         (
           <span className="hidden lg:block text-inherit font-medium">{userData.name}</span>
         )
         :
-      // Loader ИМЕНИ
+        // Loader ИМЕНИ
         <div className="w-[180px] h-8 dark:bg-gray-600 bg-gray-300 animate-pulse rounded-xl hidden lg:block"></div>
       }
       <div className="w-9 h-9 rounded-full bg-gray-400 overflow-hidden">
         {dataLoaded ? 
-      // РЕНДЕР АВАТАРКИ 
+        // РЕНДЕР АВАТАРКИ 
         (<img 
           className="w-full h-full object-cover"
           src={userData.imageSrc !== ''  ? userData.imageSrc : 'https://i.pinimg.com/564x/e0/23/84/e0238444ff148e53cb7bdfe8b4efd4e7.jpg'} 
           alt="img" 
         />)
         :
-      // Loader АВАТАРКИ
+        // Loader АВАТАРКИ
         <div className="w-full h-full rounded-full dark:bg-gray-600 bg-gray-300 animate-pulse"></div>
         }
       </div>

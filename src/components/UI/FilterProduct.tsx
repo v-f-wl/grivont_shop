@@ -18,6 +18,30 @@ interface FilterProductProps{
 
 
 // КОМПОНЕНТ ДЛЯ ФИЛЬРА ТОВАРОВ 
+// ---------------------------
+
+// КОМПОНЕНТ ФИЛЬТРА ТОВАРОВ НЕОБХОДИМ ДЛЯ ТОГО, ЧТОБЫ ИЗМЕНЯТЬ 
+// ПАРАМЕТРЫ ФИЛЬТРА
+
+// withCategory - НЕОБХОДИМ ДЛЯ ТОТО, ЧТОБЫ ОТОБРАЖАТЬ ВКЛАДКУ КАТЕГОРИЯ
+//                НЕОБХОДИМА ДЛЯ ТОГО, ЧТОБЫ ЕЕ НЕ БЫЛО НА СТРАНИЦЕ КАТЕГОРИЙ, ПОТОМУ ЧТО В ЭТОМ НЕТ НЕОБХОДИМОСТИ
+
+
+// handleChange - ФУНКЦИЯ, КОТОРАЯ ПЕРЕДАЕТ ЗНАЧЕНИЕ ВЫБРАННЫХ ФИЛЬТРОВ В РОДИТЕЛЬСКИЙ КОМПОНЕНТ 
+//                ФИЛЬТР ВЫДАЕТ СЛЕДУЮЩИЕ label:
+//                'color'        - ПРИ ИЗМЕНЕНИИ ПОЛЯ ЦВЕТА, ЕСЛИ ЦВЕТ ВЫБРАН value БУДЕТ ЗНАЧЕНИЕ ЦВЕТА В ВИДЕ АНГЛИЙСКОГО СЛОВА
+
+//                'mainCategory' - ПРИ ВЫБОРЕ ТОЛЬКО ОСНОВНОЙ КАТЕГОРИИ ФУНКЦИЯ ВЫЗЫВАЕТСЯ С ЭТИМ ЛЕЙБЛОМ value - АНГЛИЙСКИЙ ВАРИАНТ КАТЕГОРИИ.
+//                                 ТАКЖЕ ФУНКЦИЯ ВЫЗЫВАЕТСЯ ЕЩЕ РАЗ С label: subCategory И ЗНАЧЕНИЕ 'undefined' - ЭТО НЕОБХОдИМО ДЛЯ ТОГО, ЧТОБЫ
+//                                 ПРИ ПОВТОРНОМ ИЗМЕНЕНИИ ГЛАВНОГО КЛАССА subCategory СБРАСЫВАЛСЯ
+
+//                'subCategory'  - ПЕРЕДАЕТ ЗНАЧЕНИЕ ПОДКАТЕГОРИИ, ПРИ ИЗМЕНЕНИИ mainCategory ЭТА КАТЕГОРИЯ СБРАСЫВАЕТСЯ
+//                ''
+//
+//
+
+
+
 const FilterProduct:React.FC<FilterProductProps> = ({
   isLoading,
   handleChange,
@@ -127,22 +151,22 @@ const FilterProduct:React.FC<FilterProductProps> = ({
     return <HiMiniChevronDown/>
   }
 
-  const renderColorItems = useMemo(() => {
-    const arrOfComponents = []
-    for(const item in colorsPallet ){
-      arrOfComponents.push(
-      <div 
-        onClick={() => selectColor(item)}
-        key={item} 
-        className="flex items-center gap-2 cursor-pointer hover:opacity-70"
-      >
-        <div className="w-5 h-5 rounded-md" style={{background: colorsPallet[item].color}}></div>
-        <div className="">{colorsPallet[item].value}</div>
-      </div>
-    )
-    }
-    return arrOfComponents
-  }, [])
+  // const renderColorItems = useMemo(() => {
+  //   const arrOfComponents = []
+  //   for(const item in colorsPallet ){
+  //     arrOfComponents.push(
+  //     <div 
+  //       onClick={() => selectColor(item)}
+  //       key={item} 
+  //       className="flex items-center gap-2 cursor-pointer hover:opacity-70"
+  //     >
+  //       <div className="w-5 h-5 rounded-md" style={{background: colorsPallet[item].color}}></div>
+  //       <div className="">{colorsPallet[item].value}</div>
+  //     </div>
+  //   )
+  //   }
+  //   return arrOfComponents
+  // }, [])
 
   const renderMainCategory = useMemo(() => {
     const arrOfCategory = []
@@ -180,7 +204,7 @@ const FilterProduct:React.FC<FilterProductProps> = ({
   }, [mainCategory])
 
   return ( 
-    <div className="relative flex items-center gap-3 md:gap-14 text-sm md:text-xl font-light select-none relative z-20">
+    <div className="relative flex items-center gap-3 md:gap-14 text-sm md:text-xl font-light select-none  z-20">
       {/* ЗАГОЛОВЕ - ФИЛЬТ */}
       <div className="hidden md:flex items-center gap-1 text-purple-400">
         <HiAdjustmentsHorizontal size={24}/>
@@ -200,7 +224,7 @@ const FilterProduct:React.FC<FilterProductProps> = ({
         >
           {arrowComponent(openModal === 'color')}
           <span>
-            {selectedColor !== '' ? colorsPallet[selectedColor].value : 'Цвет'}
+            {/* {selectedColor !== '' ? colorsPallet[selectedColor].value : 'Цвет'} */}
           </span>
         </div>
 
@@ -230,7 +254,7 @@ const FilterProduct:React.FC<FilterProductProps> = ({
           </div>
 
           {/* СПИСОК ЦВЕТОВ */}
-          {renderColorItems}
+          {/* {renderColorItems} */}
         </div>
       </div>
       

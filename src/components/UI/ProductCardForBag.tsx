@@ -34,12 +34,13 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
   const [loadDelete, setLoadDelete] = useState<boolean>(false)
   const [countData, setCountData] = useState<number>(1)
   const [muteProduct, setMuteProduct] = useState(false)
+
   useEffect(() => {
     if(countOfProducts === 0){
       setMuteProduct(true)
       setCountData(0)
     }
-  },[countInBag])
+  },[countInBag, countOfProducts])
 
   useEffect(() => {
     updateCount(productId, countData)

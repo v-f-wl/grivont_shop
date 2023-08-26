@@ -177,7 +177,6 @@ const BagList = () => {
   // УДАЛЕНИЕ ТОВАРА ИЗ КОРЗИНЫ ПРОИСХОДИТ ВНУТРИ КАРТОЧкИ ТОВАРА 
   // ЭТА ФУНКЦИЯ НУЖНА ДЛЯ ОБНАВЛЕНИЯ ДАННЫХ В РОДИТЕЛЬСКОМ( ТЕКУЩЕМ ) КОМПОНЕНТЕ
 
-
   const updateDeletedProduct = (id: string) => {
     const newArray = bagData.filter(obj => obj._id !== id);
     setBagData(newArray);

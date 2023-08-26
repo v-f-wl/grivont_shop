@@ -3,8 +3,8 @@ import '../app/globals.css'
 import { Roboto_Mono } from 'next/font/google'
 import Head from 'next/head';
 import Container from "@/components/UI/Container";
-// import LeftMenu from '@/components/UI/LeftMenu';
-import HeaderContainer from '@/components/header/HeaderContainer';
+
+import CHeader from '@/components/header/CHeader';
 import { ReduxProvider } from '@/redux/provider';
 
 import dynamic from 'next/dynamic';
@@ -29,7 +29,7 @@ export default function ProfilePage(){
           </Head>
           <Container>
             <LeftMenu/>
-            <HeaderContainer/>
+            <CHeader/>
             
           </Container>
         </div>
