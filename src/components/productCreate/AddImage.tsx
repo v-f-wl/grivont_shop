@@ -9,6 +9,8 @@ interface AddImageProps{
   handleError: boolean
 }
 
+
+
 const AddImage: React.FC<AddImageProps> = ({changeCategory, handleError}) => {
   const [imageSrc, setImageSrc] = useState<string>('')
 

@@ -4,8 +4,8 @@ import Cookies from "js-cookie";
 
 import axios from "axios";
 import { useRouter } from "next/router";
-
 import { isValidName, isValidNick, isValidPassword } from "./validations";
+
 import { Button, ErrorTitle, Input, SubTitle, SwitchWindow, Title } from "./AuthUI/AuthUI";
 import ContainerForForm from "./AuthUI/ContainerForForm";
 import ContainerForTitle from "./AuthUI/ContainerForTitle";

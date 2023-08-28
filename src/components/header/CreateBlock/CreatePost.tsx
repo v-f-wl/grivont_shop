@@ -1,13 +1,14 @@
 'use client'
 import { HiOutlineXMark } from "react-icons/hi2";
-import CreatePostContainet from "./createPostUI/CreatePostContainet";
-import Title from "@/components/UI/Title";
 
 import Cookies from "js-cookie";
 
 import { AppDispatch } from "@/redux/store"
 import { changeModal } from "@/redux/features/createModalOpen-slice"
 import { useDispatch } from "react-redux"
+
+import CreatePostContainet from "./createPostUI/CreatePostContainet";
+import Title from "@/components/UI/Title";
 import FormPost from "./createPostUI/FormPost";
 
 

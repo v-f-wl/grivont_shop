@@ -24,7 +24,7 @@ const PriceInput:React.FC<PriceInput> = ({placeholder, priceValue, changeValue})
     <div className="">
       <input
         type="text"
-        className='border-purple-400 mt-4 border p-3 md:py-3 md:px-4 bg-inherit rounded-xl  dark:text-purple-200 text-purple-600 text-lg'
+        className='border-purple-400 w-full mt-4 border p-3 md:py-3 md:px-4 bg-inherit rounded-xl  dark:text-purple-200 text-purple-600 text-lg'
         value={priceValue}
         onChange={handleChange}
         onKeyDown={handleKeyDown}

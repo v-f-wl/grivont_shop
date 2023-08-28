@@ -1,11 +1,13 @@
 'use client'
-import Loading from "@/components/UI/Loading";
-import CRender from "./CRender";
-import { ProductDataType } from "../../../../utils/types";
-import ProductCard from "@/components/UI/ProductCard";
 import { useEffect, useState } from "react";
+
 import axios from "axios";
 import Cookies from "js-cookie";
+import { ProductDataType } from "../../../../utils/types";
+
+import Loading from "@/components/UI/Loading";
+import ProductCard from "@/components/UI/ProductCard";
+import CRender from "./CRender";
 
 
 const RenderFavorite = () => {
@@ -15,11 +17,11 @@ const RenderFavorite = () => {
 
   useEffect(() => {
     axios.get(`/api/favorite/getFavoriteItem/?userId=${userId}&maxCount=4`)
-        .then(response => {
-          setFavoriteList(response.data)
-          setIsLoaded(true)
-        })
-        .catch(error => console.log('Error fetching favorite items:', error));
+      .then(response => {
+        setFavoriteList(response.data)
+        setIsLoaded(true)
+      })
+      .catch(error => console.log('Error fetching favorite items:', error));
   }, [userId])
 
   return ( 
@@ -35,6 +37,7 @@ const RenderFavorite = () => {
               imageSrc={item.imageSrc[0].data.url}
               price={item.priceOfProduct}
               count={item.countOfProducts}
+              description={item.description}
             />
             )
         ))

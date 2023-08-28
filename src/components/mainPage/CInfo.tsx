@@ -8,15 +8,13 @@ const InfoContainer = () => {
   return ( 
     <div className="mt-5 md:mt-10">
       <Title title="Полезная информация"/>
-      <div className="mt-8 flex flex-col md:flex-row md:justify-between gap-4 md:gap-14">
+      <div className="mt-4 md:mt-8 flex flex-col md:flex-row md:justify-between gap-4 md:gap-14">
         <InfoCard 
-          idValue="for_per" 
           titleValue="Как вести аккаунт" 
           descriptionPrev="Статья поможет вам понять главные принципы работы данного сайта"
           descriptionValue={info}
         />
         <InfoCard 
-          idValue="for_per" 
           titleValue="Правила безопасности" 
           descriptionPrev = 'Статья поможет вам понять главные принципы работы данного сайта'
           descriptionValue={sec}

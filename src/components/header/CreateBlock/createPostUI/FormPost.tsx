@@ -1,7 +1,9 @@
 'use client'
-import Loading from "@/components/UI/Loading";
-import axios from "axios";
 import { useState } from "react";
+
+import axios from "axios";
+
+import Loading from "@/components/UI/Loading";
 
 const FormPost = ({userId} : {userId: string | undefined}) => {
   const [postCreating, setPostCreating] = useState(false)
@@ -15,7 +17,7 @@ const FormPost = ({userId} : {userId: string | undefined}) => {
       return false
     }else(
       axios.post('/api/post/createPost', {userId, postText})
-      .then((res) => {
+      .then(() => {
         setPostCreating(false)
         setPostText('')
       })
@@ -30,6 +32,7 @@ const FormPost = ({userId} : {userId: string | undefined}) => {
         (
           <Loading/>
         ) : (
+          
           <>
           <textarea 
             onChange={(e) => setPostText(e.target.value)}

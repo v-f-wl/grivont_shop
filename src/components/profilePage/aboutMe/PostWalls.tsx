@@ -65,8 +65,8 @@ const PostWalls = () => {
             )
             :
             (
-              <div className="mt-8 text-center text-2xl ">
-                У вас пока нет постов
+              <div className="mt-8 text-center text-lg md:text-2xl ">
+                Нет постов
               </div>
             )
             }

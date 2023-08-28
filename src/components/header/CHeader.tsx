@@ -21,7 +21,7 @@ const CHeader = () => {
         md:h-[76px] 
         lg:max-w-[850px]   
         xl:max-w-[1100px]   
-        2xl:max-w-[1280px] 
+        2xl:max-w-[1380px] 
         flex 
         items-center
         dark:bg-gray-900 bg-white

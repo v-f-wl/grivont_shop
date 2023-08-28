@@ -14,7 +14,6 @@ import CreatePost from './CreatePost';
 import ItemContainer from './CreateItemMenu';
 import CreateModal from './CreateModal';
 import Title from '@/components/UI/Title';
-import { useRouter } from 'next/router'
 
 
 const Create = () => {
@@ -34,7 +33,7 @@ const Create = () => {
   const openCreateProduct = () => {
     dispatch(changeModal(''))
   }
-  // ОТКРЫТИЕ ОКНА ПОСТОВ
+  // ОТКРЫТИЕ МОДАЛЬНОГО ОКНА ПОСТОВ
   const openPostCreate = () => {
     dispatch(changeModal('post'))
   }

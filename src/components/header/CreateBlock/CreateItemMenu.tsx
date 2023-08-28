@@ -1,5 +1,5 @@
-import Link from "next/link"
 import { ReactNode } from "react"
+import Link from "next/link"
 
 interface ItemContainerProps {
   children: ReactNode,
@@ -20,9 +20,9 @@ const ItemContainer:React.FC<ItemContainerProps> = ({
       className={`
         ${mute && 'opacity-20'}
         ${mute ? '' : 'dark:hover:border-purple-400 hover:border-purple-500'}
-        ${mute ? '' : 'cursor-pointer'}
-        flex gap-4 items-center border 
-        p-4 rounded-xl  transition-all
+        ${mute ? 'cursor-default' : 'cursor-pointer'}
+        flex gap-4 items-center md:border dark:border-white border-gray-800
+        md:p-4 rounded-xl  transition-all
       `}
     >
       {children}

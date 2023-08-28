@@ -1,8 +1,10 @@
 'use client'
+import { useEffect, useState } from "react";
+
+import axios from "axios";
+
 import Loading from "@/components/UI/Loading";
 import CategoryItem from "./CategoryItem";
-import axios from "axios";
-import { useEffect, useState } from "react";
 
 interface CategoryData{
   [key: string]: string
@@ -10,17 +12,36 @@ interface CategoryData{
 
 const RenderCategory = () => {
   const [categoryData, setCategoryData] = useState<CategoryData[]>([])
-
-  useEffect(() => {
+  
+  useEffect(() => {    
+    let data = sessionStorage.getItem('category')
     axios.get('/api/category/getCategory')
     .then(res => {
       setCategoryData(res.data)
+      sessionStorage.setItem('category', JSON.stringify(res.data))
     })
     .catch(error => console.log(error))
   }, [])
 
+  useEffect(() => {
+    const handleStorageChange = (e: any) => {
+      if (e.key === 'category') {
+        // e.newValue содержит новое значение, которое было установлено в хранилище
+        console.log('Новое значение:', e.newValue);
+      }
+    };
+
+    // Подписываемся на событие изменения в sessionStorage
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      // Отписываемся от события при размонтировании компонента
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []); 
+
   return (  
-    <div className="mt-4 flex items-start gap-6 w-full overflow-x-scroll">
+    <div className="mt-4 flex items-start gap-3 md:gap-5 lg:gap-6 w-full overflow-x-scroll">
       {/* РЕНДЕР КАТЕГОРИЙ */}
       {categoryData.length > 0 ? 
         categoryData.map(item => (

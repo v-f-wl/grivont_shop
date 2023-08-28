@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <Head>
-        <link rel="icon" href="/favicon/favicon.ico"/>
+        <link rel="icon" href="/favicon/favicon.png"/>
       </Head>
       <body className={RobotoMono.className}>
       <ThemeProvider attribute='class' defaultTheme='system' enableSystem>

@@ -43,7 +43,7 @@ const CategorySelect:React.FC<CategorySelectProps> = ({
     <div className="relative">
       <div 
         onClick={openList}
-        className="border cursor-pointer py-1 px-2 rounded-xl flex items-center justify-between"
+        className="border dark:border-gray-100 border-gray-800 cursor-pointer py-1 px-2 rounded-xl flex items-center justify-between"
       >
         <div className=" w-full clamped-text">
           {value ? value : placeholder}
@@ -55,8 +55,8 @@ const CategorySelect:React.FC<CategorySelectProps> = ({
           ${isOpenModal === label ? 'block' : 'hidden'}
           absolute z-20
           top-12 max-h-[150px]
-          border 
-          bg-gray-700 w-full rounded-xl flex flex-col gap-2 p-2 text-base overflow-y-scroll
+          border dark:border-gray-100 border-gray-800
+          dark:bg-gray-700 bg-gray-200  w-full rounded-xl flex flex-col gap-2 p-2 text-base overflow-y-scroll
         `}
       >
         {dataList !== null && dataList.map(item => (

@@ -3,10 +3,10 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 
 import axios from "axios"
-
 import Cookies from "js-cookie";
-
 import { isValidNick, isValidPassword } from "./validations"
+
+
 import { Button, Input, ErrorTitle, SubTitle, Title, SwitchWindow } from "./AuthUI/AuthUI"
 import ContainerForTitle from "./AuthUI/ContainerForTitle"
 import ContainerForWindow from "./AuthUI/ContainerForWindow"
@@ -104,6 +104,7 @@ const LogIn = () => {
         <Input id='password' inputType="password" changeValue={handeChange} palceHolder="Введите пароль" errorField={notValidField.indexOf('password') === -1}/>
         <Button title="Войти" handleClick={loginRequest} isLoading={requestSend}/>
       </ContainerForForm>
+
       {/* КНОПКА СМЕНЫ СТРАНИЦЫ НА SignIn */}
       <SwitchWindow labelWindow="signin" hidden={requestSend} buttonTitle="Регистрация"/>
     </ContainerForWindow>

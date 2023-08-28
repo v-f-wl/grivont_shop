@@ -1,5 +1,4 @@
 'use client'
-import { useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 import { AppDispatch } from "@/redux/store"
@@ -35,7 +34,6 @@ interface SwitchWindow{
 }
 
 export const Input:React.FC<InputProps> = ({id, inputType, changeValue, palceHolder, errorField})=> {
-  const [inputValue, setInputValue] = useState<string>('')
   return ( 
     <input 
       type={inputType}

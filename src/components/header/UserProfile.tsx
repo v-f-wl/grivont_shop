@@ -70,17 +70,17 @@ const UserProfile = () => {
         transition-color
       `}
     >
-      {/* ОЖИДАЕМ ОТВЕТ ОТ ВЕРВЕРА */}
+      {/* ОЖИДАЕМ ОТВЕТ ОТ СЕРВЕРА */}
       {dataLoaded ? 
         // РЕНДЕР ИМЕНИ
         (
-          <span className="hidden lg:block text-inherit font-medium">{userData.name}</span>
+          <span className=" w-[180px] text-end hidden lg:block text-inherit font-medium">{userData.name}</span>
         )
         :
         // Loader ИМЕНИ
         <div className="w-[180px] h-8 dark:bg-gray-600 bg-gray-300 animate-pulse rounded-xl hidden lg:block"></div>
       }
-      <div className="w-9 h-9 rounded-full bg-gray-400 overflow-hidden">
+      <div className="w-6 h-6 md:w-9 md:h-9 rounded-full bg-gray-400 overflow-hidden">
         {dataLoaded ? 
         // РЕНДЕР АВАТАРКИ 
         (<img 

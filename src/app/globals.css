@@ -78,8 +78,17 @@ body{
   :root {
     --text-second: text-red-400;
   }
- 
-  .dark {
-    --text-second: text-blue-400;
+
+
+}
+
+@layer components {
+  .leftMenu{
+    @apply left-menu  lg:hover:shadow-lg  lg:hover:shadow-indigo-500/50   py-2 md:py-4 px-1 lg:py-6 lg:px-4  fixed z-40 left-0 lg:absolute lg:top-3 lg:left-3 lg:bottom-3  lg:w-[76px]   dark:lg:bg-gray-700  lg:bg-purple-500  lg:rounded-md flex flex-col justify-center gap-6 items-center duration-300 
   }
+
+  .leftNav{
+    @apply lg:visible top-[23px] overflow-y-scroll lg:opacity-100 pt-5 lg:pt-0 z-30 dark:bg-gray-700  absolute  lg:static mt-10  flex  flex-col  gap-4 items-center lg:items-start 
+  }
+  
 }

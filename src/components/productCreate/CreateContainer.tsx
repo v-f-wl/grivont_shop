@@ -111,6 +111,7 @@ const CreateContainer = () => {
   }
   
   async function sendData() {
+    console.log(productData)
       const headers = {
         'Content-Type': 'application/json'
       }
@@ -126,7 +127,8 @@ const CreateContainer = () => {
       .then(res => {
         router.push(`/profilepage/?id=${userId}`)
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error)
         setLoading(false)
         setErrorCreate(true)
       })

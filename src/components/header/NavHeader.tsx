@@ -1,11 +1,13 @@
 'use client'
-import Alert from './Alert';
-import AddProduct from './CreateBlock/CreateBlock';
-import ThemeToggle from '../themeProvider/ThemeToggle';
+import { useEffect, useRef } from 'react';
+
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { changeModal } from '@/redux/features/createModalOpen-slice';
-import { useEffect, useRef } from 'react';
+
+import Alert from './Alert';
+import AddProduct from './CreateBlock/CreateBlock';
+import ThemeToggle from '../themeProvider/ThemeToggle';
 
 const NavHeader = () => {
   const blockRef = useRef<HTMLDivElement | null>(null)
@@ -26,7 +28,7 @@ const NavHeader = () => {
   return ( 
     <div 
       ref={blockRef}
-      className="mr-8 lg:mr-24 z-20 flex items-center justify-end flex-grow gap-4 lg:gap-10 text-3xl relative"
+      className="mr-8 lg:mr-24 z-20 flex items-center justify-end flex-grow gap-4 lg:gap-10 text-xl md:text-2xl lg:text-3xl relative"
     >
       <AddProduct/>
       <Alert/>

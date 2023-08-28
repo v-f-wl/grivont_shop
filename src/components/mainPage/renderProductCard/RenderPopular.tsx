@@ -1,13 +1,14 @@
 'use client'
-import Loading from "@/components/UI/Loading";
-import ProductCardWithId from "@/components/UI/ProductCardWithId";
-import CRender from "./CRender";
 import { useEffect, useState } from "react";
+
 import Cookies from "js-cookie";
 import axios from "axios";
 
-const RenderPopular = () => {
+import Loading from "@/components/UI/Loading";
+import ProductCardWithId from "@/components/UI/ProductCardWithId";
+import CRender from "./CRender";
 
+const RenderPopular = () => {
   const [productId, setProductId] = useState<string[]>([])
   const userId = Cookies.get('id')
 

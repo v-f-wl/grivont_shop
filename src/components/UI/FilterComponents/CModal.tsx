@@ -8,7 +8,7 @@ const CModal = ({children, label} : {children: ReactNode, label: string}) => {
   return (  
     <div 
       className={`
-        ${ label === storeValue ? 'h-[350px]' : 'h-0'} 
+        ${ label === storeValue ? 'h-[300px] md:h-[350px]' : 'h-0'} 
         ${ label === storeValue ? 'py-4' : 'py-0'} 
         overflow-y-scroll
         absolute top-10 left-0 

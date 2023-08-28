@@ -11,7 +11,7 @@ module.exports = {
       gridTemplateColumns: {
         'profile': '3fr 2fr',
         'chat': '2fr 3fr',
-      }
+      },
     },
   },
   plugins: [],

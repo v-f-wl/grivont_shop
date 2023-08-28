@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
 import axios from "axios"
-import OrderItem from "../OrderItem"
+import OrderItems from "../OrderItems"
 import EmptyPage from "@/components/UI/EmptyPage"
 import Loading from "@/components/UI/Loading"
 
@@ -40,14 +40,14 @@ const RenderOrder = () => {
   },[userId])
 
   return (  
-    <div className="mt-6 md:mt-12  mb-4 flex flex-col gap-4 md:gap-6 lg:gap-8">
+    <div className="mt-3 md:mt-6 lg::mt-12  mb-4 flex flex-col gap-4 md:gap-6 lg:gap-8">
       <Loading isLoaded={loaded}/>
 
       {(ordersData !== undefined && ordersData.length > 0)   ? 
         (
           <>
             {ordersData.map(item => (
-              <OrderItem
+              <OrderItems
                 key={(item._id).toString()}
                 orderNumber={item.orderNumber}
                 totalPrice={item.totalPrice}

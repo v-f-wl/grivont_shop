@@ -13,5 +13,6 @@ export interface ProductDataType{
   colorLink: string,
   imageSrc: ImageObj[],
   description: string,
+  productCount?: number,
   link: string,
 }

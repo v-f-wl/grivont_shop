@@ -85,12 +85,12 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
         ${orderLoading && 'opacity-30'} 
         relative 
         flex flex-col md:flex-row
-        gap-8 
+        gap-3 md:gap-5 lg:gap-8 
         items-start
         rounded-xl 
         dark:bg-gray-700 bg-gray-100
         dark:text-white text-black
-        p-4
+        md:p-4 p-2
       `}
     >
       <div className={`${orderLoading ? 'block' : 'hidden'} absolute inset-0 bg-purple-400 rounded-xl flex items-center justify-center`}>
@@ -103,33 +103,33 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
           className="w-full h-full object-cover object-center"
         />
       </div>
-      <div className="w-auto flex flex-col gap-4 flex-1">
-        <h2 className="h-[64px] clamped-text text-2xl">{productTitle}</h2>
-        <div className="flex flex-col gap-2">
+      <div className="w-auto flex flex-col gap-2 md:gap-4 flex-1 ">
+        <h2 className="h-[64px] clamped-text-2 text-lg lg:text-2xl">{productTitle}</h2>
+        <div className="flex flex-col gap-1 md:gap-2 text-xs md:text-base lg:text-md">
           <div className="font-medium"><CategoryTitle title="Цена"/>  {productPrice} руб.</div>
           <div className="font-medium"><CategoryTitle title="В наличии"/> {countOfProducts}</div>
           <div className="flex items-center gap-2">
             <div 
               onClick={() => changeCount('minus')}
-              className={`${muteProduct ? 'cursor-default' : 'cursor-pointer'} bg-purple-400 text-white p-1 rounded-full`}
+              className={`${muteProduct ? 'cursor-default' : 'cursor-pointer'} bg-purple-400 text-white p-1 rounded-full text-base md:text-xl lg:text-2xl`}
             >
-              <HiMinusSmall size={22}/>
+              <HiMinusSmall/>
             </div>
-            <div className="p-2 text-3xl font-medium">
+            <div className="p-2 text-base md:text-xl lg:text-3xl font-medium">
               {countData}
             </div>
             <div 
               onClick={() => changeCount('plus')}
-              className={`${muteProduct ? 'cursor-default' : 'cursor-pointer'} bg-purple-400 text-white p-1 rounded-full cursor-pointer`}
+              className={`${muteProduct ? 'cursor-default' : 'cursor-pointer'} bg-purple-400 text-white p-1 rounded-full text-base md:text-xl lg:text-2xl`}
             >
-              <HiPlusSmall size={22}/>
+              <HiPlusSmall/>
             </div>
           </div>
         </div>
         <div className="flex gap-9 items-center">
           <Link 
             href={`/productpage/?id=${productId}`} 
-            className="border dark:border-white border-gray-900 rounded-full py-1 px-3 hover:border-purple-400 hover:text-purple-400 transition-all">
+            className="border dark:border-white border-gray-900 rounded-full py-1 px-3 hover:border-purple-400 hover:text-purple-400 transition-all text-base md:text-lg">
             О товаре 
           </Link>
           {loadDelete ? 
@@ -143,7 +143,7 @@ const ProductCardForBag:React.FC<ProductCardForBagProps> = ({
             <div 
               onClick={deletProduct}
               className={`
-                transition-colors duration-300 underline
+                transition-colors duration-300 underline text-base md:text-lg
               `}
             >
               Удалить

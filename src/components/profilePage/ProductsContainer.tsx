@@ -6,11 +6,7 @@ import CProduct from "../UI/CProduct";
 import { ProductDataType } from "../../../utils/types";
 
 
-interface AdsContainerProps{
-  idUser: string | undefined
-}
-
-const ProductsContainer:React.FC<AdsContainerProps> = ({idUser}) => {
+const ProductsContainer = () => {
   const [loaded, setLoaded] = useState<boolean>(false)
   const [productData, setProductData] = useState<ProductDataType[]>([])
   const router = useRouter()

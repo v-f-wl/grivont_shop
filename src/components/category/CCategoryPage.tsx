@@ -1,24 +1,20 @@
 'use client'
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 
+import axios from "axios";
+import { useAppSelector } from "@/redux/store";
 import { reverseCategoryMappings } from "../../../utils/categoryMappings"; // ОБЪЕКТ С КАТЕГОРИЯМИ
 import { ProductDataType } from "../../../utils/types";
 
-import FilterProduct from "../UI/FilterProduct";
 import CWraper from "../UI/CWraper";
 import Title from "../UI/Title";
 import CProduct from "../UI/CProduct";
 import Filter from "../UI/Filter";
 import CColor from "../UI/FilterComponents/CColor";
 import CPrice from "../UI/FilterComponents/CPrice";
-import { useAppSelector } from "@/redux/store";
 
 
-interface CategoryParams{
-  [key: string]: string
-}
 const CCategoryPage = () => {
   const [productData, setProductData] = useState<ProductDataType[]>([])
   const [loaded, setLoaded] = useState<boolean>(false)
@@ -31,8 +27,7 @@ const CCategoryPage = () => {
       setLoaded(false)
       const queryParamsReq = {
         color: queryParams.color,
-        mainCategory: queryParams.mainCategory,
-        subCategory: queryParams.subCategory,
+        subCategory: categoryLink,
         maxPrice: queryParams.maxPrice,
         inStock: queryParams.inStock,
       };

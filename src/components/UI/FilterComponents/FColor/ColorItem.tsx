@@ -25,15 +25,16 @@ const ColorItem:React.FC<ColorItemProps> = ({title, label, color}) => {
       className={`
         ${isColor === label ? 'border-purple-400' : 'dark:border-gray-300 border-gray-500'}
         flex 
+        mt-2
         items-center 
-        p-2 gap-2 
+        p-2 gap-1.5 md:gap-2 
         cursor-pointer 
         hover:opacity-70 
         border rounded-lg 
       `}
     >
       <div className="w-5 h-5 rounded-md" style={{background: color}}></div>
-      <div className="text-lg">{title}</div>
+      <div className="text-base lg:text-lg">{title}</div>
     </div>
   );
 }

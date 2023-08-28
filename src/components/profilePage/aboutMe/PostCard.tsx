@@ -109,7 +109,7 @@ const PostCard:React.FC<PostCardProps> = (
     <div 
       className={`
         ${postDeleted && 'hidden'}
-        dark:bg-gray-800 bg-gray-100 p-3 md:p-8 rounded-xl flex flex-col gap-2 md:gap-4 z-0 relative
+        dark:bg-gray-800 bg-gray-100 p-3 md:p-5 rounded-lg flex flex-col gap-2 md:gap-4 z-0 relative
       `}
     >
 
@@ -125,7 +125,7 @@ const PostCard:React.FC<PostCardProps> = (
           className={`
             ${menuIsOpen ? 'block' : 'hidden'}
             absolute 
-            top-12 
+            top-6
             w-[200px]
             right-4 
             rounded-xl 
@@ -147,12 +147,12 @@ const PostCard:React.FC<PostCardProps> = (
       {/* БЛОК ИМЕНИ И ДАТЫ */}
       <div className="">
         <div className="text-md dark:font-normal font-medium md:text-xl">{name}</div>
-        <div className="text-sm md:text-base font-light text-gray-400">{dateString}</div>
+        <div className="text-xs md:text-base font-light text-gray-400">{dateString}</div>
       </div>
 
 
       {/* ТЕКСТ ПОСТА */}
-      <div className="text-md md:text-xl font-medium dark:text-indigo-300 text-gray-600 pr-4 whitespace-normal  break-words">
+      <div className="text-sm md:text-base lg:text-xl font-medium dark:text-indigo-300 text-gray-600 pr-4 whitespace-normal  break-words">
         {title}
       </div>
 
@@ -161,12 +161,12 @@ const PostCard:React.FC<PostCardProps> = (
       <div className="mt-2 md:mt-4 flex gap-3 md:gap-6 text-md md:text-xl">
         <div 
           onClick={() => targetLike()}
-          className={`${isLiked && 'border-red-400'} flex gap-2 items-center border-2 dark:border-white border-purple-400 rounded-full py-1 md:py-2 px-2 md:px-3 cursor-pointer`}
+          className={`${isLiked ? 'border-red-400' : 'dark:border-white border-purple-400'} flex gap-2 items-center border md:border-2   rounded-full py-1 md:py-2 px-2 md:px-3 cursor-pointer`}
         >
           <HiOutlineHeart/>
           <span>{likeCount}</span>
         </div>
-        <div className="flex gap-2 items-center border-2 dark:border-white border-purple-400 rounded-full py-1 md:py-2 px-2 md:px-3 opacity-40">
+        <div className="flex gap-2 items-center border md:border-2 dark:border-white border-purple-400 rounded-full py-1 md:py-2 px-2 md:px-3 opacity-40">
           <HiOutlineChatBubbleBottomCenterText/>
           <span>{commentCollection.length}</span>
         </div>

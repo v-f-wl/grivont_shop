@@ -10,6 +10,9 @@ import { generateOrderNumber } from "../../../utils/generationOrder" // ФУНК
 import EmptyPage from "../UI/EmptyPage";
 import Loading from "../UI/Loading";
 import ProductCardForBag from "../UI/ProductCardForBag"
+import BagWrapper from "./bagUI/BagWrapper";
+import BagProducts from "./bagUI/BagProducts";
+import CTotal from "./bagUI/CTotal";
 
 
 type ImageData = {url: string}
@@ -17,7 +20,8 @@ type ImageData = {url: string}
 interface ImageObj{
   data: ImageData 
 }
-// ИНТЕРФЕЙС ДАННЫХ КОТОРЫЕ ПРИХОДЯТ С СЕРВЕРА
+
+
 interface initialStateProps {
   _id: string,
   title: string,
@@ -33,7 +37,6 @@ interface CountObj{
   totalCount: number
 }
 
-// ИНТЕРФЕЙС ОБЪЕКТА ДЛЯ ОТПРАВКИ НА СЕРВЕР
 interface Items{
   productId: String,
   image: String,
@@ -46,12 +49,6 @@ interface objForRequest{
   items: Items[]
 }
 
-const initialStateObj = {
-  orderNumber: '',
-  totalPrice: '',
-  totalCount: '',
-  items: []
-}
 
 const initialState = {
   totalPrice: 0,
@@ -60,10 +57,10 @@ const initialState = {
 
 const BagList = () => {
   const [bagData, setBagData] = useState<initialStateProps[]>([])
-  const [loaded, setLoaded] = useState<boolean>(false)
+  const [loaded, setLoaded] = useState(false)
   const [countInfo, setCountInfo] = useState<CountObj>(initialState)
-  const [reqSended, setReqSended] = useState<boolean>(false)
-  const [orderModal, setOrderModal] = useState<boolean>(false)
+  const [reqSended, setReqSended] = useState(false)
+  const [orderModal, setOrderModal] = useState(false)
   const [reqError, setReqError] = useState(false)
 
   const userId: string | undefined = Cookies.get('id')
@@ -78,7 +75,6 @@ const BagList = () => {
           const response = await axios.get(`/api/bag/getBagItems/?userId=${userId}`);
           setBagData(response.data)
           document.title = 'Grivont - Корзина '
-          console.log(response.data)
           return response.data
         } catch (error) {
           console.log(error)
@@ -98,7 +94,6 @@ const BagList = () => {
 
   // СЛЕДИТ ЗА ИЗМЕНЕНИЕМ КОЛИЧЕСТВА ТОВАРОВ
   useEffect(() => {
-    console.log(bagData)
     changePrice(bagData)
   }, [bagData])
 
@@ -183,107 +178,18 @@ const BagList = () => {
   }
 
   return (  
-    <>
-    {/* ОКНО ЗАГРУЗКИ ПОКА ПРОИСХОДИТ ОЖИДАНИЕ ОТВЕТА С СЕРВЕРА */}
-    {loaded ? 
-    // ОТВЕТ ПРИШЕЛ 
-      (
-        <div className="relative flex flex-col-reverse  lg:grid md:grid-cols-profile gap-4 md:gap-8 lg:gap-12 items-start">
-          {/* КОНТЕЙНЕР ДЛЯ ТОВАРОВ */}
-          <div className="w-full">
-            {bagData.length > 0 ? 
-              (
-              // РЕНДЕР ТОВАРОВ ПРИ ИХ НАЛИЧИИ
-                <div className="flex flex-col md:grid md:grid-cols-2 lg:flex lg:flex-col gap-6">
-                  {bagData.map(item => (
-                    <ProductCardForBag
-                      key={item._id}
-                      productId={item._id}
-                      imageSrc={item.imageSrc[0].data.url}
-                      productTitle={item.title}
-                      productPrice={item.priceOfProduct}
-                      countOfProducts={item.countOfProducts}
-                      countInBag={item.productCount}
-                      userId={userId}
-                      orderLoading={reqSended}
-                      deletProduct={updateDeletedProduct}
-                      updateCount={changeCountOfProduct}
-                    />
-                  ))}
-                </div>
-              ) 
-              : 
-              (
-              // ПРИ ОТСУТСТВИИ ТОВАРОВ
-              <div className="md:col-span-2 ">
-                <EmptyPage title="Корзина пустая"/>
-              </div>
-              )
-            }
-          </div>
-
-          {/* КОНТЕЙНЕР ДЛЯ ИТОГОВОЙ ЦЕНЫ И ЗАКАЗА */}
-          <div 
-            className="w-full lg:w-auto relative rounded-xl dark:bg-gray-600 bg-gray-100 p-6 text-2xl font-bold"
-          >
-            {/* LOADER КОТОРОЫЙ ПОЯВЛЯЕТСЯ ПРИ ОТПРАВКИ ЗАПРОСА */}
-            <div className={`${reqSended ? 'block' : 'hidden'} absolute inset-0 z-30 rounded-xl bg-gray-700`}></div>
-            {/* ОКНО ПОДТВЕРЖДЕНИЯ ЗАКАЗА */}
-            <div 
-              className={`${orderModal ? 'block' : 'hidden'} z-20 absolute p-4 bg-gray-700 rounded-xl inset-0 flex flex-col items-center justify-center gap-4`}
-            >
-              <h2 className="">Вы уверены?</h2>
-              <div className="flex items-center gap-6 text-medium font-normal">
-                <div 
-                  onClick={sendRequest}
-                  className="hover:underline transition-all"
-                >
-                  Да
-                </div>
-                <div 
-                  onClick={() => setOrderModal(false)}
-                  className="hover:underline transition-all text-gray-400"
-                >
-                  Нет
-                </div>
-              </div>
-            </div>
-
-            {/* ОКНО ИТОГОВОЙ ЦЕНЫ */}
-            <span className="dark:text-white text-gray-900">
-              Итого: {countInfo.totalPrice} руб.
-            </span>
-            <div 
-              // ПРОВЕРКА НА ТО - НЕ РАВНЯЕТСЯ ЛИ КОРЗИНА ПУСТОЙ
-              onClick={() => {if(countInfo.totalPrice > 0) setOrderModal(true)}}
-              className={`
-                ${countInfo.totalPrice === 0 && 'opacity-50'}
-                ${countInfo.totalPrice > 0 && 'hover:opacity-70'} 
-                transition-all
-                mt-10
-                flex 
-                items-center 
-                justify-center 
-                p-2 
-                text-white 
-                bg-purple-400 
-                rounded-full
-              `}
-              >
-                {countInfo.totalPrice > 0 ? 'Заказать' : 'Товаров нет'}
-            </div>
-          {/* ОШИБКА ПРИ ОТПРАВКИ ДАННЫХ НА СЕРВЕР  */}
-          <div className={`${reqError ? 'block' : 'hidden'} mt-4 text-red-400 text-sm text-light text-center`}>Что-то пошло не так</div>
-          </div>
-        </div>
-      ) 
-      : 
-      // ОЖИДАЕМ ОТВЕТ С СЕРВЕРА
-      (
-        <Loading/>
-      ) 
-    }
-    </>
+    <BagWrapper>
+      <Loading isLoaded={loaded}/>
+      <BagProducts
+        bagData={bagData}
+        isLoaded={loaded}
+        userId={userId}
+        deleteProducts={updateDeletedProduct}
+        countChange={changeCountOfProduct}
+        reqSended={reqSended}
+      />
+      <CTotal isLoaded={loaded} reqSended={reqSended} sendRequest={sendRequest} countInfo={countInfo} reqError={reqError}/>
+    </BagWrapper>
   )
 }
  

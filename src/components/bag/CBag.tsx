@@ -1,16 +1,17 @@
 'use client'
 import BagList from "./BagList";
 import Title from "../UI/Title";
+import CWraper from "../UI/CWraper";
 
 // КЛИЕНТСКИЙ КОНТЕЦНЕР КОРЗИНЫ
 const CBag = () => {
   return ( 
-    <div className="mt-[80px] md:mt-[120px] text-gray-100">
+    <CWraper>
       <Title title="Корзина"/>
-      <div className="mt-6 md:mt-12 mb-4">
+      <div className="mt-3 md:mt-6 lg:mt-12 mb-4">
         <BagList/>
       </div>
-    </div>
+    </CWraper>
   );
 }
  

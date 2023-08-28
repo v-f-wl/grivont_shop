@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import CardIdLoading from "./productCard/CardIdLoading";
 
 interface PopularCardProps{
   productId: string
@@ -53,74 +54,54 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
     }
   },[productId])
   return ( 
-    <div className={`${error ? 'hidden' : 'flex'} ${productData.countOfProducts === 0 && 'opacity-30'} w-full flex-col gap-2 relative`}>
-      {loaded && (
-        <div 
-          className="
-            absolute 
-            py-1
-            px-2
-            rounded-full
-            top-4 
-            right-4 
-            bg-purple-400 
-            text-sm text-white
-          "
-        >
-          {productData.priceOfProduct} p
-        </div>
-      )}
-      <div className="w-full h-full aspect-square rounded-xl dark:bg-gray-400 bg-gray-200 overflow-hidden">
-        {loaded ? 
-          (
-            <img 
-              src={productData.imageSrc[0].data.url}
-              alt="" 
-              className="w-full h-full object-cover object-center" 
-            />
-          ) 
-          : 
-          (
-            <div className="w-full h-full rounded-xl dark:bg-gray-400 bg-gray-200 animate-pulse"></div>
-          )
-        }
-      </div>
-      {loaded ? 
-          (
-            <h3 className="text-lg  font-medium h-[36px] clamped-text">{productData.title}</h3>
-          ) 
-          : 
-          (
-            <div className="w-full h-[30px] dark:bg-gray-400 bg-gray-200 animate-pulse rounded-xl"></div>
-          )
-      }
-      {loaded ? 
-          (
-            <div className="font-light text-sm clamped-text-3 h-[54px] text-gray-800 dark:text-gray-300">{productData.description}</div>
-          ) 
-          : 
-          (
-            <div className="w-full h-[40px] dark:bg-gray-400 bg-gray-200 animate-pulse rounded-xl"></div>
-          )
-      }
-      {loaded ? 
-          (
-            <div onClick={() => router.push(`/productpage/?id=${productData._id}`)} className="mt-2 flex items-center gap-6 justify-self-end">
-              <div 
-                className="
-                  border-2 
-                  w-full text-center
-                  border-purple-400 
-                  dark:border-white 
-                  rounded-full py-1 px-3 hover:border-indigo-400 
-                  hover:text-indigo-400 transition-all 
-                  dark:text-white text-gray-900 
-                  cursor-pointer">Подробнее</div>
-            </div>
-          ) 
-          : 
-          (null)
-      }
+    <div className={`${error ? 'hidden' : 'flex'} ${productData.countOfProducts === 0 && 'opacity-30'} w-full flex-col md:p-2 gap-2 relative`}>
+      {loaded ? (
+        <>
+          <div 
+            className="
+              absolute 
+              py-0.5
+              md:py-1
+              px-2
+              rounded-full
+              top-2 right-2
+              md:top-4 
+              md:right-4 
+              bg-purple-400 
+              text-xs
+              md:text-sm 
+              text-white
+            "
+          >
+            {productData.priceOfProduct} p
+          </div>
+          <div className="w-full h-full aspect-square rounded-lg dark:bg-gray-400 bg-gray-200 overflow-hidden">
+                <img 
+                  src={productData.imageSrc[0].data.url}
+                  alt="" 
+                  className="w-full h-full object-cover object-center" 
+                />
+          </div>
+          <h3 className="text-base md:text-lg  font-medium h-[36px] clamped-text">{productData.title}</h3>
+          <div className="font-light text-xs md:text-sm clamped-text-3 h-[54px] text-gray-800 dark:text-gray-300">{productData.description}</div>
+          <div onClick={() => router.push(`/productpage/?id=${productData._id}`)} className="mt-2 flex items-center gap-6 justify-self-end">
+            <div 
+              className="
+                border text-xs md:text-base
+                md:border-2 
+                w-full text-center
+                border-purple-400 
+                dark:border-white 
+                rounded-full py-1 px-3 hover:border-indigo-400 
+                hover:text-indigo-400 transition-all 
+                dark:text-white text-gray-900 
+                cursor-pointer">Подробнее</div>
+          </div>
+        </>
+      )
+      : 
+      <CardIdLoading/>
+    }
     </div>
   );
 }

@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await connectDB()
   if (req.method === 'GET') {
     const filter: any = {}
-    const {userId, color, subCategory, mainCategory, maxPrice, inStock, maxCount} = req.query
+    const {userId, color, subCategory, mainCategory, maxPrice, maxCount} = req.query
     if (color && color !== 'undefined') {
       filter.color = color;
     }
@@ -29,11 +29,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       };
     }
 
-    if (inStock && inStock !== undefined) {
-      filter.countOfProducts = {
-        $gte: 1,
-      };
-    }
     try {
       const user = await UserModel.findById(userId);
       if (!user) {

@@ -50,7 +50,7 @@ const ProfilePageContainer = () => {
       case undefined:
         return <Loading/>
       case 'page1': 
-        return <ProductsContainer idUser={'sdv'}/>
+        return <ProductsContainer/>
       case 'page2': 
         return <PostContainer/>
       case 'page3': 
@@ -62,7 +62,7 @@ const ProfilePageContainer = () => {
 
   const Button:React.FC<ButtonProps> = ({title, mute}) =>{
     return (
-      <div className={`${mute && 'opacity-50'} py-1 px-2 md:py-2 md:px-4 text-sm md:text-base border border-purple-400 rounded-full cursor-pointer`}>
+      <div className={`${mute && 'opacity-50'} py-1 px-2 md:py-2 md:px-4 text-xs md:text-base border border-purple-400 rounded-full cursor-pointer`}>
         {title}
       </div>
     )
@@ -105,10 +105,10 @@ const ProfilePageContainer = () => {
           }
         </div>
       </div>
-      <div className="mt-5 lg:mt-12">
+      <div className="mt-5 lg:mt-5">
         <PageNavigation/>
       </div>
-      <div className="mt-8 ">
+      <div className="mt-4">
         {renderPage()}
       </div>
     </div>

@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+
 import axios from "axios";
+import { useAppSelector } from "@/redux/store";
 
 import { ProductDataType } from "../../../utils/types";
 import CProduct from "../UI/CProduct";
@@ -10,12 +12,13 @@ import Filter from "../UI/Filter";
 import CColor from "../UI/FilterComponents/CColor";
 import CCategory from "../UI/FilterComponents/CCategory";
 import CPrice from "../UI/FilterComponents/CPrice";
-import { useAppSelector } from "@/redux/store";
 
 const FavoriteList = () => {
   const [favoriteItem, setFavoriteItem] = useState<ProductDataType []>([])
   const [loaded, setLoaded] = useState<boolean>(false)
+  
   const queryParams = useAppSelector(store => store.filterData)
+
   const userId = Cookies.get('id')
 
   // ПОЛУЧЕНИЯ ДАННЫХ О ТОВАРАХ ДОБАВЛЕННЫЕ В ИЗБРАННОЕ
