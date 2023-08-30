@@ -75,15 +75,15 @@ const ProductCardWithId:React.FC<PopularCardProps> = ({productId}) => {
           >
             {productData.priceOfProduct} p
           </div>
-          <div className="w-full h-full aspect-square rounded-lg dark:bg-gray-400 bg-gray-200 overflow-hidden">
+          <div className="w-full h-auto aspect-square rounded-lg dark:bg-gray-400 bg-gray-200 overflow-hidden">
                 <img 
                   src={productData.imageSrc[0].data.url}
                   alt="" 
-                  className="w-full h-full object-cover object-center" 
+                  className="w-full h-full object-cover aspect-square overflow-hidden object-center" 
                 />
           </div>
-          <h3 className="text-base md:text-lg  font-medium h-[36px] clamped-text">{productData.title}</h3>
-          <div className="font-light text-xs md:text-sm clamped-text-3 h-[54px] text-gray-800 dark:text-gray-300">{productData.description}</div>
+          <h3 className="text-base md:text-lg  font-medium h-[28px] clamped-text">{productData.title}</h3>
+          <div className="font-light text-xs md:text-sm clamped-text-3 text-gray-800 dark:text-gray-300">{productData.description}</div>
           <div onClick={() => router.push(`/productpage/?id=${productData._id}`)} className="mt-2 flex items-center gap-6 justify-self-end">
             <div 
               className="

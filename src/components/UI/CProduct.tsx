@@ -11,7 +11,7 @@ type MyComponentProps = {
 
 const CProduct:React.FC<MyComponentProps> = ({productList, isLoaded, emptyTitle}) => {
   return ( 
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-8 mt-3 md:mt-6 lg:mt-8 mb-2 md:mb-4">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-8 mt-3 md:mt-6 lg:mt-8 mb-2 md:mb-4 min-h-[380px] md:min-h-auto">
       <Loading isLoaded={isLoaded}/>
         {productList.length > 0 && isLoaded ? 
           (

@@ -33,7 +33,7 @@ const LeftMenu: React.FC = () => {
     flex w-full 
     gap-3 
     dark:text-gray-100 
-    text-purple-500  
+    text-purple-500
     justify-start 
     rounded
     items-center
@@ -144,7 +144,7 @@ const LeftMenu: React.FC = () => {
           ${mobileBurger ? 'opacity-100' : 'opacity-0'} 
           ${mobileBurger ? 'visible' : 'invisible'}
           ${mobileBurger ? 'bg-slate-900' : ''}
-          ${mobileBurger ? 'bottom-0' : ''}  
+          ${mobileBurger ? 'h-full' : ''}  
           ${mobileBurger ? 'right-0' : ''}  
           ${mobileBurger ? 'left-0' : ''}  
           ${mobileBurger ? 'w-full' : ''}  
@@ -153,7 +153,7 @@ const LeftMenu: React.FC = () => {
           lg:visible
           top-[24px] overflow-y-scroll
           lg:opacity-100
-          pt-5
+          pt-5 
           lg:pt-0
           
           z-30

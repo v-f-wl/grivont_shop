@@ -22,7 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
       const { favorites } = productsInFavorite
       const index = favorites.indexOf(productId);
-      console.log(index)
   
       if (index !== -1) {
         favorites.splice(index, 1);

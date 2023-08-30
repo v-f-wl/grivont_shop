@@ -85,8 +85,8 @@ const UserProfile = () => {
         // РЕНДЕР АВАТАРКИ 
         (<img 
           className="w-full h-full object-cover"
-          src={userData.imageSrc !== ''  ? userData.imageSrc : 'https://i.pinimg.com/564x/e0/23/84/e0238444ff148e53cb7bdfe8b4efd4e7.jpg'} 
-          alt="img" 
+          src='https://i.pinimg.com/564x/e0/23/84/e0238444ff148e53cb7bdfe8b4efd4e7.jpg'
+          alt=" " 
         />)
         :
         // Loader АВАТАРКИ

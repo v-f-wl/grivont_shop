@@ -23,22 +23,6 @@ const RenderCategory = () => {
     .catch(error => console.log(error))
   }, [])
 
-  useEffect(() => {
-    const handleStorageChange = (e: any) => {
-      if (e.key === 'category') {
-        // e.newValue содержит новое значение, которое было установлено в хранилище
-        console.log('Новое значение:', e.newValue);
-      }
-    };
-
-    // Подписываемся на событие изменения в sessionStorage
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      // Отписываемся от события при размонтировании компонента
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []); 
 
   return (  
     <div className="mt-4 flex items-start gap-3 md:gap-5 lg:gap-6 w-full overflow-x-scroll">

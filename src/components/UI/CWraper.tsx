@@ -6,7 +6,7 @@ type MyComponentProps = {
 
 const CWraper:React.FC<MyComponentProps> = ({children}) => {
   return ( 
-    <div className="mt-[64px] md:mt-[80px] lg:mt-[120px] h-full">
+    <div className="mt-[64px] md:mt-[80px] lg:mt-[120px]">
       {children}
     </div>
   );

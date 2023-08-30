@@ -43,7 +43,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     
       if(maxCount && maxCount !== undefined){
         const firstNProducts = products.slice(0, parseInt(maxCount as string))
-        console.log('f',firstNProducts)
         res.status(200).json(firstNProducts)
       }else{
         res.status(200).json(products)

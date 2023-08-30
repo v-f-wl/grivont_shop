@@ -28,19 +28,19 @@ const InfoCard:React.FC<InfoCardProps> = ({ descriptionPrev, descriptionValue, t
         // ref ДЛЯ ОТСЛЕЖИВАНИЯ НАЖАТИЯ ВСЕ МОДАЛЬНОГО ОКНА
         ref={modalRef}
         onClick={(event) => closeModal(event)}
-        className={`${openModal ? 'block' : 'hidden'} fixed inset-0 bg-gray-800 z-50 bg-opacity-40 flex items-center justify-center`}>
-        <div className="relative w-screen h-screen overflow-y-scroll md:w-2/3 md:h-3/4 dark:bg-gray-700 bg-white md:rounded-xl p-8">
+        className={`${openModal ? 'block' : 'hidden'} ${openModal ? 'fixed' : 'absolute'} inset-0 bg-gray-800 z-50 bg-opacity-40 flex items-center justify-center`}>
+        <div className="relative w-screen h-screen overflow-y-scroll md:w-2/3 md:h-3/4 dark:bg-gray-700 bg-white md:rounded-xl p-8 flex flex-col items-center justify-center">
           {/* ЗАКРЫТИЕ МОДАЛЬНОГО ОКНА */}
           <div 
             onClick={() => setOpenModal(false)}
-            className="absolute top-4 right-4 cursor-pointer"
+            className="absolute top-8 right-4 cursor-pointer"
           >
             <HiOutlineXMark size={28}/>
           </div>
           <h3 className="text-3xl font-bold">
             {titleValue}
           </h3>
-          <div className="mt-8 text-lg md:text-xl">{descriptionValue}</div>
+          <div className="mt-8 text-lg md:text-xl overflow-y-scroll">{descriptionValue}</div>
         </div>
       </div>
 

@@ -23,10 +23,10 @@ const CTotal:React.FC<CTotalProps> = ({reqSended, sendRequest,countInfo, reqErro
 
       {/* ОКНО ПОДТВЕРЖДЕНИЯ ЗАКАЗА */}
       <div 
-        className={`${orderModal ? 'block' : 'hidden'} z-20 absolute p-4 bg-gray-700 rounded-xl inset-0 flex flex-col items-center justify-center gap-4`}
+        className={`${orderModal ? 'block' : 'hidden'} z-20 absolute p-4 dark:bg-gray-700 bg-gray-200 rounded-xl inset-0 flex flex-col items-center justify-center gap-4 text-gray-800 dark:text-white`}
       >
         <h2 className="">Вы уверены?</h2>
-        <div className="flex items-center gap-6 text-medium font-normal">
+        <div className="flex items-center gap-6 text-base md:text-lg font-normal">
           <div 
             onClick={sendRequest}
             className="hover:underline transition-all"

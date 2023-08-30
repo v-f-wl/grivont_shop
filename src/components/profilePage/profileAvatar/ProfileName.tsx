@@ -14,10 +14,10 @@ const ProfileName:React.FC<ProfileNameProps> = ({
       <div className="flex items-center gap-2 md:gap-6">
 
         {/* ФОТОГРАФИЯ АВТОРА */}
-        <div className="w-8 h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 rounded-full overflow-hidden">
+        <div className="w-8 h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 bg-gray-700 rounded-full overflow-hidden">
           <img 
             className="w-full h-full object-cover"
-            src={imageUrl !== ''  ? imageUrl : 'https://i.pinimg.com/564x/e0/23/84/e0238444ff148e53cb7bdfe8b4efd4e7.jpg'}  alt="img" />
+            src='https://i.pinimg.com/564x/e0/23/84/e0238444ff148e53cb7bdfe8b4efd4e7.jpg'  alt=" " />
         </div>
         
         {/* ИМЯ АВТОРА */}
