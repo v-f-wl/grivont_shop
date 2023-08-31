@@ -1,3 +1,4 @@
+import CSearch from "./CSearch";
 import Logo from "./Logo";
 import NavHeader from "./NavHeader";
 import UserProfile from "./UserProfile";
@@ -22,12 +23,13 @@ const CHeader = () => {
         lg:max-w-[850px]   
         xl:max-w-[1100px]   
         2xl:max-w-[1380px] 
-        flex 
+        flex gap-4 md:gap-6 justify-between
         items-center
         dark:bg-gray-900 bg-white
       "
     >
       <Logo/>
+      <CSearch/>
       <NavHeader/>
       <UserProfile/>
     </div>

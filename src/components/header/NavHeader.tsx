@@ -28,7 +28,7 @@ const NavHeader = () => {
   return ( 
     <div 
       ref={blockRef}
-      className="mr-8 lg:mr-24 z-20 flex items-center justify-end flex-grow gap-4 lg:gap-10 text-xl md:text-2xl lg:text-3xl relative"
+      className="z-20 flex items-center justify-end flex-1 md:flex-auto  gap-4 lg:gap-10 text-xl md:text-2xl lg:text-3xl relative"
     >
       <AddProduct/>
       <Alert/>

@@ -65,7 +65,7 @@ const UserProfile = () => {
         justify-items-end 
         items-center 
         gap-3 
-        cursor-pointer
+        cursor-pointer 
         dark:text-gray-100 text-gray-900
         transition-color
       `}
@@ -74,11 +74,11 @@ const UserProfile = () => {
       {dataLoaded ? 
         // РЕНДЕР ИМЕНИ
         (
-          <span className=" w-[180px] text-end hidden lg:block text-inherit font-medium">{userData.name}</span>
+          <span className="w-[170px] xl:w-[180px] text-end hidden lg:block text-inherit font-medium overflow-hidden">{userData.name}</span>
         )
         :
         // Loader ИМЕНИ
-        <div className="w-[180px] h-8 dark:bg-gray-600 bg-gray-300 animate-pulse rounded-xl hidden lg:block"></div>
+        <div className="w-[170px] xl:w-[180px] h-8 dark:bg-gray-600 bg-gray-300 animate-pulse rounded-xl hidden lg:block"></div>
       }
       <div className="w-6 h-6 md:w-9 md:h-9 rounded-full bg-gray-400 overflow-hidden">
         {dataLoaded ? 
